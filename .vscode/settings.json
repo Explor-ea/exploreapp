@@ -5,8 +5,8 @@
             violet :    #8d00b8
             yellow :    #ffbf00
         */
-        "activityBar.foreground": "#8d00b8",
-        "activityBar.inactiveForeground": "#8d00b8AA",
+        "activityBar.foreground": "#ffbf00",
+        "activityBar.inactiveForeground": "#ffbf00AA",
         //
         "activityBarBadge.background": "#ffbf00",
         "activityBarBadge.foreground": "#000000",
