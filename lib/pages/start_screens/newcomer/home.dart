@@ -1,3 +1,4 @@
+import 'package:exploreapp/pages/start_screens/newcomer/consent_stepper.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -24,7 +25,7 @@ class Home extends StatelessWidget {
             ElevatedButton(
                 onPressed: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                        builder: (BuildContext context) => Home())),
+                        builder: (BuildContext context) => ConsentStepper())),
                 child: Text("C'est parti !"))
           ],
         ),
