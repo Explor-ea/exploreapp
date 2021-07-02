@@ -1,7 +1,12 @@
 import 'package:exploreapp/pages/start_screens/splash_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  // @see https://stackoverflow.com/a/60769935
+  if (!kIsWeb)
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
   runApp(MyApp());
 }
 
