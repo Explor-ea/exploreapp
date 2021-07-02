@@ -1,0 +1,42 @@
+{
+    // @see https://code.visualstudio.com/api/references/theme-color 
+    "workbench.colorCustomizations": {
+        /*
+            violet :    #8d00b8
+            yellow :    #ffbf00
+        */
+        "activityBar.foreground": "#ffbf00",
+        "activityBar.inactiveForeground": "#ffbf00AA",
+        //
+        "activityBarBadge.background": "#ffbf00",
+        "activityBarBadge.foreground": "#000000",
+        //
+        //
+        "statusBar.background": "#8d00b8",
+        "statusBar.debuggingBackground": "#ffbf00",
+        "statusBar.debuggingForeground": "#000000",
+        //
+        //
+        "badge.background": "#ffbf00",
+        "badge.foreground": "#000000",
+        //
+        //
+        "button.background": "#ffbf00",
+        "button.foreground": "#000000",
+        // 
+        //
+        "minimapSlider.background": "#ffbf0030",
+        "minimapSlider.hoverBackground": "#ffbf0030",
+        // "minimapSlider.activeBackground": "#ffbf0030",
+        // 
+        //
+        "icon.foreground": "#ffbf00",
+        "notificationsInfoIcon.foreground": "#ffbf00",
+        //
+        //
+        "tab.activeBorder": "#8d00b8",
+        //
+        //
+        "focusBorder": "#8d00b8", // for rectangles borders  and  for left border when clicking on the activityBar.
+    }
+}
