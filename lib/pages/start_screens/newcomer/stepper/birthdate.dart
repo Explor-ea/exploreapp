@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:exploreapp/pages/start_screens/newcomer/stepper/data_agreement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -115,8 +116,39 @@ class _BirthdateState extends State<Birthdate> {
               child: Center(
                 child: Column(
                   children: [
-                    Text("les points"),
-                    Text("fleche"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          color: Colors.black,
+                          size: 12.0,
+                        ),
+                        Icon(
+                          Icons.circle,
+                          color: Colors.grey,
+                          size: 12.0,
+                        ),
+                        Icon(
+                          Icons.circle,
+                          color: Colors.grey,
+                          size: 12.0,
+                        ),
+                        Icon(
+                          Icons.circle,
+                          color: Colors.grey,
+                          size: 12.0,
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_right_alt),
+                      iconSize: 40.0,
+                      onPressed: () => Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  DataAgreement())),
+                    ),
                   ],
                 ),
               ),
