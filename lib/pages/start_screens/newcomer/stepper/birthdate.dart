@@ -58,9 +58,6 @@ class _BirthdateState extends State<Birthdate> {
                             FocusScope.of(context).requestFocus(tf_focusNode1)
                           },
                           validator: (textValue) {
-                            // textValue = textValue as String;
-                            // log(textValue);
-                            // textValue = textValue != null ? textValue : "0";
                             if (textValue != "")
                               return int.parse(textValue!) > 0 &&
                                       int.parse(textValue) <= 31
@@ -70,7 +67,7 @@ class _BirthdateState extends State<Birthdate> {
                         ),
                       ),
                       Flexible(
-                        child: TextField(
+                        child: TextFormField(
                           decoration: InputDecoration(labelText: "Mois"),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -78,13 +75,20 @@ class _BirthdateState extends State<Birthdate> {
                           ],
                           maxLength: 2,
                           focusNode: tf_focusNode1,
-                          onSubmitted: (String textValue) => {
+                          onFieldSubmitted: (String textValue) => {
                             FocusScope.of(context).requestFocus(tf_focusNode2)
+                          },
+                          validator: (textValue) {
+                            if (textValue != "")
+                              return int.parse(textValue!) > 0 &&
+                                      int.parse(textValue) <= 12
+                                  ? null
+                                  : "Mois incorrecte.";
                           },
                         ),
                       ),
                       Flexible(
-                        child: TextField(
+                        child: TextFormField(
                           decoration: InputDecoration(labelText: "Année"),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -92,6 +96,13 @@ class _BirthdateState extends State<Birthdate> {
                           ],
                           maxLength: 4,
                           focusNode: tf_focusNode2,
+                          validator: (textValue) {
+                            if (textValue != "")
+                              return int.parse(textValue!) <=
+                                      new DateTime.now().year
+                                  ? null
+                                  : "Date incorrecte.";
+                          },
                         ),
                       ),
                     ],
