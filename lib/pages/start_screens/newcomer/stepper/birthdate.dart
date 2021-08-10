@@ -61,11 +61,11 @@ class _BirthdateState extends State<Birthdate> {
                             // textValue = textValue as String;
                             // log(textValue);
                             // textValue = textValue != null ? textValue : "0";
-                            return int.parse(textValue!) > 0 &&
-                                    int.parse(textValue) <= 31
-                                ? null
-                                : "Jour incorrecte.";
-                            // TODO: valid two length caractere like : https://stackoverflow.com/a/61197837
+                            if (textValue != "")
+                              return int.parse(textValue!) > 0 &&
+                                      int.parse(textValue) <= 31
+                                  ? null
+                                  : "Jour incorrecte.";
                           },
                         ),
                       ),
