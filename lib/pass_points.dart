@@ -30,34 +30,13 @@ class PassPoints extends StatelessWidget {
                         color: index + 1 == currentPoint
                             ? Colors.black
                             : Colors.grey,
-                        size: 12.0))
-                // [
-                //   Icon(
-                //     Icons.circle,
-                //     color: Colors.black,
-                //     size: 12.0,
-                //   ),
-                //   Icon(
-                //     Icons.circle,
-                //     color: Colors.grey,
-                //     size: 12.0,
-                //   ),
-                //   Icon(
-                //     Icons.circle,
-                //     color: Colors.grey,
-                //     size: 12.0,
-                //   ),
-                //   Icon(
-                //     Icons.circle,
-                //     color: Colors.grey,
-                //     size: 12.0,
-                //   ),
-                // ],
-                ),
+                        size: 12.0))),
+            SizedBox(height: 8.0),
             if (nextPage != null)
               IconButton(
                 icon: const Icon(Icons.arrow_right_alt),
                 iconSize: 40.0,
+                splashRadius: 20.0,
                 onPressed: () => {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (BuildContext context) => nextPage))
