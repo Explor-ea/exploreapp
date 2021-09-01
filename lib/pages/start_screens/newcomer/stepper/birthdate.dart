@@ -119,6 +119,7 @@ class _BirthdateState extends State<Birthdate> {
             PassPoints(
               nbPoints: 4,
               currentPoint: 1,
+              // TODO: ternary with the date check
               nextPage: DataAgreement(),
             ),
           ],

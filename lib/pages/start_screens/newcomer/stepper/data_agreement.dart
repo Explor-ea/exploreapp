@@ -1,3 +1,4 @@
+import 'package:exploreapp/pages/start_screens/newcomer/stepper/custom_ad_agreement.dart';
 import 'package:exploreapp/pass_points.dart';
 import 'package:flutter/material.dart';
 
@@ -60,9 +61,9 @@ class _DataAgreementState extends State<DataAgreement> {
             ),
             SizedBox(height: 16.0),
             PassPoints(
-              nbPoints: 4,
-              currentPoint: 2,
-            )
+                nbPoints: 4,
+                currentPoint: 2,
+                nextPage: widget.agreed ? CustomDateAgreement() : null),
           ],
         ),
       ),
