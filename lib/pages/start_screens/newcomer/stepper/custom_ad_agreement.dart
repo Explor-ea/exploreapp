@@ -24,12 +24,16 @@ class _CustomDateAgreementState extends State<CustomDateAgreement> {
           children: [
             Expanded(
                 flex: 1,
-                child: Text(
-                  "Publicités personnalisées",
-                  style: TextStyle(fontSize: 28.0),
+                child: Row(
+                  children: [
+                    Text(
+                      "Publicités personnalisées",
+                      style: TextStyle(fontSize: 28.0),
+                    ),
+                  ],
                 )),
             Expanded(
-              flex: 1,
+              flex: 5,
               child: Column(
                 children: [
                   SizedBox(
