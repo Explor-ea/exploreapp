@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO: https://pub.dev/packages/permission_handler
 class PermissionsAgreement extends StatefulWidget {
   bool agreed_geo = false;
   bool agreed_microphone = false;
