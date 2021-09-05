@@ -4,6 +4,7 @@ import 'package:exploreapp/pages/start_screens/newcomer/stepper/data_agreement.d
 import 'package:exploreapp/pass_points.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // TODO: was here : add date picker and save date, maybe with : https://flutter.dev/docs/cookbook/persistence/key-value
 class Birthdate extends StatefulWidget {
@@ -15,6 +16,8 @@ class Birthdate extends StatefulWidget {
 
 class _BirthdateState extends State<Birthdate> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+
+  // final prefs = SharedPreferences.getInstance();
 
   void validateForm() {
     final FormState form = _formKey.currentState!;

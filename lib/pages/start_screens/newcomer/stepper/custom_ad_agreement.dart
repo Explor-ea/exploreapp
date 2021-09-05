@@ -1,10 +1,9 @@
 import 'package:exploreapp/pages/start_screens/newcomer/stepper/permissions_agreement.dart';
 import 'package:exploreapp/pass_points.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDateAgreement extends StatefulWidget {
-  bool agreed = false;
-
   CustomDateAgreement({Key? key}) : super(key: key);
 
   @override
@@ -14,6 +13,23 @@ class CustomDateAgreement extends StatefulWidget {
 class _CustomDateAgreementState extends State<CustomDateAgreement> {
   final textAgreement =
       "Reprehenderit voluptate laboris laboris aliqua non elit pariatur proident officia. Adipisicing exercitation ea sit id reprehenderit. Fugiat voluptate amet ea aute mollit ipsum aliquip est et esse occaecat laborum laborum. Id ad et irure cillum excepteur nulla. Sunt exercitation pariatur adipisicing in deserunt Lorem quis cillum dolor reprehenderit aliquip.";
+
+  bool agreed = false;
+
+  SharedPreferences? prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    this.initializePreference().whenComplete(() {
+      setState(() {});
+    });
+  }
+
+  Future<void> initializePreference() async {
+    this.prefs = await SharedPreferences.getInstance();
+    this.agreed = prefs?.getBool("adAgreed") as bool;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +62,12 @@ class _CustomDateAgreementState extends State<CustomDateAgreement> {
                   Row(
                     children: [
                       Checkbox(
-                          value: widget.agreed,
+                          value: this.agreed,
                           onChanged: (newValue) {
-                            widget.agreed = newValue as bool;
-                            setState(() {});
+                            setState(() {
+                              this.agreed = newValue as bool;
+                              prefs?.setBool('adAgreed', this.agreed);
+                            });
                           }),
                       Text("J'accepte...")
                     ],
@@ -63,7 +81,7 @@ class _CustomDateAgreementState extends State<CustomDateAgreement> {
             PassPoints(
               nbPoints: 4,
               currentPoint: 3,
-              nextPage: widget.agreed ? PermissionsAgreement() : null,
+              nextPage: this.agreed ? PermissionsAgreement() : null,
             )
           ],
         ),
