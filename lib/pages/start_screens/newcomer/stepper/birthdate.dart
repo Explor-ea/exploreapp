@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// TODO: was here : add date picker and save date, maybe with : https://flutter.dev/docs/cookbook/persistence/key-value
+// TODO: START HERE : save and retrieve date from preferences
 class Birthdate extends StatefulWidget {
   const Birthdate({Key? key}) : super(key: key);
 
