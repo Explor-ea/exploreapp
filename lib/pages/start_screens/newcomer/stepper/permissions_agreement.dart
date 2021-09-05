@@ -102,7 +102,7 @@ class _PermissionsAgreementState extends State<PermissionsAgreement> {
           SizedBox(height: 16.0),
           PassPoints(
               nbPoints: 4,
-              currentPoint: 2,
+              currentPoint: 4,
               nextPage: this.agreed_geo &&
                       this.agreed_microphone &&
                       this.agreed_camera
