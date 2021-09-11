@@ -1,4 +1,4 @@
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:exploreapp/pages/interactive_map.dart';
 import 'package:flutter/material.dart';
