@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'dart:math' as math;
+
 class InteractiveMap extends StatefulWidget {
   const InteractiveMap({Key? key}) : super(key: key);
 
@@ -103,7 +105,30 @@ class _InteractiveMapState extends State<InteractiveMap> {
               ],
             ),
           ),
-        )
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24.0, 0, 0, 24.0),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: new Icon(Icons.view_day_outlined),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 24.0, 24.0),
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: Transform.rotate(
+                angle: 30 * (pi / 180),
+                child: new Icon(Icons.navigation_outlined),
+              ),
+            ),
+          ),
+        ),
       ],
     ));
   }
