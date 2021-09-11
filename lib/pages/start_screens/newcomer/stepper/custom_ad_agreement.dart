@@ -28,6 +28,7 @@ class _CustomDateAgreementState extends State<CustomDateAgreement> {
 
   Future<void> initializePreference() async {
     this.prefs = await SharedPreferences.getInstance();
+    // FIXME: Exception _CastError, fix with : https://stackoverflow.com/a/57069455 maybe
     this.agreed = prefs?.getBool("adAgreed") as bool;
   }
 
