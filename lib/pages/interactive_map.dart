@@ -69,7 +69,42 @@ class _InteractiveMapState extends State<InteractiveMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: buildMap(),
-    );
+        body: Stack(
+      children: <Widget>[
+        buildMap(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 16.0, 16.0, 0),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    child: new Icon(Icons.person_outline_sharp),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    child: new Icon(Icons.filter_alt_outlined),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    child: new Icon(Icons.search),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    ));
   }
 }
