@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/profile.dart';
+import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
@@ -83,32 +84,23 @@ class _InteractiveMapState extends State<InteractiveMap> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Padding(
+                ExploreaFab(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Profil()));
+                  },
                   padding: const EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    backgroundColor: ExploreaColors.purple,
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Profil()));
-                    },
-                    child: new Icon(Icons.person_outline_sharp),
-                  ),
+                  icon: const Icon(Icons.person_outline_sharp),
                 ),
-                Padding(
+                ExploreaFab(
+                  onPressed: () {},
                   padding: const EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    backgroundColor: ExploreaColors.purple,
-                    onPressed: () {},
-                    child: new Icon(Icons.filter_alt_outlined),
-                  ),
+                  icon: const Icon(Icons.filter_alt_outlined),
                 ),
-                Padding(
+                ExploreaFab(
+                  onPressed: () {},
                   padding: const EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    backgroundColor: ExploreaColors.purple,
-                    onPressed: () {},
-                    child: new Icon(Icons.search),
-                  ),
+                  icon: const Icon(Icons.search),
                 ),
               ],
             ),
@@ -118,26 +110,25 @@ class _InteractiveMapState extends State<InteractiveMap> {
           padding: const EdgeInsets.fromLTRB(24.0, 0, 0, 24.0),
           child: Align(
             alignment: Alignment.bottomLeft,
-            child: FloatingActionButton(
-              backgroundColor: ExploreaColors.purple,
+            child: ExploreaFab(
               onPressed: () {},
-              child: new Icon(Icons.view_day_outlined),
+              padding: EdgeInsets.all(0),
+              icon: const Icon(Icons.view_day_outlined),
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 24.0, 24.0),
           child: Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              backgroundColor: ExploreaColors.purple,
-              onPressed: () {},
-              child: Transform.rotate(
-                angle: 30 * (pi / 180),
-                child: new Icon(Icons.navigation_outlined),
-              ),
-            ),
-          ),
+              alignment: Alignment.bottomRight,
+              child: ExploreaFab(
+                onPressed: () {},
+                padding: EdgeInsets.all(0),
+                icon: Transform.rotate(
+                  angle: 30 * (pi / 180),
+                  child: new Icon(Icons.navigation_outlined),
+                ),
+              )),
         ),
       ],
     ));

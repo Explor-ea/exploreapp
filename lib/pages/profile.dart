@@ -1,3 +1,4 @@
+import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/material.dart';
 
 import '../explorea_colors.dart';
@@ -13,23 +14,17 @@ class Profil extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
+              ExploreaFab(
+                onPressed: () {},
                 padding: const EdgeInsets.all(8.0),
-                child: FloatingActionButton(
-                  backgroundColor: ExploreaColors.purple,
-                  onPressed: () {},
-                  child: new Icon(Icons.settings),
-                ),
+                icon: const Icon(Icons.settings),
               ),
-              Padding(
+              ExploreaFab(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 padding: const EdgeInsets.all(8.0),
-                child: FloatingActionButton(
-                  backgroundColor: ExploreaColors.purple,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: new Icon(Icons.close),
-                ),
+                icon: const Icon(Icons.close),
               ),
             ],
           ),
