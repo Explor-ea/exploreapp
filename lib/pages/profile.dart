@@ -28,6 +28,14 @@ class Profil extends StatelessWidget {
               ),
             ],
           ),
+          Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: [
+                  Image.asset("assets/explorea-no_pict.png"),
+                  Text("New User")
+                ],
+              ))
         ],
       ),
     );
