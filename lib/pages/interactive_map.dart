@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:exploreapp/explorea_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
@@ -84,6 +85,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
+                    backgroundColor: ExploreaColors.purple,
                     onPressed: () {},
                     child: new Icon(Icons.person_outline_sharp),
                   ),
@@ -91,6 +93,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
+                    backgroundColor: ExploreaColors.purple,
                     onPressed: () {},
                     child: new Icon(Icons.filter_alt_outlined),
                   ),
@@ -98,6 +101,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
+                    backgroundColor: ExploreaColors.purple,
                     onPressed: () {},
                     child: new Icon(Icons.search),
                   ),
@@ -111,6 +115,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: FloatingActionButton(
+              backgroundColor: ExploreaColors.purple,
               onPressed: () {},
               child: new Icon(Icons.view_day_outlined),
             ),
@@ -121,6 +126,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
           child: Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
+              backgroundColor: ExploreaColors.purple,
               onPressed: () {},
               child: Transform.rotate(
                 angle: 30 * (pi / 180),
