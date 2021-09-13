@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/pages/profile.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
@@ -86,7 +87,10 @@ class _InteractiveMapState extends State<InteractiveMap> {
                   padding: const EdgeInsets.all(8.0),
                   child: FloatingActionButton(
                     backgroundColor: ExploreaColors.purple,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Profil()));
+                    },
                     child: new Icon(Icons.person_outline_sharp),
                   ),
                 ),
