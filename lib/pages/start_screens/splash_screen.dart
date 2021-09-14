@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/start_screens/cinematic.dart';
 import 'package:exploreapp/pages/start_screens/newcomer/home.dart';
 import 'package:exploreapp/pages/start_screens/newcomer/stepper/custom_ad_agreement.dart';
@@ -51,9 +52,13 @@ class SplashScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: ExploreaColors.yellow,
       body: Center(
-        child: Text("SPLASHCREEN"),
+        child: Image.asset(
+          "assets/icon/explorea-logo.png",
+          height: 223,
+          width: 223,
+        ),
       ),
     );
   }
