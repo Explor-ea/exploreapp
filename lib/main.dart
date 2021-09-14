@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 
 void main() {
   // @see https://stackoverflow.com/a/60769935
-  if (!kIsWeb)
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+  if (!kIsWeb) SystemChrome.setEnabledSystemUIOverlays([]);
+
   runApp(MyApp());
 }
 
