@@ -34,48 +34,41 @@ class _NewcomerState extends State<Newcomer> {
             width: 342,
             // padding: EdgeInsets.all(16.0),
           ),
+          Expanded(child: Container()),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Expanded(
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ExploreaTitle(text: "Explor'ea"),
-                      SizedBox(height: 22.0),
-                      Container(
-                        width: 268,
-                        height: 189,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: SingleChildScrollView(
-                                  child: ExploreaText(text: this.text)),
-                            ),
-                          ],
+                  ExploreaTitle(text: "Explor'ea"),
+                  SizedBox(height: 22.0),
+                  Container(
+                    width: 268,
+                    height: 189,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: SingleChildScrollView(
+                              child: ExploreaText(text: this.text)),
                         ),
-                      ),
-                      Container(
-                        height: 58,
-                      ),
-                      Row(
-                        children: [
-                          Center(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Text("C'est parti !"),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: 41,
-                      )
-                    ],
+                      ],
+                    ),
                   ),
+                  Container(
+                    height: 58,
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text("C'est parti !"),
+                    ),
+                  ),
+                  Container(
+                    height: 41,
+                  )
                 ],
               ),
             ),
