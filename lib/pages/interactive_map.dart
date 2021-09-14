@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -25,7 +27,9 @@ class _InteractiveMapState extends State<InteractiveMap> {
 
   @override
   void initState() {
+    if (!kIsWeb) SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
+
     mapController = MapController();
 
     subscription = mapController.mapEventStream.listen(onMapEvent);
