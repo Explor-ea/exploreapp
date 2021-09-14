@@ -61,15 +61,21 @@ class _NewcomerState extends State<Newcomer> {
                       Container(
                         height: 58,
                       ),
+                      Row(
+                        children: [
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text("C'est parti !"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 41,
+                      )
                     ],
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text("C'est parti !"),
-                  ),
-                  Container(
-                    height: 41,
-                  )
                 ],
               ),
             ),
