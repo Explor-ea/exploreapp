@@ -17,6 +17,7 @@ class _NewcomerState extends State<Newcomer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ExploreaColors.yellow,
       body: Column(
         children: [
           LinearProgressIndicator(
@@ -63,6 +64,15 @@ class _NewcomerState extends State<Newcomer> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {},
+                      // style: ButtonStyle(
+                      //     shape:
+                      //         MaterialStateProperty.all<RoundedRectangleBorder>(
+                      //             RoundedRectangleBorder(
+                      //                 borderRadius:
+                      //                     BorderRadius.circular(100)))),
+                      style: ElevatedButton.styleFrom(
+                          shape: StadiumBorder(),
+                          primary: ExploreaColors.purple),
                       child: Text("C'est parti !"),
                     ),
                   ),
