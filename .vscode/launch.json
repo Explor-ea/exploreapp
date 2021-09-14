@@ -29,5 +29,7 @@
         ```
 
         Then, the device will be selectable in VSCode.
+
+        More infos : see https://developer.android.com/studio/command-line/adb#wireless 
     */
 }
