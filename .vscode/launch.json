@@ -16,4 +16,18 @@
             "flutterMode": "profile"
         }
     ]
+    /*
+        NB : You can launch the app in debug mode wirelessly using the `Android/Sdk/plateform-tools/adb`,
+        and running these commands : 
+        
+        ```
+        # Connect your device
+        adb devices
+        adb tcpip 5555
+        # Disconect your device
+        adb connect 172.31.11.159:5555
+        ```
+
+        Then, the device will be selectable in VSCode.
+    */
 }
