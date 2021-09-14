@@ -57,6 +57,13 @@ flutter:
     - assets/
     - assets/icon/
 
+  fonts:
+    - family: ABCProphet
+      fonts: 
+        - asset: assets/fonts/ABCProphet/ABCProphet-Regular.ttf
+        - asset: assets/fonts/ABCProphet/ABCProphet-RegularItalic.ttf
+          style: italic
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
