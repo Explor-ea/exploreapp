@@ -2,6 +2,7 @@ import 'dart:developer';
 // import 'dart:math';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/wigets/explorea-chekbox.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
 
@@ -46,6 +47,7 @@ class _NewcomerState extends State<Newcomer> {
   int? prefUserBirthdate_day;
   String? prefUserBirthdate_month;
   int? prefUserBirthdate_year;
+  bool? agreedData;
 
   Future<void> initializePreference() async {
     this.prefs = await SharedPreferences.getInstance();
@@ -53,6 +55,8 @@ class _NewcomerState extends State<Newcomer> {
     this.prefUserBirthdate_day = prefs?.getInt("userBirthdate_day");
     this.prefUserBirthdate_month = prefs?.getString("userBirthdate_month");
     this.prefUserBirthdate_year = prefs?.getInt("userBirthdate_year");
+    //
+    this.agreedData = prefs?.getBool("dataAgreed") as bool;
   }
 
   @override
@@ -335,6 +339,83 @@ class _NewcomerState extends State<Newcomer> {
           ],
         );
         break;
+      case 3:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ExploreaTitle(text: "La gestion de vos données"),
+            SizedBox(height: 22.0),
+            Container(
+              width: 268,
+              height: 189,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      child: SingleChildScrollView(
+                          child: ExploreaText(text: this.text)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 16, 0.0, 0.0),
+              child: Row(
+                children: [
+                  ExploreaCheckbox(
+                    isChecked: true,
+                    onChanged: (newValue) {
+                      this.agreedData = newValue;
+                      if (this.agreedData != null)
+                        prefs?.setBool('dataAgreed', this.agreedData!);
+                      // TODO: remove :
+                      log("agreedDate : $newValue");
+                    },
+                  ),
+                  Container(
+                    width: 16.0,
+                  ),
+                  ExploreaText(text: "J'accepte..."),
+                ],
+              ),
+            ),
+            Container(
+              height: 58,
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    this.step = 2;
+                  });
+                },
+                // style: ButtonStyle(
+                //     shape:
+                //         MaterialStateProperty.all<RoundedRectangleBorder>(
+                //             RoundedRectangleBorder(
+                //                 borderRadius:
+                //                     BorderRadius.circular(100)))),
+                style: ElevatedButton.styleFrom(
+                  shape: StadiumBorder(),
+                  primary: ExploreaColors.purple,
+                  minimumSize: Size(315.0, 53),
+                ),
+
+                child: Text("C'est parti !"),
+              ),
+            ),
+            Container(
+              height: 41,
+            )
+          ],
+        );
+
+        break;
+
       default:
         return Container(
           color: Colors.red,
