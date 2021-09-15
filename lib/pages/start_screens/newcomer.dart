@@ -375,11 +375,8 @@ class _NewcomerState extends State<Newcomer> {
                       // TODO: remove :
                       log("agreedDate : $newValue");
                     },
+                    label: "J'accepte...",
                   ),
-                  Container(
-                    width: 16.0,
-                  ),
-                  ExploreaText(text: "J'accepte..."),
                 ],
               ),
             ),
