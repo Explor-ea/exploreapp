@@ -261,11 +261,10 @@ class _NewcomerState extends State<Newcomer> {
                       viewportFraction: 0.3,
                       enlargeStrategy: CenterPageEnlargeStrategy.scale,
                       onPageChanged: (yearSelected, changeReason) {
-                        log((yearSelected % 30 + 1).toString());
+                        this.yearSelected = this.years[yearSelected];
+                        log((this.yearSelected).toString());
                         log(changeReason.toString());
-                        setState(() {
-                          this.yearSelected = yearSelected;
-                        });
+                        setState(() {});
                       }),
                   items: this.years.map((i) {
                     return Builder(
@@ -278,6 +277,9 @@ class _NewcomerState extends State<Newcomer> {
                             child: FittedBox(
                               child: ExploreaTitle(
                                 text: '$i',
+                                color: i != this.yearSelected
+                                    ? Colors.grey
+                                    : ExploreaColors.purple,
                               ),
                             ));
                       },
