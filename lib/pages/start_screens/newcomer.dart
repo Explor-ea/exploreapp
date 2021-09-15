@@ -38,7 +38,7 @@ class _NewcomerState extends State<Newcomer> {
   final List<int> years = [];
 
   int? daySelected;
-  int? monthSelected;
+  String? monthSelected;
   int? yearSelected;
 
   @override
@@ -227,12 +227,11 @@ class _NewcomerState extends State<Newcomer> {
                       viewportFraction: 0.3,
                       enlargeStrategy: CenterPageEnlargeStrategy.scale,
                       onPageChanged: (monthSelected, changeReason) {
-                        log((monthSelected % 30 + 1).toString());
+                        this.monthSelected = this.months[monthSelected];
+                        log((this.monthSelected).toString());
                         log(changeReason.toString());
 
-                        setState(() {
-                          this.monthSelected = monthSelected;
-                        });
+                        setState(() {});
                       }),
                   items: this.months.map((i) {
                     return Builder(
@@ -245,6 +244,9 @@ class _NewcomerState extends State<Newcomer> {
                             child: FittedBox(
                               child: ExploreaTitle(
                                 text: '$i',
+                                color: i != this.monthSelected
+                                    ? Colors.grey
+                                    : ExploreaColors.purple,
                               ),
                             ));
                       },
