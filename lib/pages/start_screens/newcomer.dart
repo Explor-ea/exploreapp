@@ -68,8 +68,11 @@ class _NewcomerState extends State<Newcomer> {
                       children: [
                         Expanded(
                           flex: 2,
+                          child: Scrollbar(
+                            isAlwaysShown: true,
                             child: SingleChildScrollView(
                                 child: ExploreaText(text: this.text)),
+                          ),
                         ),
                       ],
                     ),
@@ -88,7 +91,10 @@ class _NewcomerState extends State<Newcomer> {
                       //                     BorderRadius.circular(100)))),
                       style: ElevatedButton.styleFrom(
                         shape: StadiumBorder(),
-                          primary: ExploreaColors.purple),
+                        primary: ExploreaColors.purple,
+                        minimumSize: Size(315.0, 53),
+                      ),
+
                       child: Text("C'est parti !"),
                     ),
                   ),
