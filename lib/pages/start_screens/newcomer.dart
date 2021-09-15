@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Newcomer extends StatefulWidget {
   const Newcomer({Key? key}) : super(key: key);
@@ -41,12 +42,30 @@ class _NewcomerState extends State<Newcomer> {
   String? monthSelected;
   int? yearSelected;
 
+  SharedPreferences? prefs;
+  int? prefUserBirthdate_day;
+  String? prefUserBirthdate_month;
+  int? prefUserBirthdate_year;
+
+  Future<void> initializePreference() async {
+    this.prefs = await SharedPreferences.getInstance();
+
+    this.prefUserBirthdate_day = prefs?.getInt("userBirthdate_day");
+    this.prefUserBirthdate_month = prefs?.getString("userBirthdate_month");
+    this.prefUserBirthdate_year = prefs?.getInt("userBirthdate_year");
+  }
+
   @override
   initState() {
     super.initState();
-    // XXX MAYBE: make it responsive instead
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+    this.initializePreference().whenComplete(() {
+      // XXX MAYBE: make it responsive instead
+      SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+      setState(() {});
+    });
   }
 
   @override
@@ -296,6 +315,10 @@ class _NewcomerState extends State<Newcomer> {
                 onPressed: () {
                   setState(() {
                     this.step = 3;
+
+                    this.prefUserBirthdate_day = this.daySelected;
+                    this.prefUserBirthdate_month = this.monthSelected;
+                    this.prefUserBirthdate_year = this.yearSelected;
                   });
                 },
                 style: ElevatedButton.styleFrom(
