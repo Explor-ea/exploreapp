@@ -37,6 +37,10 @@ class _NewcomerState extends State<Newcomer> {
   ];
   final List<int> years = [];
 
+  int? daySelected;
+  int? monthSelected;
+  int? yearSelected;
+
   @override
   initState() {
     super.initState();
@@ -190,8 +194,13 @@ class _NewcomerState extends State<Newcomer> {
                       viewportFraction: 0.3,
                       enlargeStrategy: CenterPageEnlargeStrategy.scale,
                       onPageChanged: (daySelected, changeReason) {
-                        log((daySelected % 30 + 1).toString());
+                        daySelected = daySelected % 30 + 1;
+                        log((daySelected).toString());
                         log(changeReason.toString());
+
+                        setState(() {
+                          this.daySelected = daySelected;
+                        });
                       }),
                   items: this.days.map((i) {
                     return Builder(
@@ -203,6 +212,9 @@ class _NewcomerState extends State<Newcomer> {
                             alignment: Alignment.center,
                             child: ExploreaTitle(
                               text: '$i',
+                              color: i != this.daySelected
+                                  ? Colors.grey
+                                  : ExploreaColors.purple,
                             ));
                       },
                     );
@@ -214,9 +226,13 @@ class _NewcomerState extends State<Newcomer> {
                       enlargeCenterPage: true,
                       viewportFraction: 0.3,
                       enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                      onPageChanged: (daySelected, changeReason) {
-                        log((daySelected % 30 + 1).toString());
+                      onPageChanged: (monthSelected, changeReason) {
+                        log((monthSelected % 30 + 1).toString());
                         log(changeReason.toString());
+
+                        setState(() {
+                          this.monthSelected = monthSelected;
+                        });
                       }),
                   items: this.months.map((i) {
                     return Builder(
@@ -242,9 +258,12 @@ class _NewcomerState extends State<Newcomer> {
                       enlargeCenterPage: true,
                       viewportFraction: 0.3,
                       enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                      onPageChanged: (daySelected, changeReason) {
-                        log((daySelected % 30 + 1).toString());
+                      onPageChanged: (yearSelected, changeReason) {
+                        log((yearSelected % 30 + 1).toString());
                         log(changeReason.toString());
+                        setState(() {
+                          this.yearSelected = yearSelected;
+                        });
                       }),
                   items: this.years.map((i) {
                     return Builder(
