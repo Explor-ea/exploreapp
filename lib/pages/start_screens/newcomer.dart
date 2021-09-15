@@ -180,32 +180,62 @@ class _NewcomerState extends State<Newcomer> {
             Container(
               height: 46,
             ),
-            CarouselSlider(
-              options: CarouselOptions(
-                  // aspectRatio: 10.0,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.3,
-                  // height: 30.0,
-                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                  onPageChanged: (daySelected, changeReason) {
-                    log((daySelected % 30 + 1).toString());
-                    log(changeReason.toString());
-                  }),
-              items: days.map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                        // width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        width: 50.0,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(color: Colors.red),
-                        child: ExploreaTitle(
-                          text: '$i',
-                        ));
-                  },
-                );
-              }).toList(),
+            Column(
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                      height: 50.0,
+                      // aspectRatio: 10.0,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.3,
+                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                      onPageChanged: (daySelected, changeReason) {
+                        log((daySelected % 30 + 1).toString());
+                        log(changeReason.toString());
+                      }),
+                  items: days.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            // width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            width: 50.0,
+                            alignment: Alignment.center,
+                            child: ExploreaTitle(
+                              text: '$i',
+                            ));
+                      },
+                    );
+                  }).toList(),
+                ),
+                CarouselSlider(
+                  options: CarouselOptions(
+                      height: 50.0,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.3,
+                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                      onPageChanged: (daySelected, changeReason) {
+                        log((daySelected % 30 + 1).toString());
+                        log(changeReason.toString());
+                      }),
+                  items: this.months.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            // width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            // width: 70.0,
+                            alignment: Alignment.center,
+                            child: FittedBox(
+                              child: ExploreaTitle(
+                                text: '$i',
+                              ),
+                            ));
+                      },
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
             Container(
               height: 30,
