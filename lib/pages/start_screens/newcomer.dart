@@ -57,12 +57,12 @@ class _NewcomerState extends State<Newcomer> {
 
   @override
   Widget build(BuildContext context) {
-    for (var i = 1; i < 31; i++) {
+    for (var i = 1; i <= 31; i++) {
       this.days.add(i);
     }
 
     int currentYear = new DateTime.now().year;
-    for (var i = currentYear - 100; i < currentYear; i++) {
+    for (var i = currentYear; i >= currentYear - 100; i--) {
       this.years.add(i);
     }
 
@@ -193,7 +193,7 @@ class _NewcomerState extends State<Newcomer> {
                         log((daySelected % 30 + 1).toString());
                         log(changeReason.toString());
                       }),
-                  items: days.map((i) {
+                  items: this.days.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
@@ -219,6 +219,34 @@ class _NewcomerState extends State<Newcomer> {
                         log(changeReason.toString());
                       }),
                   items: this.months.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            // width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            // width: 70.0,
+                            alignment: Alignment.center,
+                            child: FittedBox(
+                              child: ExploreaTitle(
+                                text: '$i',
+                              ),
+                            ));
+                      },
+                    );
+                  }).toList(),
+                ),
+                CarouselSlider(
+                  options: CarouselOptions(
+                      reverse: true,
+                      height: 50.0,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.3,
+                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                      onPageChanged: (daySelected, changeReason) {
+                        log((daySelected % 30 + 1).toString());
+                        log(changeReason.toString());
+                      }),
+                  items: this.years.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
