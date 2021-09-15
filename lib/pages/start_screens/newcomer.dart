@@ -194,7 +194,7 @@ class _NewcomerState extends State<Newcomer> {
                       viewportFraction: 0.3,
                       enlargeStrategy: CenterPageEnlargeStrategy.scale,
                       onPageChanged: (daySelected, changeReason) {
-                        daySelected = daySelected % 30 + 1;
+                        daySelected = daySelected % 31 + 1;
                         log((daySelected).toString());
                         log(changeReason.toString());
 
