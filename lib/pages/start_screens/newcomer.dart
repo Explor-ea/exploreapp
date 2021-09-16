@@ -126,10 +126,10 @@ class _NewcomerState extends State<Newcomer> {
               flex: 8,
               child: Column(
                 children: [
-                  Expanded(child: Container()),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: Expanded(
+                  Container(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: buildStep(),
                     ),
                   ),
