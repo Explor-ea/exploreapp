@@ -212,6 +212,9 @@ class _NewcomerState extends State<Newcomer> {
               children: [
                 CarouselSlider(
                   options: CarouselOptions(
+                      initialPage: this.prefUserBirthdate_day != null
+                          ? this.prefUserBirthdate_day! - 1
+                          : 0,
                       height: 50.0,
                       // aspectRatio: 10.0,
                       enlargeCenterPage: true,
@@ -246,6 +249,9 @@ class _NewcomerState extends State<Newcomer> {
                 ),
                 CarouselSlider(
                   options: CarouselOptions(
+                      initialPage: this
+                          .months
+                          .indexOf(this.prefUserBirthdate_month ?? "JAN"),
                       height: 50.0,
                       enlargeCenterPage: true,
                       viewportFraction: 0.3,
@@ -279,6 +285,9 @@ class _NewcomerState extends State<Newcomer> {
                 ),
                 CarouselSlider(
                   options: CarouselOptions(
+                      initialPage: this
+                          .years
+                          .indexOf(this.prefUserBirthdate_year ?? 2021),
                       reverse: true,
                       height: 50.0,
                       enlargeCenterPage: true,
@@ -324,6 +333,13 @@ class _NewcomerState extends State<Newcomer> {
                     this.prefUserBirthdate_day = this.daySelected;
                     this.prefUserBirthdate_month = this.monthSelected;
                     this.prefUserBirthdate_year = this.yearSelected;
+
+                    prefs?.setInt(
+                        "userBirthdate_day", this.prefUserBirthdate_day!);
+                    prefs?.setString(
+                        "userBirthdate_month", this.prefUserBirthdate_month!);
+                    prefs?.setInt(
+                        "userBirthdate_year", this.prefUserBirthdate_year!);
                   });
                 },
                 style: ElevatedButton.styleFrom(
