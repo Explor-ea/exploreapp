@@ -370,11 +370,13 @@ class _NewcomerState extends State<Newcomer> {
               child: Row(
                 children: [
                   ExploreaCheckbox(
-                    isChecked: true,
+                    isChecked: this.agreedData ?? false,
                     onChanged: (newValue) {
-                      this.agreedData = newValue;
-                      if (this.agreedData != null)
-                        prefs?.setBool('dataAgreed', this.agreedData!);
+                      setState(() {
+                        this.agreedData = newValue;
+                        if (this.agreedData != null)
+                          prefs?.setBool('dataAgreed', this.agreedData!);
+                      });
                       // TODO: remove :
                       log("agreedDate : $newValue");
                     },
@@ -389,9 +391,10 @@ class _NewcomerState extends State<Newcomer> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    this.step = 2;
-                  });
+                  if (this.agreedData == true)
+                    setState(() {
+                      this.step = 2;
+                    });
                 },
                 // style: ButtonStyle(
                 //     shape:
@@ -401,7 +404,9 @@ class _NewcomerState extends State<Newcomer> {
                 //                     BorderRadius.circular(100)))),
                 style: ElevatedButton.styleFrom(
                   shape: StadiumBorder(),
-                  primary: ExploreaColors.purple,
+                  primary: this.agreedData != true
+                      ? Colors.grey
+                      : ExploreaColors.purple,
                   minimumSize: Size(315.0, 53),
                 ),
 
