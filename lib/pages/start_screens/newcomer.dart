@@ -210,114 +210,201 @@ class _NewcomerState extends State<Newcomer> {
             ),
             Column(
               children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                      initialPage: this.prefUserBirthdate_day != null
-                          ? this.prefUserBirthdate_day! - 1
-                          : 0,
-                      height: 50.0,
-                      // aspectRatio: 10.0,
-                      enlargeCenterPage: true,
-                      viewportFraction: 0.3,
-                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                      onPageChanged: (daySelected, changeReason) {
-                        daySelected = daySelected % 31 + 1;
-                        log((daySelected).toString());
-                        log(changeReason.toString());
+                Stack(
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                          initialPage: this.prefUserBirthdate_day != null
+                              ? this.prefUserBirthdate_day! - 1
+                              : 0,
+                          height: 50.0,
+                          // aspectRatio: 10.0,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.3,
+                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                          onPageChanged: (daySelected, changeReason) {
+                            daySelected = daySelected % 31 + 1;
+                            log((daySelected).toString());
+                            log(changeReason.toString());
 
-                        setState(() {
-                          this.daySelected = daySelected;
-                        });
-                      }),
-                  items: this.days.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                            // width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            width: 50.0,
-                            alignment: Alignment.center,
-                            child: ExploreaTitle(
-                              text: '$i',
-                              color: i != this.daySelected
-                                  ? Colors.grey
-                                  : ExploreaColors.purple,
-                            ));
-                      },
-                    );
-                  }).toList(),
+                            setState(() {
+                              this.daySelected = daySelected;
+                            });
+                          }),
+                      items: this.days.map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                                // width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                width: 50.0,
+                                alignment: Alignment.center,
+                                child: ExploreaTitle(
+                                  text: '$i',
+                                  color: i != this.daySelected
+                                      ? Colors.grey
+                                      : ExploreaColors.purple,
+                                ));
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          height: 8.0,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_left,
+                              color: ExploreaColors.purple,
+                              size: 32.0,
+                            ),
+                            Expanded(
+                                child: Container(
+                              color: Colors.green,
+                            )),
+                            Icon(
+                              Icons.arrow_right,
+                              color: ExploreaColors.purple,
+                              size: 32.0,
+                            ),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
                 ),
-                CarouselSlider(
-                  options: CarouselOptions(
-                      initialPage: this
-                          .months
-                          .indexOf(this.prefUserBirthdate_month ?? "JAN"),
-                      height: 50.0,
-                      enlargeCenterPage: true,
-                      viewportFraction: 0.3,
-                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                      onPageChanged: (monthSelected, changeReason) {
-                        this.monthSelected = this.months[monthSelected];
-                        log((this.monthSelected).toString());
-                        log(changeReason.toString());
+                Stack(
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                          initialPage: this
+                              .months
+                              .indexOf(this.prefUserBirthdate_month ?? "JAN"),
+                          height: 50.0,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.3,
+                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                          onPageChanged: (monthSelected, changeReason) {
+                            this.monthSelected = this.months[monthSelected];
+                            log((this.monthSelected).toString());
+                            log(changeReason.toString());
 
-                        setState(() {});
-                      }),
-                  items: this.months.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                            // width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            // width: 70.0,
-                            alignment: Alignment.center,
-                            child: FittedBox(
-                              child: ExploreaTitle(
-                                text: '$i',
-                                color: i != this.monthSelected
-                                    ? Colors.grey
-                                    : ExploreaColors.purple,
-                              ),
-                            ));
-                      },
-                    );
-                  }).toList(),
+                            setState(() {});
+                          }),
+                      items: this.months.map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                                // width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                // width: 70.0,
+                                alignment: Alignment.center,
+                                child: FittedBox(
+                                  child: ExploreaTitle(
+                                    text: '$i',
+                                    color: i != this.monthSelected
+                                        ? Colors.grey
+                                        : ExploreaColors.purple,
+                                  ),
+                                ));
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          height: 8.0,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_left,
+                              color: ExploreaColors.purple,
+                              size: 32.0,
+                            ),
+                            Expanded(
+                                child: Container(
+                              color: Colors.green,
+                            )),
+                            Icon(
+                              Icons.arrow_right,
+                              color: ExploreaColors.purple,
+                              size: 32.0,
+                            ),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
                 ),
-                CarouselSlider(
-                  options: CarouselOptions(
-                      initialPage: this
-                          .years
-                          .indexOf(this.prefUserBirthdate_year ?? 2021),
-                      reverse: true,
-                      height: 50.0,
-                      enlargeCenterPage: true,
-                      viewportFraction: 0.3,
-                      enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                      onPageChanged: (yearSelected, changeReason) {
-                        this.yearSelected = this.years[yearSelected];
-                        log((this.yearSelected).toString());
-                        log(changeReason.toString());
-                        setState(() {});
-                      }),
-                  items: this.years.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                            // width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            // width: 70.0,
-                            alignment: Alignment.center,
-                            child: FittedBox(
-                              child: ExploreaTitle(
-                                text: '$i',
-                                color: i != this.yearSelected
-                                    ? Colors.grey
-                                    : ExploreaColors.purple,
-                              ),
-                            ));
-                      },
-                    );
-                  }).toList(),
+                Stack(
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                          initialPage: this
+                              .years
+                              .indexOf(this.prefUserBirthdate_year ?? 2021),
+                          reverse: true,
+                          height: 50.0,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.3,
+                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                          onPageChanged: (yearSelected, changeReason) {
+                            this.yearSelected = this.years[yearSelected];
+                            log((this.yearSelected).toString());
+                            log(changeReason.toString());
+                            setState(() {});
+                          }),
+                      items: this.years.map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                                // width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                // width: 70.0,
+                                alignment: Alignment.center,
+                                child: FittedBox(
+                                  child: ExploreaTitle(
+                                    text: '$i',
+                                    color: i != this.yearSelected
+                                        ? Colors.grey
+                                        : ExploreaColors.purple,
+                                  ),
+                                ));
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          height: 8.0,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_left,
+                              color: ExploreaColors.purple,
+                              size: 32.0,
+                            ),
+                            Expanded(
+                                child: Container(
+                              color: Colors.green,
+                            )),
+                            Icon(
+                              Icons.arrow_right,
+                              color: ExploreaColors.purple,
+                              size: 32.0,
+                            ),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
                 ),
               ],
             ),
