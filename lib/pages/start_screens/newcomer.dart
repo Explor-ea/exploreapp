@@ -502,13 +502,13 @@ class _NewcomerState extends State<Newcomer> {
                     });
                 },
                 style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
+                  shape: CircleBorder(),
                   primary: this.agreedData != true
                       ? Colors.grey
                       : ExploreaColors.purple,
                   minimumSize: Size(315.0, 53),
                 ),
-                child: Text("C'est parti !"),
+                child: Icon(Icons.arrow_right_alt),
               ),
             ),
             Container(
@@ -576,13 +576,13 @@ class _NewcomerState extends State<Newcomer> {
                     });
                 },
                 style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
+                  shape: CircleBorder(),
                   primary: this.agreedAd != true
                       ? Colors.grey
                       : ExploreaColors.purple,
                   minimumSize: Size(315.0, 53),
                 ),
-                child: Text("C'est parti !"),
+                child: Icon(Icons.arrow_right_alt),
               ),
             ),
             Container(
