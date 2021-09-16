@@ -48,6 +48,7 @@ class _NewcomerState extends State<Newcomer> {
   String? prefUserBirthdate_month;
   int? prefUserBirthdate_year;
   bool? agreedData;
+  bool? agreedAd;
 
   Future<void> initializePreference() async {
     this.prefs = await SharedPreferences.getInstance();
@@ -57,6 +58,7 @@ class _NewcomerState extends State<Newcomer> {
     this.prefUserBirthdate_year = prefs?.getInt("userBirthdate_year");
     //
     this.agreedData = prefs?.getBool("dataAgreed") as bool;
+    this.agreedAd = prefs?.getBool("adAgreed") as bool;
   }
 
   @override
@@ -496,15 +498,9 @@ class _NewcomerState extends State<Newcomer> {
                 onPressed: () {
                   if (this.agreedData == true)
                     setState(() {
-                      this.step = 2;
+                      this.step = 4;
                     });
                 },
-                // style: ButtonStyle(
-                //     shape:
-                //         MaterialStateProperty.all<RoundedRectangleBorder>(
-                //             RoundedRectangleBorder(
-                //                 borderRadius:
-                //                     BorderRadius.circular(100)))),
                 style: ElevatedButton.styleFrom(
                   shape: StadiumBorder(),
                   primary: this.agreedData != true
@@ -512,7 +508,80 @@ class _NewcomerState extends State<Newcomer> {
                       : ExploreaColors.purple,
                   minimumSize: Size(315.0, 53),
                 ),
+                child: Text("C'est parti !"),
+              ),
+            ),
+            Container(
+              height: 41,
+            )
+          ],
+        );
 
+        break;
+
+      case 4:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+                width: 260.0,
+                child: ExploreaTitle(text: "Publicités personnalisées")),
+            SizedBox(height: 22.0),
+            Container(
+              width: 268,
+              height: 189,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      child: SingleChildScrollView(
+                          child: ExploreaText(text: this.text)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 16, 0.0, 0.0),
+              child: Row(
+                children: [
+                  ExploreaCheckbox(
+                    isChecked: this.agreedAd ?? false,
+                    onChanged: (newValue) {
+                      setState(() {
+                        this.agreedAd = newValue;
+                        if (this.agreedAd != null)
+                          prefs?.setBool('adAgreed', this.agreedAd!);
+                      });
+                      // TODO: remove :
+                      log("agreedDate : $newValue");
+                    },
+                    label: "J'accepte...",
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 58,
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (this.agreedAd == true)
+                    setState(() {
+                      this.step = 2;
+                    });
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: StadiumBorder(),
+                  primary: this.agreedAd != true
+                      ? Colors.grey
+                      : ExploreaColors.purple,
+                  minimumSize: Size(315.0, 53),
+                ),
                 child: Text("C'est parti !"),
               ),
             ),
