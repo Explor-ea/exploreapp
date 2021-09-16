@@ -108,22 +108,7 @@ class _NewcomerState extends State<Newcomer> {
             semanticsLabel: 'Linear progress indicator',
           ),
           SizedBox(height: 16.0),
-          Expanded(
-              flex: 3,
-              child: ConstrainedBox(
-                constraints: new BoxConstraints(
-                  maxHeight: 275.0,
-                  // maxWidth: 342.0,
-                  maxWidth: 275.0 / 9 * 16,
-                ),
-                child: Container(
-                  color: Colors.grey,
-                  // height: 275.0,
-                  width: 342,
-
-                  // padding: EdgeInsets.all(16.0),
-                ),
-              )),
+          buildImage(),
           Expanded(
               flex: 8,
               child: Column(
@@ -572,7 +557,68 @@ class _NewcomerState extends State<Newcomer> {
                 onPressed: () {
                   if (this.agreedAd == true)
                     setState(() {
-                      this.step = 2;
+                      this.step = 5;
+                    });
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  primary: this.agreedAd != true
+                      ? Colors.grey
+                      : ExploreaColors.purple,
+                  minimumSize: Size(60.0, 60.0),
+                ),
+                child: Icon(Icons.arrow_right_alt, size: 32.0),
+              ),
+            ),
+            Container(
+              height: 41,
+            )
+          ],
+        );
+
+        break;
+
+      case 5:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+                width: 260.0,
+                child: ExploreaTitle(text: "Autorisations matérielles")),
+            SizedBox(height: 22.0),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child:
+                          // btn
+                          Container(),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child:
+                          // btn
+                          Text("Géolocalisation",
+                              style: TextStyle(
+                                  color: ExploreaColors.purple,
+                                  fontSize: 24.0)),
+                      flex: 8,
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Container(
+              height: 58,
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (this.agreedAd == true)
+                    setState(() {
+                      this.step = 1;
                     });
                 },
                 style: ElevatedButton.styleFrom(
@@ -599,6 +645,35 @@ class _NewcomerState extends State<Newcomer> {
           width: 20.0,
           height: 20.0,
         );
+    }
+  }
+
+  Widget buildImage() {
+    switch (this.step) {
+      case 5:
+        return Container(
+          color: Colors.red,
+        );
+
+        break;
+
+      default:
+        return Expanded(
+            flex: 3,
+            child: ConstrainedBox(
+              constraints: new BoxConstraints(
+                maxHeight: 275.0,
+                // maxWidth: 342.0,
+                maxWidth: 275.0 / 9 * 16,
+              ),
+              child: Container(
+                color: Colors.grey,
+                // height: 275.0,
+                width: 342,
+
+                // padding: EdgeInsets.all(16.0),
+              ),
+            ));
     }
   }
 }
