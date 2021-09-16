@@ -434,9 +434,9 @@ class _NewcomerState extends State<Newcomer> {
                 style: ElevatedButton.styleFrom(
                   shape: CircleBorder(),
                   primary: ExploreaColors.purple,
-                  minimumSize: Size(315.0, 53),
+                  minimumSize: Size(60.0, 60.0),
                 ),
-                child: Icon(Icons.arrow_right_alt),
+                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
             Container(
@@ -506,9 +506,9 @@ class _NewcomerState extends State<Newcomer> {
                   primary: this.agreedData != true
                       ? Colors.grey
                       : ExploreaColors.purple,
-                  minimumSize: Size(315.0, 53),
+                  minimumSize: Size(60.0, 60.0),
                 ),
-                child: Icon(Icons.arrow_right_alt),
+                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
             Container(
@@ -580,9 +580,9 @@ class _NewcomerState extends State<Newcomer> {
                   primary: this.agreedAd != true
                       ? Colors.grey
                       : ExploreaColors.purple,
-                  minimumSize: Size(315.0, 53),
+                  minimumSize: Size(60.0, 60.0),
                 ),
-                child: Icon(Icons.arrow_right_alt),
+                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
             Container(
