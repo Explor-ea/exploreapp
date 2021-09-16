@@ -202,7 +202,8 @@ class _NewcomerState extends State<Newcomer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ExploreaTitle(text: "Quel âge avez vous ?"),
+            Container(
+                width: 220, child: ExploreaTitle(text: "Quel âge avez vous ?")),
             SizedBox(height: 22.0),
             Container(
               height: 46,
@@ -344,7 +345,9 @@ class _NewcomerState extends State<Newcomer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ExploreaTitle(text: "La gestion de vos données"),
+            Container(
+                width: 260.0,
+                child: ExploreaTitle(text: "La gestion de vos données")),
             SizedBox(height: 22.0),
             Container(
               width: 268,
