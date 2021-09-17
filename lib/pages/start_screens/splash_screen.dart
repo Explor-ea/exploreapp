@@ -24,6 +24,7 @@ class SplashScreen extends StatelessWidget {
       bool? cameraAgreed = prefs.getBool("cameraAgreed");
       bool? microphoneAgreed = prefs.getBool("microphoneAgreed");
 
+      // TODO: if there is all the agreements in the user's prefs, go to the cinematic.
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => Newcomer()));
 

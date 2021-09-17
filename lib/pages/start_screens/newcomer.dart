@@ -2,6 +2,7 @@ import 'dart:developer';
 // import 'dart:math';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/pages/start_screens/cinematic.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea-chekbox.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
@@ -688,9 +689,8 @@ class _NewcomerState extends State<Newcomer> {
                   if (this.prefAgreedGeo == true &&
                       this.prefAgreedMicro == true &&
                       this.prefAgreedCamera)
-                    setState(() {
-                      this.step = 1;
-                    });
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (BuildContext context) => Cinematic()));
                 },
                 style: ElevatedButton.styleFrom(
                   shape: CircleBorder(),
