@@ -2,6 +2,7 @@ import 'dart:developer';
 // import 'dart:math';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea-chekbox.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
@@ -49,6 +50,9 @@ class _NewcomerState extends State<Newcomer> {
   int? prefUserBirthdate_year;
   bool? agreedData;
   bool? agreedAd;
+  bool prefAgreedGeo = false;
+  bool prefAgreedMicro = false;
+  bool prefAgreedCamera = false;
 
   Future<void> initializePreference() async {
     this.prefs = await SharedPreferences.getInstance();
@@ -58,7 +62,12 @@ class _NewcomerState extends State<Newcomer> {
     this.prefUserBirthdate_year = prefs?.getInt("userBirthdate_year");
     //
     this.agreedData = prefs?.getBool("dataAgreed") as bool;
+    //
     this.agreedAd = prefs?.getBool("adAgreed") as bool;
+    //
+    this.prefAgreedGeo = prefs?.getBool("geoAgreed") as bool;
+    this.prefAgreedMicro = prefs?.getBool("microAgreed") as bool;
+    this.prefAgreedCamera = prefs?.getBool("cameraAgreed") as bool;
   }
 
   @override
@@ -592,9 +601,16 @@ class _NewcomerState extends State<Newcomer> {
                 Row(
                   children: [
                     Expanded(
-                      child:
-                          // btn
-                          Container(),
+                      child: ExploreaBtn(
+                        onPressed: () {
+                          setState(() {
+                            this.prefAgreedGeo = !this.prefAgreedGeo;
+                            prefs?.setBool('geoAgreed', this.prefAgreedGeo);
+                          });
+                        },
+                        disabled: this.prefAgreedGeo == false,
+                        icon: Icon(Icons.check),
+                      ),
                       flex: 2,
                     ),
                     Expanded(
@@ -607,7 +623,60 @@ class _NewcomerState extends State<Newcomer> {
                       flex: 8,
                     ),
                   ],
-                )
+                ),
+                Container(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ExploreaBtn(
+                        onPressed: () {
+                          setState(() {
+                            this.prefAgreedMicro = !this.prefAgreedMicro;
+                            prefs?.setBool('microAgreed', this.prefAgreedMicro);
+                          });
+                        },
+                        disabled: this.prefAgreedMicro == false,
+                        icon: Icon(Icons.check),
+                      ),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: Text("Microphone",
+                          style: TextStyle(
+                              color: ExploreaColors.purple, fontSize: 24.0)),
+                      flex: 8,
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ExploreaBtn(
+                        onPressed: () {
+                          setState(() {
+                            this.prefAgreedCamera = !this.prefAgreedCamera;
+                            prefs?.setBool(
+                                'cameraAgreed', this.prefAgreedCamera);
+                          });
+                        },
+                        disabled: this.prefAgreedCamera == false,
+                        icon: Icon(Icons.check),
+                      ),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: Text("Appareil Photo",
+                          style: TextStyle(
+                              color: ExploreaColors.purple, fontSize: 24.0)),
+                      flex: 8,
+                    ),
+                  ],
+                ),
               ],
             ),
             Container(
@@ -616,16 +685,20 @@ class _NewcomerState extends State<Newcomer> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  if (this.agreedAd == true)
+                  if (this.prefAgreedGeo == true &&
+                      this.prefAgreedMicro == true &&
+                      this.prefAgreedCamera)
                     setState(() {
                       this.step = 1;
                     });
                 },
                 style: ElevatedButton.styleFrom(
                   shape: CircleBorder(),
-                  primary: this.agreedAd != true
-                      ? Colors.grey
-                      : ExploreaColors.purple,
+                  primary: (this.prefAgreedGeo == true &&
+                          this.prefAgreedMicro == true &&
+                          this.prefAgreedCamera)
+                      ? ExploreaColors.purple
+                      : Colors.grey,
                   minimumSize: Size(60.0, 60.0),
                 ),
                 child: Icon(Icons.arrow_right_alt, size: 32.0),
