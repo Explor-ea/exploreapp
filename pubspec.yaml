@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.0.7 # https://flutter.dev/docs/cookbook/persistence/key-value 
   flutter_map: any
+  carousel_slider: ^4.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -56,6 +57,13 @@ flutter:
   assets:
     - assets/
     - assets/icon/
+
+  fonts:
+    - family: ABCProphet
+      fonts: 
+        - asset: assets/fonts/ABCProphet/ABCProphet-Regular.ttf
+        - asset: assets/fonts/ABCProphet/ABCProphet-RegularItalic.ttf
+          style: italic
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

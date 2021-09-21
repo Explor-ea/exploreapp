@@ -3,7 +3,6 @@ import 'package:exploreapp/pass_points.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// TODO: https://pub.dev/packages/permission_handler
 class PermissionsAgreement extends StatefulWidget {
   PermissionsAgreement({Key? key}) : super(key: key);
 
