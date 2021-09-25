@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import '../explorea_colors.dart';
 
+import 'package:exploreapp/main.dart';
+import 'package:exploreapp/src/authentification.dart';
+import "package:provider/provider.dart";
+
 class Profil extends StatelessWidget {
   const Profil({Key? key}) : super(key: key);
 
@@ -46,8 +50,18 @@ class Profil extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(onPressed: () {}, child: Text("S'inscrire")),
-              ElevatedButton(onPressed: () {}, child: Text("Se connecter")),
+              Consumer<ApplicationState>(
+                builder: (context, appState, _) => Authentification(
+                    loginState: appState.loginState,
+                    email: appState.email,
+                    startLoginFlow: appState.startLoginFlow,
+                    verifyEmail: appState.verifyEmail,
+                    signInWithEmailAndPassword:
+                        appState.signInWithEmailAndPassword,
+                    cancelRegistration: appState.cancelRegistration,
+                    registerAccount: appState.registerAccount,
+                    signOut: appState.signOut),
+              ),
             ],
           ),
           SizedBox(height: 28.0),
