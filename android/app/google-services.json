@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "863578598228",
+    "project_id": "exploreapp-233637313319425",
+    "storage_bucket": "exploreapp-233637313319425.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863578598228:android:5ca6929a62314d8c9236c1",
+        "android_client_info": {
+          "package_name": "fr.explorea.exploreapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863578598228-nshioabm812pdo0hlk3ss8ol1tqmqjfb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhNcqH2PARLr8sQ0CRwEUFfdoodHtPoQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863578598228-nshioabm812pdo0hlk3ss8ol1tqmqjfb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "863578598228-atrkk2vo2ko697mb21j2611l67vpigbl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.explorea.exploreapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
