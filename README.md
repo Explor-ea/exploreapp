@@ -1,5 +1,9 @@
 # exploreapp
 
+## Todo list 
+
+- [ ] Créer un profil utilisateur dans Firestore
+
 ## Schéma de données
 
 ```json
