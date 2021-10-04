@@ -7,6 +7,7 @@ import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea-chekbox.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
+import 'package:exploreapp/wigets/explorea_btn_square.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -184,25 +185,35 @@ class _NewcomerState extends State<Newcomer> {
             Expanded(
               flex: 1,
               child: Center(
-                child: ElevatedButton(
+                // child: ElevatedButton(
+                //   onPressed: () {
+                //     setState(() {
+                //       this.step = 2;
+                //     });
+                //   },
+                //   // style: ButtonStyle(
+                //   //     shape:
+                //   //         MaterialStateProperty.all<RoundedRectangleBorder>(
+                //   //             RoundedRectangleBorder(
+                //   //                 borderRadius:
+                //   //                     BorderRadius.circular(100)))),
+                //   style: ElevatedButton.styleFrom(
+                //     shape: StadiumBorder(),
+                //     primary: ExploreaColors.purple,
+                //     minimumSize: Size(315.0, 53),
+                //   ),
+
+                //   child: Text("C'est parti !"),
+                // ),
+
+                child: ExploreaBtnSquare(
                   onPressed: () {
                     setState(() {
                       this.step = 2;
                     });
                   },
-                  // style: ButtonStyle(
-                  //     shape:
-                  //         MaterialStateProperty.all<RoundedRectangleBorder>(
-                  //             RoundedRectangleBorder(
-                  //                 borderRadius:
-                  //                     BorderRadius.circular(100)))),
-                  style: ElevatedButton.styleFrom(
-                    shape: StadiumBorder(),
-                    primary: ExploreaColors.purple,
-                    minimumSize: Size(315.0, 53),
-                  ),
-
-                  child: Text("C'est parti !"),
+                  text: "C'est parti !",
+                  width: 80.0,
                 ),
               ),
             ),
