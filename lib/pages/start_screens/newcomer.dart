@@ -158,10 +158,16 @@ class _NewcomerState extends State<Newcomer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ExploreaTitle(text: "Explor'ea"),
-            Container(
-              width: 268,
-              height: 189,
+            Expanded(
+              flex: 1,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 1,
+              child: ExploreaTitle(text: "Explor'ea"),
+            ),
+            Expanded(
+              flex: 3,
               child: Row(
                 children: [
                   Expanded(
@@ -175,26 +181,29 @@ class _NewcomerState extends State<Newcomer> {
                 ],
               ),
             ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    this.step = 2;
-                  });
-                },
-                // style: ButtonStyle(
-                //     shape:
-                //         MaterialStateProperty.all<RoundedRectangleBorder>(
-                //             RoundedRectangleBorder(
-                //                 borderRadius:
-                //                     BorderRadius.circular(100)))),
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                  primary: ExploreaColors.purple,
-                  minimumSize: Size(315.0, 53),
-                ),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      this.step = 2;
+                    });
+                  },
+                  // style: ButtonStyle(
+                  //     shape:
+                  //         MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //             RoundedRectangleBorder(
+                  //                 borderRadius:
+                  //                     BorderRadius.circular(100)))),
+                  style: ElevatedButton.styleFrom(
+                    shape: StadiumBorder(),
+                    primary: ExploreaColors.purple,
+                    minimumSize: Size(315.0, 53),
+                  ),
 
-                child: Text("C'est parti !"),
+                  child: Text("C'est parti !"),
+                ),
               ),
             ),
           ],
