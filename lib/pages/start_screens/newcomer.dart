@@ -7,6 +7,7 @@ import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea-chekbox.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,6 +74,7 @@ class _NewcomerState extends State<Newcomer> {
 
   @override
   initState() {
+    if (!kIsWeb) SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
 
     this.initializePreference().whenComplete(() {
@@ -109,18 +111,9 @@ class _NewcomerState extends State<Newcomer> {
       backgroundColor: ExploreaColors.yellow,
       body: Column(
         children: [
-          LinearProgressIndicator(
-            minHeight: 10.0,
-            value: 0.20 * this.step,
-            backgroundColor: ExploreaColors.yellow,
-            valueColor: new AlwaysStoppedAnimation(ExploreaColors.purple),
-            // backgroundColor: ExploreaColors.purple,
-            semanticsLabel: 'Linear progress indicator',
-          ),
-          SizedBox(height: 16.0),
-          buildImage(),
+          Expanded(flex: 3, child: buildImage()),
           Expanded(
-              flex: 8,
+              flex: 6,
               child: Column(
                 children: [
                   Container(),
@@ -132,6 +125,27 @@ class _NewcomerState extends State<Newcomer> {
                   ),
                 ],
               )),
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 10.0,
+                  child: LinearProgressIndicator(
+                    minHeight: 10.0,
+
+                    value: 0.20 * this.step,
+                    backgroundColor: ExploreaColors.yellow,
+                    valueColor:
+                        new AlwaysStoppedAnimation(ExploreaColors.purple),
+                    // backgroundColor: ExploreaColors.purple,
+                    semanticsLabel: 'Linear progress indicator',
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -145,7 +159,6 @@ class _NewcomerState extends State<Newcomer> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             ExploreaTitle(text: "Explor'ea"),
-            SizedBox(height: 22.0),
             Container(
               width: 268,
               height: 189,
@@ -161,9 +174,6 @@ class _NewcomerState extends State<Newcomer> {
                   ),
                 ],
               ),
-            ),
-            Container(
-              height: 58,
             ),
             Center(
               child: ElevatedButton(
@@ -187,9 +197,6 @@ class _NewcomerState extends State<Newcomer> {
                 child: Text("C'est parti !"),
               ),
             ),
-            Container(
-              height: 41,
-            )
           ],
         );
 
@@ -731,22 +738,20 @@ class _NewcomerState extends State<Newcomer> {
         break;
 
       default:
-        return Expanded(
-            flex: 3,
-            child: ConstrainedBox(
-              constraints: new BoxConstraints(
-                maxHeight: 275.0,
-                // maxWidth: 342.0,
-                maxWidth: 275.0 / 9 * 16,
-              ),
-              child: Container(
-                color: Colors.grey,
-                // height: 275.0,
-                width: 342,
+        return ConstrainedBox(
+          constraints: new BoxConstraints(
+            maxHeight: 275.0,
+            // maxWidth: 342.0,
+            maxWidth: 275.0 / 9 * 16,
+          ),
+          child: Container(
+            color: Colors.grey,
+            // height: 275.0,
+            width: 342,
 
-                // padding: EdgeInsets.all(16.0),
-              ),
-            ));
+            // padding: EdgeInsets.all(16.0),
+          ),
+        );
     }
   }
 }
