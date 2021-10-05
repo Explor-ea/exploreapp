@@ -34,7 +34,7 @@ class ExploreaBtnSquare extends StatelessWidget {
       ),
       child: Text(
         this.text,
-        style: TextStyle(),
+        style: TextStyle(fontSize: 16.0),
       ),
     );
   }

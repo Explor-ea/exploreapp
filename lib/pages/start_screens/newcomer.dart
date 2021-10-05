@@ -226,217 +226,222 @@ class _NewcomerState extends State<Newcomer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-                width: 220, child: ExploreaTitle(text: "Quel âge avez vous ?")),
-            SizedBox(height: 22.0),
-            Container(
-              height: 46,
+            Expanded(
+              flex: 1,
+              child: Container(),
             ),
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                          initialPage: this.prefUserBirthdate_day != null
-                              ? this.prefUserBirthdate_day! - 1
-                              : 0,
-                          height: 50.0,
-                          // aspectRatio: 10.0,
-                          enlargeCenterPage: true,
-                          viewportFraction: 0.3,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          onPageChanged: (daySelected, changeReason) {
-                            daySelected = daySelected % 31 + 1;
-                            log((daySelected).toString());
-                            log(changeReason.toString());
+            Expanded(
+              flex: 1,
+              child: ExploreaTitle(text: "Quel âge avez vous ?"),
+            ),
+            Expanded(
+              flex: 3,
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            initialPage: this.prefUserBirthdate_day != null
+                                ? this.prefUserBirthdate_day! - 1
+                                : 0,
+                            height: 50.0,
+                            // aspectRatio: 10.0,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.3,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            onPageChanged: (daySelected, changeReason) {
+                              daySelected = daySelected % 31 + 1;
+                              log((daySelected).toString());
+                              log(changeReason.toString());
 
-                            setState(() {
-                              this.daySelected = daySelected;
-                            });
-                          }),
-                      items: this.days.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                // width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                width: 50.0,
-                                alignment: Alignment.center,
-                                child: ExploreaTitle(
-                                  text: '$i',
-                                  color: i != this.daySelected
-                                      ? Colors.grey
-                                      : ExploreaColors.purple,
-                                ));
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 8.0,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.arrow_left,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                            Expanded(
-                                child: Container(
-                              color: Colors.green,
-                            )),
-                            Icon(
-                              Icons.arrow_right,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Stack(
-                  children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                          initialPage: this
-                              .months
-                              .indexOf(this.prefUserBirthdate_month ?? "JAN"),
-                          height: 50.0,
-                          enlargeCenterPage: true,
-                          viewportFraction: 0.3,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          onPageChanged: (monthSelected, changeReason) {
-                            this.monthSelected = this.months[monthSelected];
-                            log((this.monthSelected).toString());
-                            log(changeReason.toString());
-
-                            setState(() {});
-                          }),
-                      items: this.months.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                // width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                // width: 70.0,
-                                alignment: Alignment.center,
-                                child: FittedBox(
+                              setState(() {
+                                this.daySelected = daySelected;
+                              });
+                            }),
+                        items: this.days.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  // width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  width: 50.0,
+                                  alignment: Alignment.center,
                                   child: ExploreaTitle(
                                     text: '$i',
-                                    color: i != this.monthSelected
+                                    color: i != this.daySelected
                                         ? Colors.grey
                                         : ExploreaColors.purple,
-                                  ),
-                                ));
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 8.0,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.arrow_left,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                            Expanded(
-                                child: Container(
-                              color: Colors.green,
-                            )),
-                            Icon(
-                              Icons.arrow_right,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Stack(
-                  children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                          initialPage: this
-                              .years
-                              .indexOf(this.prefUserBirthdate_year ?? 2021),
-                          reverse: true,
-                          height: 50.0,
-                          enlargeCenterPage: true,
-                          viewportFraction: 0.3,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          onPageChanged: (yearSelected, changeReason) {
-                            this.yearSelected = this.years[yearSelected];
-                            log((this.yearSelected).toString());
-                            log(changeReason.toString());
-                            setState(() {});
-                          }),
-                      items: this.years.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                // width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                // width: 70.0,
-                                alignment: Alignment.center,
-                                child: FittedBox(
-                                  child: ExploreaTitle(
-                                    text: '$i',
-                                    color: i != this.yearSelected
-                                        ? Colors.grey
-                                        : ExploreaColors.purple,
-                                  ),
-                                ));
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 8.0,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.arrow_left,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                            Expanded(
-                                child: Container(
-                              color: Colors.green,
-                            )),
-                            Icon(
-                              Icons.arrow_right,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ],
+                                  ));
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 8.0,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_left,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                              Expanded(
+                                  child: Container(
+                                color: Colors.green,
+                              )),
+                              Icon(
+                                Icons.arrow_right,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            initialPage: this
+                                .months
+                                .indexOf(this.prefUserBirthdate_month ?? "JAN"),
+                            height: 50.0,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.3,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            onPageChanged: (monthSelected, changeReason) {
+                              this.monthSelected = this.months[monthSelected];
+                              log((this.monthSelected).toString());
+                              log(changeReason.toString());
+
+                              setState(() {});
+                            }),
+                        items: this.months.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  // width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  // width: 70.0,
+                                  alignment: Alignment.center,
+                                  child: FittedBox(
+                                    child: ExploreaTitle(
+                                      text: '$i',
+                                      color: i != this.monthSelected
+                                          ? Colors.grey
+                                          : ExploreaColors.purple,
+                                    ),
+                                  ));
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 8.0,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_left,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                              Expanded(
+                                  child: Container(
+                                color: Colors.green,
+                              )),
+                              Icon(
+                                Icons.arrow_right,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            initialPage: this
+                                .years
+                                .indexOf(this.prefUserBirthdate_year ?? 2021),
+                            reverse: true,
+                            height: 50.0,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.3,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            onPageChanged: (yearSelected, changeReason) {
+                              this.yearSelected = this.years[yearSelected];
+                              log((this.yearSelected).toString());
+                              log(changeReason.toString());
+                              setState(() {});
+                            }),
+                        items: this.years.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  // width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  // width: 70.0,
+                                  alignment: Alignment.center,
+                                  child: FittedBox(
+                                    child: ExploreaTitle(
+                                      text: '$i',
+                                      color: i != this.yearSelected
+                                          ? Colors.grey
+                                          : ExploreaColors.purple,
+                                    ),
+                                  ));
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 8.0,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_left,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                              Expanded(
+                                  child: Container(
+                                color: Colors.green,
+                              )),
+                              Icon(
+                                Icons.arrow_right,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Container(
-              height: 30,
-            ),
-            Center(
-              child: ElevatedButton(
+            Expanded(
+              flex: 1,
+              child: Center(
+                  child: ExploreaBtnSquare(
+                text: "Suivant",
                 onPressed: () {
                   setState(() {
                     this.step = 3;
@@ -453,17 +458,9 @@ class _NewcomerState extends State<Newcomer> {
                         "userBirthdate_year", this.prefUserBirthdate_year!);
                   });
                 },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  primary: ExploreaColors.purple,
-                  minimumSize: Size(60.0, 60.0),
-                ),
-                child: Icon(Icons.arrow_right_alt, size: 32.0),
-              ),
+                width: 80.0,
+              )),
             ),
-            Container(
-              height: 41,
-            )
           ],
         );
         break;
