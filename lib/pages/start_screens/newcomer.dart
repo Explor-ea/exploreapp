@@ -221,6 +221,9 @@ class _NewcomerState extends State<Newcomer> {
         );
 
         break;
+
+      //
+
       case 2:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -464,79 +467,72 @@ class _NewcomerState extends State<Newcomer> {
           ],
         );
         break;
+
+//
+
       case 3:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-                width: 260.0,
+            Expanded(flex: 1, child: Container()),
+            Expanded(
+                flex: 1,
                 child: ExploreaTitle(text: "La gestion de vos données")),
-            SizedBox(height: 22.0),
-            Container(
-              width: 268,
-              height: 189,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Scrollbar(
-                      isAlwaysShown: true,
-                      child: SingleChildScrollView(
-                          child: ExploreaText(text: this.text)),
+            Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Scrollbar(
+                        isAlwaysShown: true,
+                        child: SingleChildScrollView(
+                            child: ExploreaText(text: this.text)),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 16, 0.0, 0.0),
-              child: Row(
-                children: [
-                  ExploreaCheckbox(
-                    isChecked: this.agreedData ?? false,
-                    onChanged: (newValue) {
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 16, 0.0, 0.0),
+                      child: Row(
+                        children: [
+                          ExploreaCheckbox(
+                            isChecked: this.agreedData ?? false,
+                            onChanged: (newValue) {
+                              setState(() {
+                                this.agreedData = newValue;
+                                if (this.agreedData != null)
+                                  prefs?.setBool(
+                                      'dataAgreed', this.agreedData!);
+                              });
+                              // TODO: remove :
+                              log("agreedDate : $newValue");
+                            },
+                            label: "J'accepte...",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: ExploreaBtnSquare(
+                  text: "Suivant",
+                  onPressed: () {
+                    if (this.agreedData == true)
                       setState(() {
-                        this.agreedData = newValue;
-                        if (this.agreedData != null)
-                          prefs?.setBool('dataAgreed', this.agreedData!);
+                        this.step = 4;
                       });
-                      // TODO: remove :
-                      log("agreedDate : $newValue");
-                    },
-                    label: "J'accepte...",
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 58,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (this.agreedData == true)
-                    setState(() {
-                      this.step = 4;
-                    });
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  primary: this.agreedData != true
-                      ? Colors.grey
-                      : ExploreaColors.purple,
-                  minimumSize: Size(60.0, 60.0),
+                  },
                 ),
-                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
-            Container(
-              height: 41,
-            )
           ],
         );
 
         break;
+
+      //
 
       case 4:
         return Column(
@@ -611,6 +607,8 @@ class _NewcomerState extends State<Newcomer> {
         );
 
         break;
+
+//
 
       case 5:
         return Column(
