@@ -479,6 +479,7 @@ class _NewcomerState extends State<Newcomer> {
             Expanded(
                 flex: 1,
                 child: ExploreaTitle(text: "La gestion de vos données")),
+            // TODO: add padding bot, for this step and the others surely
             Expanded(
                 flex: 3,
                 child: Column(
