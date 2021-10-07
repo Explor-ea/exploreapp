@@ -29,12 +29,14 @@ class ExploreaBtnSquare extends StatelessWidget {
         ),
         shape:
             BeveledRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        primary: this.disabled == true ? Colors.grey : ExploreaColors.purple,
+        primary: this.disabled ? ExploreaColors.grey : ExploreaColors.purple,
         minimumSize: this.minimumSize,
       ),
       child: Text(
         this.text,
-        style: TextStyle(fontSize: 16.0),
+        style: TextStyle(
+            fontSize: 16.0,
+            color: this.disabled ? ExploreaColors.darkGrey : null),
       ),
     );
   }

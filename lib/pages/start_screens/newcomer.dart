@@ -112,9 +112,9 @@ class _NewcomerState extends State<Newcomer> {
       backgroundColor: ExploreaColors.yellow,
       body: Column(
         children: [
-          Expanded(flex: 3, child: buildImage()),
+          this.step < 5 ? Expanded(flex: 5, child: buildImage()) : Container(),
           Expanded(
-              flex: 6,
+              flex: this.step < 5 ? 12 : (12 + 5),
               child: Column(
                 children: [
                   Container(),
@@ -164,11 +164,11 @@ class _NewcomerState extends State<Newcomer> {
               child: Container(),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: ExploreaTitle(text: "Explor'ea"),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Row(
                 children: [
                   Expanded(
@@ -234,11 +234,11 @@ class _NewcomerState extends State<Newcomer> {
               child: Container(),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: ExploreaTitle(text: "Quel âge avez vous ?"),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Column(
                 children: [
                   Stack(
@@ -477,11 +477,11 @@ class _NewcomerState extends State<Newcomer> {
           children: [
             Expanded(flex: 1, child: Container()),
             Expanded(
-                flex: 1,
+                flex: 2,
                 child: ExploreaTitle(text: "La gestion de vos données")),
             // TODO: add padding bot, for this step and the others surely
             Expanded(
-                flex: 3,
+                flex: 4,
                 child: Column(
                   children: [
                     Expanded(
@@ -492,7 +492,7 @@ class _NewcomerState extends State<Newcomer> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 16, 0.0, 0.0),
+                      padding: const EdgeInsets.fromLTRB(0.0, 8, 0.0, 8.0),
                       child: Row(
                         children: [
                           ExploreaCheckbox(
@@ -519,6 +519,7 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                 child: ExploreaBtnSquare(
                   text: "Suivant",
+                  width: 80.0,
                   onPressed: () {
                     if (this.agreedData == true)
                       setState(() {
@@ -540,17 +541,20 @@ class _NewcomerState extends State<Newcomer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-                width: 260.0,
-                child: ExploreaTitle(text: "Publicités personnalisées")),
-            SizedBox(height: 22.0),
-            Container(
-              width: 268,
-              height: 189,
-              child: Row(
+            Expanded(
+              flex: 1,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 2,
+              child: ExploreaTitle(text: "Publicités personnalisées"),
+            ),
+            Expanded(
+              flex: 4,
+              child: Column(
                 children: [
                   Expanded(
-                    flex: 2,
+                    // flex: 2,
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: SingleChildScrollView(
@@ -561,49 +565,42 @@ class _NewcomerState extends State<Newcomer> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 16, 0.0, 0.0),
-              child: Row(
-                children: [
-                  ExploreaCheckbox(
-                    isChecked: this.agreedAd ?? false,
-                    onChanged: (newValue) {
-                      setState(() {
-                        this.agreedAd = newValue;
-                        if (this.agreedAd != null)
-                          prefs?.setBool('adAgreed', this.agreedAd!);
-                      });
-                      // TODO: remove :
-                      log("agreedDate : $newValue");
-                    },
-                    label: "J'accepte...",
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 58,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (this.agreedAd == true)
-                    setState(() {
-                      this.step = 5;
-                    });
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  primary: this.agreedAd != true
-                      ? Colors.grey
-                      : ExploreaColors.purple,
-                  minimumSize: Size(60.0, 60.0),
+              padding: const EdgeInsets.fromLTRB(0.0, 8, 0.0, 8.0),
+              child: Center(
+                child: Row(
+                  children: [
+                    ExploreaCheckbox(
+                      isChecked: this.agreedAd ?? false,
+                      onChanged: (newValue) {
+                        setState(() {
+                          this.agreedAd = newValue;
+                          if (this.agreedAd != null)
+                            prefs?.setBool('adAgreed', this.agreedAd!);
+                        });
+                        // TODO: remove :
+                        log("agreedDate : $newValue");
+                      },
+                      label: "J'accepte...",
+                    ),
+                  ],
                 ),
-                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
-            Container(
-              height: 41,
-            )
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: ExploreaBtnSquare(
+                  text: "Suivant",
+                  width: 80.0,
+                  onPressed: () {
+                    if (this.agreedData == true)
+                      setState(() {
+                        this.step = 5;
+                      });
+                  },
+                ),
+              ),
+            ),
           ],
         );
 
@@ -616,120 +613,126 @@ class _NewcomerState extends State<Newcomer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-                width: 260.0,
-                child: ExploreaTitle(text: "Autorisations matérielles")),
-            SizedBox(height: 22.0),
-            Column(
-              children: [
-                Row(
+            Expanded(
+              flex: 3,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: ExploreaBtn(
-                        onPressed: () {
-                          setState(() {
-                            this.prefAgreedGeo = !this.prefAgreedGeo;
-                            prefs?.setBool('geoAgreed', this.prefAgreedGeo);
-                          });
-                        },
-                        disabled: this.prefAgreedGeo == false,
-                        icon: Icon(Icons.check),
-                      ),
-                      flex: 2,
-                    ),
-                    Expanded(
-                      child:
-                          // btn
-                          Text("Géolocalisation",
-                              style: TextStyle(
-                                  color: ExploreaColors.purple,
-                                  fontSize: 24.0)),
-                      flex: 8,
-                    ),
+                    Container(
+                        width: 260.0,
+                        child:
+                            ExploreaTitle(text: "Autorisations matérielles")),
                   ],
                 ),
-                Container(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ExploreaBtn(
-                        onPressed: () {
-                          setState(() {
-                            this.prefAgreedMicro = !this.prefAgreedMicro;
-                            prefs?.setBool('microAgreed', this.prefAgreedMicro);
-                          });
-                        },
-                        disabled: this.prefAgreedMicro == false,
-                        icon: Icon(Icons.check),
-                      ),
-                      flex: 2,
-                    ),
-                    Expanded(
-                      child: Text("Microphone",
-                          style: TextStyle(
-                              color: ExploreaColors.purple, fontSize: 24.0)),
-                      flex: 8,
-                    ),
-                  ],
-                ),
-                Container(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ExploreaBtn(
-                        onPressed: () {
-                          setState(() {
-                            this.prefAgreedCamera = !this.prefAgreedCamera;
-                            prefs?.setBool(
-                                'cameraAgreed', this.prefAgreedCamera);
-                          });
-                        },
-                        disabled: this.prefAgreedCamera == false,
-                        icon: Icon(Icons.check),
-                      ),
-                      flex: 2,
-                    ),
-                    Expanded(
-                      child: Text("Appareil Photo",
-                          style: TextStyle(
-                              color: ExploreaColors.purple, fontSize: 24.0)),
-                      flex: 8,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Container(
-              height: 58,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (this.prefAgreedGeo == true &&
-                      this.prefAgreedMicro == true &&
-                      this.prefAgreedCamera)
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (BuildContext context) => Cinematic()));
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  primary: (this.prefAgreedGeo == true &&
-                          this.prefAgreedMicro == true &&
-                          this.prefAgreedCamera)
-                      ? ExploreaColors.purple
-                      : Colors.grey,
-                  minimumSize: Size(60.0, 60.0),
-                ),
-                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
-            Container(
-              height: 41,
-            )
+            SizedBox(height: 22.0),
+
+            Expanded(
+              flex: 5,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ExploreaBtn(
+                          onPressed: () {
+                            setState(() {
+                              this.prefAgreedGeo = !this.prefAgreedGeo;
+                              prefs?.setBool('geoAgreed', this.prefAgreedGeo);
+                            });
+                          },
+                          disabled: this.prefAgreedGeo == false,
+                          icon: Icon(Icons.check),
+                        ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child:
+                            // btn
+                            Text("Géolocalisation",
+                                style: TextStyle(
+                                    color: ExploreaColors.purple,
+                                    fontSize: 24.0)),
+                        flex: 8,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ExploreaBtn(
+                          onPressed: () {
+                            setState(() {
+                              this.prefAgreedMicro = !this.prefAgreedMicro;
+                              prefs?.setBool(
+                                  'microAgreed', this.prefAgreedMicro);
+                            });
+                          },
+                          disabled: this.prefAgreedMicro == false,
+                          icon: Icon(Icons.check),
+                        ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: Text("Microphone",
+                            style: TextStyle(
+                                color: ExploreaColors.purple, fontSize: 24.0)),
+                        flex: 8,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ExploreaBtn(
+                          onPressed: () {
+                            setState(() {
+                              this.prefAgreedCamera = !this.prefAgreedCamera;
+                              prefs?.setBool(
+                                  'cameraAgreed', this.prefAgreedCamera);
+                            });
+                          },
+                          disabled: this.prefAgreedCamera == false,
+                          icon: Icon(Icons.check),
+                        ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: Text("Appareil Photo",
+                            style: TextStyle(
+                                color: ExploreaColors.purple, fontSize: 24.0)),
+                        flex: 8,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // Expanded(child: Container()),
+            Center(
+                child: ExploreaBtnSquare(
+              onPressed: () {
+                if (this.prefAgreedGeo == true &&
+                    this.prefAgreedMicro == true &&
+                    this.prefAgreedCamera)
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (BuildContext context) => Cinematic()));
+              },
+              text: "C'est parti !",
+              width: 80.0,
+              disabled: this.prefAgreedGeo == false ||
+                  this.prefAgreedMicro == false ||
+                  this.prefAgreedCamera == false,
+            )),
           ],
         );
 
