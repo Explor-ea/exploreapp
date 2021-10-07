@@ -47,23 +47,23 @@ class Profil extends StatelessWidget {
                 ],
               )),
           SizedBox(height: 28.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Consumer<ApplicationState>(
-                builder: (context, appState, _) => Authentification(
-                    loginState: appState.loginState,
-                    email: appState.email,
-                    startLoginFlow: appState.startLoginFlow,
-                    verifyEmail: appState.verifyEmail,
-                    signInWithEmailAndPassword:
-                        appState.signInWithEmailAndPassword,
-                    cancelRegistration: appState.cancelRegistration,
-                    registerAccount: appState.registerAccount,
-                    signOut: appState.signOut),
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     Consumer<ApplicationState>(
+          //       builder: (context, appState, _) => Authentification(
+          //           loginState: appState.loginState,
+          //           email: appState.email,
+          //           startLoginFlow: appState.startLoginFlow,
+          //           verifyEmail: appState.verifyEmail,
+          //           signInWithEmailAndPassword:
+          //               appState.signInWithEmailAndPassword,
+          //           cancelRegistration: appState.cancelRegistration,
+          //           registerAccount: appState.registerAccount,
+          //           signOut: appState.signOut),
+          //     ),
+          //   ],
+          // ),
           SizedBox(height: 28.0),
           Row(
             children: [Text("Mes parcours accomplis")],
