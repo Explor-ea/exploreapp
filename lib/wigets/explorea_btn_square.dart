@@ -20,24 +20,30 @@ class ExploreaBtnSquare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: this.onPressed,
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(
-          vertical: 0.0,
-          horizontal: this.width,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: this.onPressed,
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(
+              vertical: 0.0,
+              horizontal: this.width,
+            ),
+            shape: BeveledRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0)),
+            primary:
+                this.disabled ? ExploreaColors.grey : ExploreaColors.purple,
+            minimumSize: this.minimumSize,
+          ),
+          child: Text(
+            this.text,
+            style: TextStyle(
+                fontSize: 16.0,
+                color: this.disabled ? ExploreaColors.darkGrey : null),
+          ),
         ),
-        shape:
-            BeveledRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        primary: this.disabled ? ExploreaColors.grey : ExploreaColors.purple,
-        minimumSize: this.minimumSize,
-      ),
-      child: Text(
-        this.text,
-        style: TextStyle(
-            fontSize: 16.0,
-            color: this.disabled ? ExploreaColors.darkGrey : null),
-      ),
+      ],
     );
   }
 }

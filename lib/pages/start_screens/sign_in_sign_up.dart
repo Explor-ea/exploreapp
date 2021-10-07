@@ -44,20 +44,23 @@ class _SignInSignUpState extends State<SignInSignUp> {
                 ],
               ),
             ),
-            Expanded(
-              flex: 7,
-              child: Container(
-                child: Consumer<ApplicationState>(
-                  builder: (context, appState, _) => Authentification(
-                    loginState: appState.loginState,
-                    email: appState.email,
-                    startLoginFlow: appState.startLoginFlow,
-                    verifyEmail: appState.verifyEmail,
-                    signInWithEmailAndPassword:
-                        appState.signInWithEmailAndPassword,
-                    cancelRegistration: appState.cancelRegistration,
-                    registerAccount: appState.registerAccount,
-                    signOut: appState.signOut,
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Expanded(
+                flex: 7,
+                child: Container(
+                  child: Consumer<ApplicationState>(
+                    builder: (context, appState, _) => Authentification(
+                      loginState: appState.loginState,
+                      email: appState.email,
+                      startLoginFlow: appState.startLoginFlow,
+                      verifyEmail: appState.verifyEmail,
+                      signInWithEmailAndPassword:
+                          appState.signInWithEmailAndPassword,
+                      cancelRegistration: appState.cancelRegistration,
+                      registerAccount: appState.registerAccount,
+                      signOut: appState.signOut,
+                    ),
                   ),
                 ),
               ),

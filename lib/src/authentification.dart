@@ -1,4 +1,6 @@
+import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
+import 'package:exploreapp/wigets/explorea_btn_square.dart';
 import 'package:flutter/material.dart';
 
 enum ApplicationLoginState {
@@ -53,13 +55,14 @@ class Authentification extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (loginState) {
       case ApplicationLoginState.loggedOut:
-        return ElevatedButton(
+        return ExploreaBtnSquare(
+            text: "Se connecter",
             onPressed: () {
               startLoginFlow();
-            },
-            child: Text("Se connecter"));
+            });
+
       case ApplicationLoginState.emailAddress:
-        return EmailForm(
+        return ExploreaEmailForm(
             callback: (email) => verifyEmail(
                 email, (e) => _showErrorDialog(context, "Email invalide", e)));
 
@@ -140,18 +143,63 @@ class Authentification extends StatelessWidget {
 }
 
 //
+// Email forms :
 
-class EmailForm extends StatefulWidget {
-  const EmailForm({required this.callback});
+// class EmailForm extends StatefulWidget {
+//   const EmailForm({required this.callback});
+
+//   final void Function(String email) callback;
+
+//   @override
+//   _EmailFormState createState() => _EmailFormState();
+// }
+
+// class _EmailFormState extends State<EmailForm> {
+//   final _formKey = GlobalKey<FormState>(debugLabel: '_EmailFormState');
+//   final _controller = TextEditingController();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Form(
+//       key: _formKey,
+//       child: Expanded(
+//         child: Column(
+//           children: [
+//             TextFormField(
+//               keyboardType: TextInputType.emailAddress,
+//               controller: _controller,
+//               decoration: const InputDecoration(
+//                 hintText: "Enter your email",
+//               ),
+//               validator: (value) {
+//                 return value!.isEmpty ? "Renseignez votre email" : null;
+//               },
+//             ),
+//             ElevatedButton(
+//                 onPressed: () async {
+//                   if (_formKey.currentState!.validate()) {
+//                     widget.callback(_controller.text);
+//                   }
+//                 },
+//                 child: const Text("Continuer"))
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class ExploreaEmailForm extends StatefulWidget {
+  const ExploreaEmailForm({required this.callback});
 
   final void Function(String email) callback;
 
   @override
-  _EmailFormState createState() => _EmailFormState();
+  _ExploreaEmailFormState createState() => _ExploreaEmailFormState();
 }
 
-class _EmailFormState extends State<EmailForm> {
-  final _formKey = GlobalKey<FormState>(debugLabel: '_EmailFormState');
+class _ExploreaEmailFormState extends State<ExploreaEmailForm> {
+  final _formKey = GlobalKey<FormState>(debugLabel: '_ExploreaEmailFormState');
   final _controller = TextEditingController();
 
   @override
@@ -162,22 +210,29 @@ class _EmailFormState extends State<EmailForm> {
         child: Column(
           children: [
             TextFormField(
+              cursorColor: ExploreaColors.purple,
               keyboardType: TextInputType.emailAddress,
               controller: _controller,
               decoration: const InputDecoration(
-                hintText: "Enter your email",
+                // focusColor: ExploreaColors.purple,
+                fillColor: ExploreaColors.purple,
+                hintText: "E-mail",
+                prefixIcon: Icon(
+                  Icons.mail_outline,
+                  color: ExploreaColors.purple,
+                ),
               ),
               validator: (value) {
                 return value!.isEmpty ? "Renseignez votre email" : null;
               },
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    widget.callback(_controller.text);
-                  }
-                },
-                child: const Text("Continuer"))
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       if (_formKey.currentState!.validate()) {
+            //         widget.callback(_controller.text);
+            //       }
+            //     },
+            //     child: const Text("Continuer"))
           ],
         ),
       ),
@@ -185,7 +240,11 @@ class _EmailFormState extends State<EmailForm> {
   }
 }
 
+// Email forms
 //
+
+//
+// Password forms
 
 class PasswordForm extends StatefulWidget {
   const PasswordForm({
@@ -250,6 +309,9 @@ class _PasswordFormState extends State<PasswordForm> {
         ));
   }
 }
+
+// Password forms
+//
 
 //
 
