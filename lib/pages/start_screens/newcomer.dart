@@ -2,6 +2,7 @@ import 'dart:developer';
 // import 'dart:math';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/start_screens/cinematic.dart';
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Newcomer extends StatefulWidget {
@@ -726,7 +728,12 @@ class _NewcomerState extends State<Newcomer> {
                     this.prefAgreedMicro == true &&
                     this.prefAgreedCamera)
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) => SignInSignUp()));
+                      builder: (BuildContext context) =>
+                          Consumer<ApplicationState>(
+                            builder: (context, appState, _) => SignInSignUp(
+                              loginState: appState.loginState,
+                            ),
+                          )));
               },
               text: "C'est parti !",
               paddingHorizontal: 50.5,

@@ -1,3 +1,4 @@
+import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,7 +38,12 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
           fontFamily: "ABCProphet"),
-      home: SplashScreen(),
+      // home: SplashScreen(),
+      home: Consumer<ApplicationState>(
+        builder: (context, appState, _) => SignInSignUp(
+          loginState: appState.loginState,
+        ),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -216,3 +222,8 @@ class ApplicationState extends ChangeNotifier {
 //     );
 //   }
 // }
+
+pushReplaceToNextPage(context, Widget nextPage) {
+  Navigator.of(context)
+      .pushReplacement(MaterialPageRoute(builder: (context) => nextPage));
+}

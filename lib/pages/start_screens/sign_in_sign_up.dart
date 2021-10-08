@@ -1,5 +1,6 @@
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
+import 'package:exploreapp/pages/start_screens/cinematic.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,12 @@ import 'package:provider/provider.dart';
 import 'package:exploreapp/src/authentification.dart';
 
 class SignInSignUp extends StatefulWidget {
-  const SignInSignUp({Key? key}) : super(key: key);
+  final ApplicationLoginState loginState;
+
+  const SignInSignUp({
+    Key? key,
+    required this.loginState,
+  }) : super(key: key);
 
   @override
   _SignInSignUpState createState() => _SignInSignUpState();
@@ -19,6 +25,10 @@ class _SignInSignUpState extends State<SignInSignUp> {
   initState() {
     if (!kIsWeb) SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
+
+    if (widget.loginState == ApplicationLoginState.loggedIn) {
+      pushReplaceToNextPage(context, Cinematic());
+    }
   }
 
   @override
@@ -40,7 +50,10 @@ class _SignInSignUpState extends State<SignInSignUp> {
                       color: ExploreaColors.purple,
                     ),
                   ),
-                  ExploreaTitle(text: "Connexion"),
+                  if (widget.loginState == ApplicationLoginState.register)
+                    ExploreaTitle(text: "Inscription")
+                  else
+                    ExploreaTitle(text: "Connexion")
                 ],
               ),
             ),
@@ -60,6 +73,9 @@ class _SignInSignUpState extends State<SignInSignUp> {
                       cancelRegistration: appState.cancelRegistration,
                       registerAccount: appState.registerAccount,
                       signOut: appState.signOut,
+
+                      //
+                      nextPage: Cinematic(),
                     ),
                   ),
                 ),

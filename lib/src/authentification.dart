@@ -1,4 +1,5 @@
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/main.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea_btn_square.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class Authentification extends StatelessWidget {
     required this.cancelRegistration,
     required this.registerAccount,
     required this.signOut,
+    //
+    this.nextPage,
   });
 
   final ApplicationLoginState loginState;
@@ -50,6 +53,8 @@ class Authentification extends StatelessWidget {
   ) registerAccount;
   //
   final void Function() signOut;
+  //
+  final Widget? nextPage;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +95,10 @@ class Authentification extends StatelessWidget {
                 password,
                 (exc) => _showErrorDialog(
                     context, "Erreur lors de la création de compte", exc));
+
+            if (this.nextPage != null) {
+              pushReplaceToNextPage(context, nextPage!);
+            }
           },
           cancel: () {
             cancelRegistration();
