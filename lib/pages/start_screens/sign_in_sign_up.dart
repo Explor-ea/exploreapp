@@ -29,7 +29,7 @@ class _SignInSignUpState extends State<SignInSignUp> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -47,7 +47,7 @@ class _SignInSignUpState extends State<SignInSignUp> {
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: Expanded(
-                flex: 7,
+                flex: 5,
                 child: Container(
                   child: Consumer<ApplicationState>(
                     builder: (context, appState, _) => Authentification(
@@ -64,6 +64,9 @@ class _SignInSignUpState extends State<SignInSignUp> {
                   ),
                 ),
               ),
+            ),
+            Container(
+              height: 80.0,
             )
           ],
         ));

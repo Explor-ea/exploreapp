@@ -67,7 +67,10 @@ class Authentification extends StatelessWidget {
                 email, (e) => _showErrorDialog(context, "Email invalide", e)));
 
       case ApplicationLoginState.password:
-        return PasswordForm(
+        return ExploreaPasswordForm(
+          cancel: () {
+            cancelRegistration();
+          },
           email: email!,
           login: (email, password) {
             signInWithEmailAndPassword(
@@ -94,11 +97,11 @@ class Authentification extends StatelessWidget {
         );
 
       case ApplicationLoginState.loggedIn:
-        return ElevatedButton(
+        return ExploreaBtnSquare(
+            text: "Déconnexion",
             onPressed: () {
               signOut();
-            },
-            child: Text("Déconnexion"));
+            });
 
       default:
         return const Text("Une erreur inhabituelle est survenue");
@@ -209,33 +212,55 @@ class _ExploreaEmailFormState extends State<ExploreaEmailForm> {
       child: Expanded(
         child: Column(
           children: [
-            TextFormField(
-              cursorColor: ExploreaColors.purple,
-              keyboardType: TextInputType.emailAddress,
+            ExploreaEmailField(
               controller: _controller,
-              decoration: const InputDecoration(
-                // focusColor: ExploreaColors.purple,
-                fillColor: ExploreaColors.purple,
-                hintText: "E-mail",
-                prefixIcon: Icon(
-                  Icons.mail_outline,
-                  color: ExploreaColors.purple,
-                ),
-              ),
-              validator: (value) {
-                return value!.isEmpty ? "Renseignez votre email" : null;
+              onFieldSubmitted: (unusedValue) async {
+                if (_formKey.currentState!.validate()) {
+                  widget.callback(_controller.text);
+                }
               },
             ),
-            // ElevatedButton(
-            //     onPressed: () async {
-            //       if (_formKey.currentState!.validate()) {
-            //         widget.callback(_controller.text);
-            //       }
-            //     },
-            //     child: const Text("Continuer"))
           ],
         ),
       ),
+    );
+  }
+}
+
+class ExploreaEmailField extends StatelessWidget {
+  const ExploreaEmailField({Key? key, this.controller, this.onFieldSubmitted})
+      : super(key: key);
+
+  final TextEditingController? controller;
+  final Function(String)? onFieldSubmitted;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      cursorColor: ExploreaColors.purple,
+      keyboardType: TextInputType.emailAddress,
+      controller: controller,
+      style: TextStyle(
+        color: ExploreaColors.purple,
+        decorationColor: ExploreaColors.purple,
+      ),
+      decoration: const InputDecoration(
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+          color: ExploreaColors.purple,
+        )),
+        focusColor: ExploreaColors.purple,
+        fillColor: ExploreaColors.purple,
+        hintText: "E-mail",
+        prefixIcon: Icon(
+          Icons.mail_outline,
+          color: ExploreaColors.purple,
+        ),
+      ),
+      validator: (value) {
+        return value!.isEmpty ? "Renseignez votre email" : null;
+      },
+      onFieldSubmitted: onFieldSubmitted,
     );
   }
 }
@@ -246,21 +271,24 @@ class _ExploreaEmailFormState extends State<ExploreaEmailForm> {
 //
 // Password forms
 
-class PasswordForm extends StatefulWidget {
-  const PasswordForm({
+class ExploreaPasswordForm extends StatefulWidget {
+  const ExploreaPasswordForm({
     required this.email,
     required this.login,
+    required this.cancel,
   });
 
   final String email;
   final void Function(String email, String password) login;
+  final void Function() cancel;
 
   @override
-  _PasswordFormState createState() => _PasswordFormState();
+  _ExploreaPasswordFormState createState() => _ExploreaPasswordFormState();
 }
 
-class _PasswordFormState extends State<PasswordForm> {
-  final _formKey = GlobalKey<FormState>(debugLabel: '_PasswordFormState');
+class _ExploreaPasswordFormState extends State<ExploreaPasswordForm> {
+  final _formKey =
+      GlobalKey<FormState>(debugLabel: '_ExploreaPasswordFormState');
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -277,38 +305,119 @@ class _PasswordFormState extends State<PasswordForm> {
         child: Expanded(
           child: Column(
             children: [
-              TextFormField(
+              ExploreaEmailField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  hintText: "Entrez votre email",
-                ),
-                validator: (value) {
-                  return value!.isEmpty ? "Entrez votre address email" : null;
-                },
               ),
               TextFormField(
-                controller: _passwordController,
                 decoration: const InputDecoration(
-                    hintText: "Entrez votre mot de passe"),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ExploreaColors.purple,
+                    ),
+                  ),
+                  focusColor: ExploreaColors.purple,
+                  fillColor: ExploreaColors.purple,
+                  hintText: "Mot de passe",
+                  prefixIcon: Icon(
+                    Icons.lock_outline,
+                    color: ExploreaColors.purple,
+                  ),
+                ),
+                controller: _passwordController,
                 obscureText: true,
                 validator: (value) {
                   return value!.isEmpty ? "Entrez votre mot de passe" : null;
                 },
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    widget.login(
-                        _emailController.text, _passwordController.text);
-                  }
-                },
-                child: const Text("Connexion"),
-              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ExploreaBtnSquare(
+                        text: "Annuler", onPressed: widget.cancel),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ExploreaBtnSquare(
+                        text: "Connexion",
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            widget.login(_emailController.text,
+                                _passwordController.text);
+                          }
+                        }),
+                  )
+                ],
+              )
             ],
           ),
         ));
   }
 }
+
+// class PasswordForm extends StatefulWidget {
+//   const PasswordForm({
+//     required this.email,
+//     required this.login,
+//   });
+
+//   final String email;
+//   final void Function(String email, String password) login;
+
+//   @override
+//   _PasswordFormState createState() => _PasswordFormState();
+// }
+
+// class _PasswordFormState extends State<PasswordForm> {
+//   final _formKey = GlobalKey<FormState>(debugLabel: '_PasswordFormState');
+//   final _emailController = TextEditingController();
+//   final _passwordController = TextEditingController();
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _emailController.text = widget.email;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Form(
+//         key: _formKey,
+//         child: Expanded(
+//           child: Column(
+//             children: [
+//               TextFormField(
+//                 controller: _emailController,
+//                 decoration: const InputDecoration(
+//                   hintText: "Entrez votre email",
+//                 ),
+//                 validator: (value) {
+//                   return value!.isEmpty ? "Entrez votre address email" : null;
+//                 },
+//               ),
+//               TextFormField(
+//                 controller: _passwordController,
+//                 decoration: const InputDecoration(
+//                     hintText: "Entrez votre mot de passe"),
+//                 obscureText: true,
+//                 validator: (value) {
+//                   return value!.isEmpty ? "Entrez votre mot de passe" : null;
+//                 },
+//               ),
+//               ElevatedButton(
+//                 onPressed: () {
+//                   if (_formKey.currentState!.validate()) {
+//                     widget.login(
+//                         _emailController.text, _passwordController.text);
+//                   }
+//                 },
+//                 child: const Text("Connexion"),
+//               ),
+//             ],
+//           ),
+//         ));
+//   }
+// }
 
 // Password forms
 //
@@ -349,37 +458,55 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Expanded(
         child: Column(
           children: [
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                hintText: "Entrez votre email",
-              ),
-              validator: (value) {
-                return value!.isEmpty ? "Entrez votre addresse mail" : null;
-              },
-            ),
+            ExploreaEmailField(controller: _emailController),
+
             // TODO: add second password to check
             TextFormField(
+              // style: TextStyle(
+              //   color: ExploreaColors.purple,
+              //   decorationColor: ExploreaColors.purple,
+              // ),
+
+              decoration: const InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ExploreaColors.purple,
+                  ),
+                ),
+                focusColor: ExploreaColors.purple,
+                fillColor: ExploreaColors.purple,
+                hintText: "Mot de passe",
+                prefixIcon: Icon(
+                  Icons.lock_outline,
+                  color: ExploreaColors.purple,
+                ),
+              ),
+
               controller: _passwordController,
               obscureText: true,
-              decoration:
-                  InputDecoration(hintText: "Entrez votre mot de passe"),
               validator: (value) {
                 return value!.isEmpty ? "Entrez votre mot de passe" : null;
               },
             ),
             Row(
               children: [
-                ElevatedButton(
-                    onPressed: widget.cancel, child: Text("Annuler")),
-                ElevatedButton(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ExploreaBtnSquare(
+                      text: "Annuler", onPressed: widget.cancel),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ExploreaBtnSquare(
+                    text: "Créer un compte",
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         widget.registerAccount(
                             _emailController.text, _passwordController.text);
                       }
                     },
-                    child: Text("Créer un compte")),
+                  ),
+                )
               ],
             )
           ],
