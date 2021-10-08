@@ -214,7 +214,7 @@ class _NewcomerState extends State<Newcomer> {
                     });
                   },
                   text: "C'est parti !",
-                  width: 80.0,
+                  paddingHorizontal: 50.5,
                 ),
               ),
             ),
@@ -462,7 +462,7 @@ class _NewcomerState extends State<Newcomer> {
                         "userBirthdate_year", this.prefUserBirthdate_year!);
                   });
                 },
-                width: 80.0,
+                paddingHorizontal: 50.5,
               )),
             ),
           ],
@@ -520,7 +520,7 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                 child: ExploreaBtnSquare(
                   text: "Suivant",
-                  width: 80.0,
+                  paddingHorizontal: 50.5,
                   onPressed: () {
                     if (this.agreedData == true)
                       setState(() {
@@ -592,7 +592,7 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                 child: ExploreaBtnSquare(
                   text: "Suivant",
-                  width: 80.0,
+                  paddingHorizontal: 50.5,
                   onPressed: () {
                     if (this.agreedData == true)
                       setState(() {
@@ -729,7 +729,7 @@ class _NewcomerState extends State<Newcomer> {
                       builder: (BuildContext context) => SignInSignUp()));
               },
               text: "C'est parti !",
-              width: 80.0,
+              paddingHorizontal: 50.5,
               disabled: this.prefAgreedGeo == false ||
                   this.prefAgreedMicro == false ||
                   this.prefAgreedCamera == false,

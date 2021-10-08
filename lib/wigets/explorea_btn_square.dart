@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 import '../explorea_colors.dart';
 
 class ExploreaBtnSquare extends StatelessWidget {
-  const ExploreaBtnSquare(
-      {Key? key,
-      this.disabled = false,
-      required this.text,
-      required this.onPressed,
-      this.minimumSize = const Size(60.0, 60.0),
-      this.width: 20.0})
-      : super(key: key);
+  const ExploreaBtnSquare({
+    Key? key,
+    this.disabled = false,
+    required this.text,
+    required this.onPressed,
+    this.minimumSize = const Size(60.0, 30.0),
+    this.paddingVertical = 16.0,
+    this.paddingHorizontal = 24.0,
+  }) : super(key: key);
 
   final bool disabled;
   final String text; // Icon(Icons.arrow_right_alt, size: 32.0)
   final Function() onPressed;
   final Size minimumSize;
-  final double width;
+  final double paddingVertical;
+  final double paddingHorizontal;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,8 @@ class ExploreaBtnSquare extends StatelessWidget {
           onPressed: this.onPressed,
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(
-              vertical: 0.0,
-              horizontal: this.width,
+              vertical: this.paddingVertical,
+              horizontal: this.paddingHorizontal,
             ),
             shape: BeveledRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0)),
