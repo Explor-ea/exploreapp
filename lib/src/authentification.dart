@@ -106,11 +106,27 @@ class Authentification extends StatelessWidget {
         );
 
       case ApplicationLoginState.loggedIn:
-        return ExploreaBtnSquare(
-            text: "Déconnexion",
-            onPressed: () {
-              signOut();
-            });
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ExploreaBtnSquare(
+                  text: "Déconnexion",
+                  onPressed: () {
+                    signOut();
+                  }),
+            ),
+            if (this.nextPage != null)
+              ExploreaBtn(
+                  icon: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    if (this.nextPage != null) {
+                      pushReplaceToNextPage(context, nextPage!);
+                    }
+                  }),
+          ],
+        );
 
       default:
         return const Text("Une erreur inhabituelle est survenue");

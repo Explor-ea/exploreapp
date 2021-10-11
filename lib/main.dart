@@ -223,7 +223,7 @@ class ApplicationState extends ChangeNotifier {
 //   }
 // }
 
-pushReplaceToNextPage(context, Widget nextPage) {
+pushReplaceToNextPage(BuildContext context, Widget nextPage) {
   Navigator.of(context)
       .pushReplacement(MaterialPageRoute(builder: (context) => nextPage));
 }
