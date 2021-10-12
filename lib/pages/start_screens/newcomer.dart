@@ -732,6 +732,7 @@ class _NewcomerState extends State<Newcomer> {
                           Consumer<ApplicationState>(
                             builder: (context, appState, _) => SignInSignUp(
                               loginState: appState.loginState,
+                              email: appState.email,
                             ),
                           )));
               },
