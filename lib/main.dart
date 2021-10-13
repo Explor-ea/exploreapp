@@ -1,4 +1,5 @@
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
+import 'package:exploreapp/pages/start_screens/sisu.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "ABCProphet"),
       // home: SplashScreen(),
       home: Consumer<ApplicationState>(
-        builder: (context, appState, _) => SignInSignUp(
+        builder: (context, appState, _) => Sisu(
           loginState: appState.loginState,
           email: appState.email,
         ),
