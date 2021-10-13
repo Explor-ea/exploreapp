@@ -35,31 +35,24 @@ class _SignInSignUpState extends State<SignInSignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ExploreaColors.yellow,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Center(
-                    child: Container(
-                      width: 37.0,
-                      height: 37.0,
-                      color: ExploreaColors.purple,
+        body: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Container(
+                  child: Center(
+                    child: Image.asset(
+                      "assets/icon/explorea-logo.png",
+                      height: 81,
+                      width: 81,
                     ),
                   ),
-                  if (widget.loginState == ApplicationLoginState.register)
-                    ExploreaTitle(text: "Inscription")
-                  else
-                    ExploreaTitle(text: "Connexion")
-                ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Expanded(
+              Expanded(
                 flex: 5,
                 child: Container(
                   child: Consumer<ApplicationState>(
@@ -80,11 +73,11 @@ class _SignInSignUpState extends State<SignInSignUp> {
                   ),
                 ),
               ),
-            ),
-            Container(
-              height: 80.0,
-            )
-          ],
+              // Container(
+              //   height: 80.0,
+              // )
+            ],
+          ),
         ));
 
     /*

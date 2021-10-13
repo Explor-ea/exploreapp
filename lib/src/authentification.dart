@@ -1,6 +1,8 @@
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
+import 'package:exploreapp/wigets/explorea-text.dart';
+import 'package:exploreapp/wigets/explorea-title.dart';
 import 'package:exploreapp/wigets/explorea_btn_square.dart';
 import 'package:flutter/material.dart';
 
@@ -60,71 +62,98 @@ class Authentification extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (loginState) {
       case ApplicationLoginState.loggedOut:
-        return ExploreaBtnSquare(
-            text: "Se connecter",
-            onPressed: () {
-              startLoginFlow();
-            });
+        return Column(
+          children: [
+            ExploreaTitle(text: "Connexion"),
+            ExploreaBtnSquare(
+                text: "Se connecter",
+                onPressed: () {
+                  startLoginFlow();
+                }),
+          ],
+        );
 
       case ApplicationLoginState.emailAddress:
-        return ExploreaEmailForm(
-            callback: (email) => verifyEmail(
-                email, (e) => _showErrorDialog(context, "Email invalide", e)));
+        return Column(
+          children: [
+            ExploreaTitle(text: "Connexion"),
+            ExploreaEmailForm(
+                callback: (email) => verifyEmail(email,
+                    (e) => _showErrorDialog(context, "Email invalide", e))),
+          ],
+        );
 
       case ApplicationLoginState.password:
-        return ExploreaPasswordForm(
-          cancel: () {
-            cancelRegistration();
-          },
-          email: email!,
-          login: (email, password) {
-            signInWithEmailAndPassword(
-                email,
-                password,
-                (exc) => _showErrorDialog(
-                    context, "Impossible de se connecter", exc));
-          },
+        return Column(
+          children: [
+            ExploreaTitle(text: "Connexion"),
+            ExploreaPasswordForm(
+              cancel: () {
+                cancelRegistration();
+              },
+              email: email!,
+              login: (email, password) {
+                signInWithEmailAndPassword(
+                    email,
+                    password,
+                    (exc) => _showErrorDialog(
+                        context, "Impossible de se connecter", exc));
+              },
+            ),
+          ],
         );
 
       case ApplicationLoginState.register:
-        return RegisterForm(
-          email: this.email!,
-          registerAccount: (email, password) {
-            registerAccount(
-                email,
-                password,
-                (exc) => _showErrorDialog(
-                    context, "Erreur lors de la création de compte", exc));
+        return Column(
+          children: [
+            ExploreaTitle(text: "Inscription"),
+            RegisterForm(
+              email: this.email!,
+              registerAccount: (email, password) {
+                registerAccount(
+                    email,
+                    password,
+                    (exc) => _showErrorDialog(
+                        context, "Erreur lors de la création de compte", exc));
 
-            if (this.nextPage != null) {
-              pushReplaceToNextPage(context, nextPage!);
-            }
-          },
-          cancel: () {
-            cancelRegistration();
-          },
+                if (this.nextPage != null) {
+                  pushReplaceToNextPage(context, nextPage!);
+                }
+              },
+              cancel: () {
+                cancelRegistration();
+              },
+            ),
+          ],
         );
 
       case ApplicationLoginState.loggedIn:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ExploreaBtnSquare(
-                  text: "Déconnexion",
-                  onPressed: () {
-                    signOut();
-                  }),
+            ExploreaTitle(text: "Connecté"),
+            ExploreaText(
+                text: this.email != null ? this.email.toString() : "??"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ExploreaBtnSquare(
+                      text: "Déconnexion",
+                      onPressed: () {
+                        signOut();
+                      }),
+                ),
+                if (this.nextPage != null)
+                  ExploreaBtn(
+                      icon: Icon(Icons.arrow_forward),
+                      onPressed: () {
+                        if (this.nextPage != null) {
+                          pushReplaceToNextPage(context, nextPage!);
+                        }
+                      }),
+              ],
             ),
-            if (this.nextPage != null)
-              ExploreaBtn(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    if (this.nextPage != null) {
-                      pushReplaceToNextPage(context, nextPage!);
-                    }
-                  }),
           ],
         );
 
