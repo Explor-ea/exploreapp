@@ -146,12 +146,14 @@ class Authentification extends StatelessWidget {
                 ),
                 if (this.nextPage != null)
                   ExploreaBtn(
-                      icon: Icon(Icons.arrow_forward),
-                      onPressed: () {
-                        if (this.nextPage != null) {
-                          pushReplaceToNextPage(context, nextPage!);
-                        }
-                      }),
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: () {
+                      if (this.nextPage != null && this.email != null) {
+                        pushReplaceToNextPage(context, nextPage!);
+                      }
+                    },
+                    disabled: this.email == null,
+                  ),
               ],
             ),
           ],
