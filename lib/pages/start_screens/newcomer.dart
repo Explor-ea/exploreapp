@@ -2,16 +2,21 @@ import 'dart:developer';
 // import 'dart:math';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/start_screens/cinematic.dart';
+import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea-chekbox.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
+import 'package:exploreapp/wigets/explorea_btn_square.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Newcomer extends StatefulWidget {
@@ -73,6 +78,7 @@ class _NewcomerState extends State<Newcomer> {
 
   @override
   initState() {
+    if (!kIsWeb) SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
 
     this.initializePreference().whenComplete(() {
@@ -109,18 +115,9 @@ class _NewcomerState extends State<Newcomer> {
       backgroundColor: ExploreaColors.yellow,
       body: Column(
         children: [
-          LinearProgressIndicator(
-            minHeight: 10.0,
-            value: 0.20 * this.step,
-            backgroundColor: ExploreaColors.yellow,
-            valueColor: new AlwaysStoppedAnimation(ExploreaColors.purple),
-            // backgroundColor: ExploreaColors.purple,
-            semanticsLabel: 'Linear progress indicator',
-          ),
-          SizedBox(height: 16.0),
-          buildImage(),
+          this.step < 5 ? Expanded(flex: 5, child: buildImage()) : Container(),
           Expanded(
-              flex: 8,
+              flex: this.step < 5 ? 12 : (12 + 5),
               child: Column(
                 children: [
                   Container(),
@@ -132,6 +129,27 @@ class _NewcomerState extends State<Newcomer> {
                   ),
                 ],
               )),
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 10.0,
+                  child: LinearProgressIndicator(
+                    minHeight: 10.0,
+
+                    value: 0.20 * this.step,
+                    backgroundColor: ExploreaColors.yellow,
+                    valueColor:
+                        new AlwaysStoppedAnimation(ExploreaColors.purple),
+                    // backgroundColor: ExploreaColors.purple,
+                    semanticsLabel: 'Linear progress indicator',
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -144,11 +162,16 @@ class _NewcomerState extends State<Newcomer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ExploreaTitle(text: "Explor'ea"),
-            SizedBox(height: 22.0),
-            Container(
-              width: 268,
-              height: 189,
+            Expanded(
+              flex: 1,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 2,
+              child: ExploreaTitle(text: "Explor'ea"),
+            ),
+            Expanded(
+              flex: 4,
               child: Row(
                 children: [
                   Expanded(
@@ -162,254 +185,269 @@ class _NewcomerState extends State<Newcomer> {
                 ],
               ),
             ),
-            Container(
-              height: 58,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    this.step = 2;
-                  });
-                },
-                // style: ButtonStyle(
-                //     shape:
-                //         MaterialStateProperty.all<RoundedRectangleBorder>(
-                //             RoundedRectangleBorder(
-                //                 borderRadius:
-                //                     BorderRadius.circular(100)))),
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                  primary: ExploreaColors.purple,
-                  minimumSize: Size(315.0, 53),
-                ),
+            Expanded(
+              flex: 1,
+              child: Center(
+                // child: ElevatedButton(
+                //   onPressed: () {
+                //     setState(() {
+                //       this.step = 2;
+                //     });
+                //   },
+                //   // style: ButtonStyle(
+                //   //     shape:
+                //   //         MaterialStateProperty.all<RoundedRectangleBorder>(
+                //   //             RoundedRectangleBorder(
+                //   //                 borderRadius:
+                //   //                     BorderRadius.circular(100)))),
+                //   style: ElevatedButton.styleFrom(
+                //     shape: StadiumBorder(),
+                //     primary: ExploreaColors.purple,
+                //     minimumSize: Size(315.0, 53),
+                //   ),
 
-                child: Text("C'est parti !"),
+                //   child: Text("C'est parti !"),
+                // ),
+
+                child: ExploreaBtnSquare(
+                  onPressed: () {
+                    setState(() {
+                      this.step = 2;
+                    });
+                  },
+                  text: "C'est parti !",
+                  paddingHorizontal: 50.5,
+                ),
               ),
             ),
-            Container(
-              height: 41,
-            )
           ],
         );
 
         break;
+
+      //
+
       case 2:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-                width: 220, child: ExploreaTitle(text: "Quel âge avez vous ?")),
-            SizedBox(height: 22.0),
-            Container(
-              height: 46,
+            Expanded(
+              flex: 1,
+              child: Container(),
             ),
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                          initialPage: this.prefUserBirthdate_day != null
-                              ? this.prefUserBirthdate_day! - 1
-                              : 0,
-                          height: 50.0,
-                          // aspectRatio: 10.0,
-                          enlargeCenterPage: true,
-                          viewportFraction: 0.3,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          onPageChanged: (daySelected, changeReason) {
-                            daySelected = daySelected % 31 + 1;
-                            log((daySelected).toString());
-                            log(changeReason.toString());
+            Expanded(
+              flex: 2,
+              child: ExploreaTitle(text: "Quel âge avez vous ?"),
+            ),
+            Expanded(
+              flex: 4,
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            initialPage: this.prefUserBirthdate_day != null
+                                ? this.prefUserBirthdate_day! - 1
+                                : 0,
+                            height: 50.0,
+                            // aspectRatio: 10.0,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.3,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            onPageChanged: (daySelected, changeReason) {
+                              daySelected = daySelected % 31 + 1;
+                              log((daySelected).toString());
+                              log(changeReason.toString());
 
-                            setState(() {
-                              this.daySelected = daySelected;
-                            });
-                          }),
-                      items: this.days.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                // width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                width: 50.0,
-                                alignment: Alignment.center,
-                                child: ExploreaTitle(
-                                  text: '$i',
-                                  color: i != this.daySelected
-                                      ? Colors.grey
-                                      : ExploreaColors.purple,
-                                ));
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 8.0,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.arrow_left,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                            Expanded(
-                                child: Container(
-                              color: Colors.green,
-                            )),
-                            Icon(
-                              Icons.arrow_right,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Stack(
-                  children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                          initialPage: this
-                              .months
-                              .indexOf(this.prefUserBirthdate_month ?? "JAN"),
-                          height: 50.0,
-                          enlargeCenterPage: true,
-                          viewportFraction: 0.3,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          onPageChanged: (monthSelected, changeReason) {
-                            this.monthSelected = this.months[monthSelected];
-                            log((this.monthSelected).toString());
-                            log(changeReason.toString());
-
-                            setState(() {});
-                          }),
-                      items: this.months.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                // width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                // width: 70.0,
-                                alignment: Alignment.center,
-                                child: FittedBox(
+                              setState(() {
+                                this.daySelected = daySelected;
+                              });
+                            }),
+                        items: this.days.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  // width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  width: 50.0,
+                                  alignment: Alignment.center,
                                   child: ExploreaTitle(
                                     text: '$i',
-                                    color: i != this.monthSelected
+                                    color: i != this.daySelected
                                         ? Colors.grey
                                         : ExploreaColors.purple,
-                                  ),
-                                ));
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 8.0,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.arrow_left,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                            Expanded(
-                                child: Container(
-                              color: Colors.green,
-                            )),
-                            Icon(
-                              Icons.arrow_right,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Stack(
-                  children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                          initialPage: this
-                              .years
-                              .indexOf(this.prefUserBirthdate_year ?? 2021),
-                          reverse: true,
-                          height: 50.0,
-                          enlargeCenterPage: true,
-                          viewportFraction: 0.3,
-                          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                          onPageChanged: (yearSelected, changeReason) {
-                            this.yearSelected = this.years[yearSelected];
-                            log((this.yearSelected).toString());
-                            log(changeReason.toString());
-                            setState(() {});
-                          }),
-                      items: this.years.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                // width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                // width: 70.0,
-                                alignment: Alignment.center,
-                                child: FittedBox(
-                                  child: ExploreaTitle(
-                                    text: '$i',
-                                    color: i != this.yearSelected
-                                        ? Colors.grey
-                                        : ExploreaColors.purple,
-                                  ),
-                                ));
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 8.0,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.arrow_left,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                            Expanded(
-                                child: Container(
-                              color: Colors.green,
-                            )),
-                            Icon(
-                              Icons.arrow_right,
-                              color: ExploreaColors.purple,
-                              size: 32.0,
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ],
+                                  ));
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 8.0,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_left,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                              Expanded(
+                                  child: Container(
+                                color: Colors.green,
+                              )),
+                              Icon(
+                                Icons.arrow_right,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            initialPage: this
+                                .months
+                                .indexOf(this.prefUserBirthdate_month ?? "JAN"),
+                            height: 50.0,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.3,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            onPageChanged: (monthSelected, changeReason) {
+                              this.monthSelected = this.months[monthSelected];
+                              log((this.monthSelected).toString());
+                              log(changeReason.toString());
+
+                              setState(() {});
+                            }),
+                        items: this.months.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  // width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  // width: 70.0,
+                                  alignment: Alignment.center,
+                                  child: FittedBox(
+                                    child: ExploreaTitle(
+                                      text: '$i',
+                                      color: i != this.monthSelected
+                                          ? Colors.grey
+                                          : ExploreaColors.purple,
+                                    ),
+                                  ));
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 8.0,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_left,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                              Expanded(
+                                  child: Container(
+                                color: Colors.green,
+                              )),
+                              Icon(
+                                Icons.arrow_right,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            initialPage: this
+                                .years
+                                .indexOf(this.prefUserBirthdate_year ?? 2021),
+                            reverse: true,
+                            height: 50.0,
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.3,
+                            enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                            onPageChanged: (yearSelected, changeReason) {
+                              this.yearSelected = this.years[yearSelected];
+                              log((this.yearSelected).toString());
+                              log(changeReason.toString());
+                              setState(() {});
+                            }),
+                        items: this.years.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  // width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  // width: 70.0,
+                                  alignment: Alignment.center,
+                                  child: FittedBox(
+                                    child: ExploreaTitle(
+                                      text: '$i',
+                                      color: i != this.yearSelected
+                                          ? Colors.grey
+                                          : ExploreaColors.purple,
+                                    ),
+                                  ));
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 8.0,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_left,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                              Expanded(
+                                  child: Container(
+                                color: Colors.green,
+                              )),
+                              Icon(
+                                Icons.arrow_right,
+                                color: ExploreaColors.purple,
+                                size: 32.0,
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Container(
-              height: 30,
-            ),
-            Center(
-              child: ElevatedButton(
+            Expanded(
+              flex: 1,
+              child: Center(
+                  child: ExploreaBtnSquare(
+                text: "Suivant",
                 onPressed: () {
                   setState(() {
                     this.step = 3;
@@ -426,110 +464,100 @@ class _NewcomerState extends State<Newcomer> {
                         "userBirthdate_year", this.prefUserBirthdate_year!);
                   });
                 },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  primary: ExploreaColors.purple,
-                  minimumSize: Size(60.0, 60.0),
-                ),
-                child: Icon(Icons.arrow_right_alt, size: 32.0),
-              ),
+                paddingHorizontal: 50.5,
+              )),
             ),
-            Container(
-              height: 41,
-            )
           ],
         );
         break;
+
+//
+
       case 3:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-                width: 260.0,
+            Expanded(flex: 1, child: Container()),
+            Expanded(
+                flex: 2,
                 child: ExploreaTitle(text: "La gestion de vos données")),
-            SizedBox(height: 22.0),
-            Container(
-              width: 268,
-              height: 189,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Scrollbar(
-                      isAlwaysShown: true,
-                      child: SingleChildScrollView(
-                          child: ExploreaText(text: this.text)),
+            // TODO: add padding bot, for this step and the others surely
+            Expanded(
+                flex: 4,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Scrollbar(
+                        isAlwaysShown: true,
+                        child: SingleChildScrollView(
+                            child: ExploreaText(text: this.text)),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 16, 0.0, 0.0),
-              child: Row(
-                children: [
-                  ExploreaCheckbox(
-                    isChecked: this.agreedData ?? false,
-                    onChanged: (newValue) {
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 8, 0.0, 8.0),
+                      child: Row(
+                        children: [
+                          ExploreaCheckbox(
+                            isChecked: this.agreedData ?? false,
+                            onChanged: (newValue) {
+                              setState(() {
+                                this.agreedData = newValue;
+                                if (this.agreedData != null)
+                                  prefs?.setBool(
+                                      'dataAgreed', this.agreedData!);
+                              });
+                              // TODO: remove :
+                              log("agreedDate : $newValue");
+                            },
+                            label: "J'accepte...",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: ExploreaBtnSquare(
+                  text: "Suivant",
+                  paddingHorizontal: 50.5,
+                  onPressed: () {
+                    if (this.agreedData == true)
                       setState(() {
-                        this.agreedData = newValue;
-                        if (this.agreedData != null)
-                          prefs?.setBool('dataAgreed', this.agreedData!);
+                        this.step = 4;
                       });
-                      // TODO: remove :
-                      log("agreedDate : $newValue");
-                    },
-                    label: "J'accepte...",
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 58,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (this.agreedData == true)
-                    setState(() {
-                      this.step = 4;
-                    });
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  primary: this.agreedData != true
-                      ? Colors.grey
-                      : ExploreaColors.purple,
-                  minimumSize: Size(60.0, 60.0),
+                  },
                 ),
-                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
-            Container(
-              height: 41,
-            )
           ],
         );
 
         break;
+
+      //
 
       case 4:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-                width: 260.0,
-                child: ExploreaTitle(text: "Publicités personnalisées")),
-            SizedBox(height: 22.0),
-            Container(
-              width: 268,
-              height: 189,
-              child: Row(
+            Expanded(
+              flex: 1,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 2,
+              child: ExploreaTitle(text: "Publicités personnalisées"),
+            ),
+            Expanded(
+              flex: 4,
+              child: Column(
                 children: [
                   Expanded(
-                    flex: 2,
+                    // flex: 2,
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: SingleChildScrollView(
@@ -540,173 +568,179 @@ class _NewcomerState extends State<Newcomer> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 16, 0.0, 0.0),
-              child: Row(
-                children: [
-                  ExploreaCheckbox(
-                    isChecked: this.agreedAd ?? false,
-                    onChanged: (newValue) {
-                      setState(() {
-                        this.agreedAd = newValue;
-                        if (this.agreedAd != null)
-                          prefs?.setBool('adAgreed', this.agreedAd!);
-                      });
-                      // TODO: remove :
-                      log("agreedDate : $newValue");
-                    },
-                    label: "J'accepte...",
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 58,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (this.agreedAd == true)
-                    setState(() {
-                      this.step = 5;
-                    });
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  primary: this.agreedAd != true
-                      ? Colors.grey
-                      : ExploreaColors.purple,
-                  minimumSize: Size(60.0, 60.0),
+              padding: const EdgeInsets.fromLTRB(0.0, 8, 0.0, 8.0),
+              child: Center(
+                child: Row(
+                  children: [
+                    ExploreaCheckbox(
+                      isChecked: this.agreedAd ?? false,
+                      onChanged: (newValue) {
+                        setState(() {
+                          this.agreedAd = newValue;
+                          if (this.agreedAd != null)
+                            prefs?.setBool('adAgreed', this.agreedAd!);
+                        });
+                        // TODO: remove :
+                        log("agreedDate : $newValue");
+                      },
+                      label: "J'accepte...",
+                    ),
+                  ],
                 ),
-                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
-            Container(
-              height: 41,
-            )
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: ExploreaBtnSquare(
+                  text: "Suivant",
+                  paddingHorizontal: 50.5,
+                  onPressed: () {
+                    if (this.agreedData == true)
+                      setState(() {
+                        this.step = 5;
+                      });
+                  },
+                ),
+              ),
+            ),
           ],
         );
 
         break;
+
+//
 
       case 5:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-                width: 260.0,
-                child: ExploreaTitle(text: "Autorisations matérielles")),
-            SizedBox(height: 22.0),
-            Column(
-              children: [
-                Row(
+            Expanded(
+              flex: 3,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: ExploreaBtn(
-                        onPressed: () {
-                          setState(() {
-                            this.prefAgreedGeo = !this.prefAgreedGeo;
-                            prefs?.setBool('geoAgreed', this.prefAgreedGeo);
-                          });
-                        },
-                        disabled: this.prefAgreedGeo == false,
-                        icon: Icon(Icons.check),
-                      ),
-                      flex: 2,
-                    ),
-                    Expanded(
-                      child:
-                          // btn
-                          Text("Géolocalisation",
-                              style: TextStyle(
-                                  color: ExploreaColors.purple,
-                                  fontSize: 24.0)),
-                      flex: 8,
-                    ),
+                    Container(
+                        width: 260.0,
+                        child:
+                            ExploreaTitle(text: "Autorisations matérielles")),
                   ],
                 ),
-                Container(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ExploreaBtn(
-                        onPressed: () {
-                          setState(() {
-                            this.prefAgreedMicro = !this.prefAgreedMicro;
-                            prefs?.setBool('microAgreed', this.prefAgreedMicro);
-                          });
-                        },
-                        disabled: this.prefAgreedMicro == false,
-                        icon: Icon(Icons.check),
-                      ),
-                      flex: 2,
-                    ),
-                    Expanded(
-                      child: Text("Microphone",
-                          style: TextStyle(
-                              color: ExploreaColors.purple, fontSize: 24.0)),
-                      flex: 8,
-                    ),
-                  ],
-                ),
-                Container(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ExploreaBtn(
-                        onPressed: () {
-                          setState(() {
-                            this.prefAgreedCamera = !this.prefAgreedCamera;
-                            prefs?.setBool(
-                                'cameraAgreed', this.prefAgreedCamera);
-                          });
-                        },
-                        disabled: this.prefAgreedCamera == false,
-                        icon: Icon(Icons.check),
-                      ),
-                      flex: 2,
-                    ),
-                    Expanded(
-                      child: Text("Appareil Photo",
-                          style: TextStyle(
-                              color: ExploreaColors.purple, fontSize: 24.0)),
-                      flex: 8,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Container(
-              height: 58,
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (this.prefAgreedGeo == true &&
-                      this.prefAgreedMicro == true &&
-                      this.prefAgreedCamera)
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (BuildContext context) => Cinematic()));
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(),
-                  primary: (this.prefAgreedGeo == true &&
-                          this.prefAgreedMicro == true &&
-                          this.prefAgreedCamera)
-                      ? ExploreaColors.purple
-                      : Colors.grey,
-                  minimumSize: Size(60.0, 60.0),
-                ),
-                child: Icon(Icons.arrow_right_alt, size: 32.0),
               ),
             ),
-            Container(
-              height: 41,
-            )
+            SizedBox(height: 22.0),
+
+            Expanded(
+              flex: 5,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ExploreaBtn(
+                          onPressed: () {
+                            setState(() {
+                              this.prefAgreedGeo = !this.prefAgreedGeo;
+                              prefs?.setBool('geoAgreed', this.prefAgreedGeo);
+                            });
+                          },
+                          disabled: this.prefAgreedGeo == false,
+                          icon: Icon(Icons.check),
+                        ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child:
+                            // btn
+                            Text("Géolocalisation",
+                                style: TextStyle(
+                                    color: ExploreaColors.purple,
+                                    fontSize: 24.0)),
+                        flex: 8,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ExploreaBtn(
+                          onPressed: () {
+                            setState(() {
+                              this.prefAgreedMicro = !this.prefAgreedMicro;
+                              prefs?.setBool(
+                                  'microAgreed', this.prefAgreedMicro);
+                            });
+                          },
+                          disabled: this.prefAgreedMicro == false,
+                          icon: Icon(Icons.check),
+                        ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: Text("Microphone",
+                            style: TextStyle(
+                                color: ExploreaColors.purple, fontSize: 24.0)),
+                        flex: 8,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ExploreaBtn(
+                          onPressed: () {
+                            setState(() {
+                              this.prefAgreedCamera = !this.prefAgreedCamera;
+                              prefs?.setBool(
+                                  'cameraAgreed', this.prefAgreedCamera);
+                            });
+                          },
+                          disabled: this.prefAgreedCamera == false,
+                          icon: Icon(Icons.check),
+                        ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: Text("Appareil Photo",
+                            style: TextStyle(
+                                color: ExploreaColors.purple, fontSize: 24.0)),
+                        flex: 8,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // Expanded(child: Container()),
+            Center(
+                child: ExploreaBtnSquare(
+              onPressed: () {
+                if (this.prefAgreedGeo == true &&
+                    this.prefAgreedMicro == true &&
+                    this.prefAgreedCamera)
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          Consumer<ApplicationState>(
+                            builder: (context, appState, _) => SignInSignUp(
+                              loginState: appState.loginState,
+                            ),
+                          )));
+              },
+              text: "C'est parti !",
+              paddingHorizontal: 50.5,
+              disabled: this.prefAgreedGeo == false ||
+                  this.prefAgreedMicro == false ||
+                  this.prefAgreedCamera == false,
+            )),
           ],
         );
 
@@ -731,22 +765,20 @@ class _NewcomerState extends State<Newcomer> {
         break;
 
       default:
-        return Expanded(
-            flex: 3,
-            child: ConstrainedBox(
-              constraints: new BoxConstraints(
-                maxHeight: 275.0,
-                // maxWidth: 342.0,
-                maxWidth: 275.0 / 9 * 16,
-              ),
-              child: Container(
-                color: Colors.grey,
-                // height: 275.0,
-                width: 342,
+        return ConstrainedBox(
+          constraints: new BoxConstraints(
+            maxHeight: 275.0,
+            // maxWidth: 342.0,
+            maxWidth: 275.0 / 9 * 16,
+          ),
+          child: Container(
+            color: Colors.grey,
+            // height: 275.0,
+            width: 342,
 
-                // padding: EdgeInsets.all(16.0),
-              ),
-            ));
+            // padding: EdgeInsets.all(16.0),
+          ),
+        );
     }
   }
 }
