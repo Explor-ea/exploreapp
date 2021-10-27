@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +41,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "ABCProphet"),
       // home: SplashScreen(),
-      home: Consumer<ApplicationState>(
-        builder: (context, appState, _) => SignInSignUp(
+      home: Consumer<ApplicationState>(builder: (context, appState, _) {
+        return SignInSignUp(
           loginState: appState.loginState,
-        ),
-      ),
+        );
+      }),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -66,6 +68,7 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
+        _email = user.email;
       } else {
         _loginState = ApplicationLoginState.loggedOut;
       }

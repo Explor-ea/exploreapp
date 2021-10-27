@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/pages/near-adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/foundation.dart';
@@ -115,7 +116,10 @@ class _InteractiveMapState extends State<InteractiveMap> {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: ExploreaFab(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => NearAdventures()));
+              },
               padding: EdgeInsets.all(0),
               icon: const Icon(Icons.view_day_outlined),
             ),
