@@ -2,6 +2,7 @@ import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/interactive_map.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
+import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea-title-secondary.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
@@ -14,6 +15,9 @@ class NearAdventures extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
+        //
+        // Upper btns
+
         Padding(
           padding: const EdgeInsets.fromLTRB(30.0, 50.0, 30.0, 0.0),
           child: Column(
@@ -61,6 +65,9 @@ class NearAdventures extends StatelessWidget {
                 ),
               ),
 
+              // Upper btns
+              //
+
               Container(height: 30.0),
 
               //
@@ -84,10 +91,12 @@ class NearAdventures extends StatelessWidget {
                   ),
                   ExploreaTitleSecondary(text: "vous")
                 ],
-              )
+              ),
 
               // Le title
               //
+
+              const ExploreaNoteFrame()
             ],
           ),
         )
