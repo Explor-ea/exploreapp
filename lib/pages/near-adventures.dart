@@ -1,4 +1,5 @@
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/interactive_map.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
@@ -9,71 +10,67 @@ import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/material.dart';
 
 class NearAdventures extends StatelessWidget {
-  const NearAdventures({Key? key}) : super(key: key);
+  NearAdventures({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
+      body: Column(mainAxisSize: MainAxisSize.max, children: [
+        Container(height: 50.0),
+
         //
         // Upper btns
 
-        Padding(
-          padding: const EdgeInsets.fromLTRB(30.0, 50.0, 30.0, 0.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16.0, 0.0, 0),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ExploreaFab(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => InteractiveMap()));
-                        },
-                        padding: EdgeInsets.all(8.0),
-                        icon: const Icon(Icons.map_outlined),
-                      ),
-                      Expanded(child: Container()),
-                      ExploreaFab(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Profil()));
-                        },
-                        padding: const EdgeInsets.all(8.0),
-                        icon: const Icon(Icons.person_outline_sharp),
-                      ),
-                      ExploreaFab(
-                        onPressed: () {},
-                        padding: const EdgeInsets.all(8.0),
-                        icon: const Icon(Icons.filter_alt_outlined),
-                      ),
-                      ExploreaFab(
-                        onPressed: () {},
-                        padding: const EdgeInsets.all(8.0),
-                        icon: const Icon(Icons.search),
-                      ),
-                    ],
-                  ),
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30.0, 16.0, 30.0, 0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ExploreaFab(
+                      onPressed: () {
+                        goToNextPage(context, InteractiveMap());
+                      },
+                      padding: EdgeInsets.all(8.0),
+                      icon: const Icon(Icons.map_outlined),
+                    ),
+                    Expanded(child: Container()),
+                    ExploreaFab(
+                      onPressed: () {
+                        goToNextPage(context, Profil());
+                      },
+                      padding: const EdgeInsets.all(8.0),
+                      icon: const Icon(Icons.person_outline_sharp),
+                    ),
+                    ExploreaFab(
+                      onPressed: () {},
+                      padding: const EdgeInsets.all(8.0),
+                      icon: const Icon(Icons.filter_alt_outlined),
+                    ),
+                    ExploreaFab(
+                      onPressed: () {},
+                      padding: const EdgeInsets.all(8.0),
+                      icon: const Icon(Icons.search),
+                    ),
+                  ],
                 ),
               ),
+            ),
 
-              // Upper btns
-              //
+            // Upper btns
+            //
 
-              Container(height: 30.0),
+            Container(height: 30.0),
 
-              //
-              // Le title
+            //
+            // Le title
 
-              Column(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ExploreaTitleSecondary(text: "Les parcours"),
@@ -92,9 +89,10 @@ class NearAdventures extends StatelessWidget {
                   ExploreaTitleSecondary(text: "vous")
                 ],
               ),
+            ),
 
-              // Le title
-              //
+            // Le title
+            //
 
             Container(
               height: 20.0,
@@ -124,8 +122,8 @@ class NearAdventures extends StatelessWidget {
                       height: 300.0,
                     ),
                   ),
-            ],
-          ),
+                ],
+              ),
             ),
 
             // The adventures

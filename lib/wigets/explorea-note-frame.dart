@@ -27,7 +27,7 @@ class ExploreaNoteFrame extends StatelessWidget {
         //
         decoration: backgroundAsset != null
             ? BoxDecoration(
-            image: DecorationImage(
+                image: DecorationImage(
                 image: AssetImage(this.backgroundAsset!),
                 fit: BoxFit.cover,
               ))
