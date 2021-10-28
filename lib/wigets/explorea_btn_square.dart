@@ -11,6 +11,8 @@ class ExploreaBtnSquare extends StatelessWidget {
     this.minimumSize = const Size(60.0, 30.0),
     this.paddingVertical = 16.0,
     this.paddingHorizontal = 24.0,
+    this.backgroundColor = ExploreaColors.purple,
+    this.textColor,
   }) : super(key: key);
 
   final bool disabled;
@@ -19,6 +21,8 @@ class ExploreaBtnSquare extends StatelessWidget {
   final Size minimumSize;
   final double paddingVertical;
   final double paddingHorizontal;
+  final Color backgroundColor;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +38,15 @@ class ExploreaBtnSquare extends StatelessWidget {
             ),
             shape: BeveledRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0)),
-            primary:
-                this.disabled ? ExploreaColors.grey : ExploreaColors.purple,
+            primary: this.disabled ? ExploreaColors.grey : this.backgroundColor,
             minimumSize: this.minimumSize,
           ),
           child: Text(
             this.text,
             style: TextStyle(
                 fontSize: 16.0,
-                color: this.disabled ? ExploreaColors.darkGrey : null),
+                color:
+                    this.disabled ? ExploreaColors.darkGrey : this.textColor),
           ),
         ),
       ],
