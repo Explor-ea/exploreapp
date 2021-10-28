@@ -2,23 +2,44 @@ import 'package:exploreapp/explorea_colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreaNoteFrame extends StatelessWidget {
-  const ExploreaNoteFrame({Key? key}) : super(key: key);
+  ///
+  /// If a `backgroundAsset` is given, the background will be covered with it.
+  const ExploreaNoteFrame({
+    Key? key,
+    this.backgroundAsset,
+    this.width,
+    this.height,
+    this.child,
+  }) : super(key: key);
+
+  ///
+  /// If
+  final String? backgroundAsset;
+  final double? width;
+  final double? height;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: new NoteShape(),
       child: Container(
-        // color: ExploreaColors.purple,
-        decoration: BoxDecoration(
+        //
+        decoration: backgroundAsset != null
+            ? BoxDecoration(
             image: DecorationImage(
-          image: AssetImage("assets/icon/explorea-logo.png"),
-          fit: BoxFit.fill,
-        )),
-        width: 200.0,
-        height: 300.0,
-
-        child: Text("test"),
+                image: AssetImage(this.backgroundAsset!),
+                fit: BoxFit.cover,
+              ))
+            : null,
+        color: backgroundAsset == null ? ExploreaColors.purple : null,
+        //
+        width: this.width,
+        height: this.height,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
+          child: this.child,
+        ),
       ),
     );
   }

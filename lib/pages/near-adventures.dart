@@ -96,9 +96,41 @@ class NearAdventures extends StatelessWidget {
               // Le title
               //
 
-              const ExploreaNoteFrame()
+            Container(
+              height: 20.0,
+            ),
+
+            //
+            // The adventures
+
+            Container(
+              height: 400.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: ExploreaNoteFrame(
+                      // backgroundAsset: "assets/icon/explorea-logo.png",
+                      width: 300.0,
+                      height: 300.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: ExploreaNoteFrame(
+                      // backgroundAsset: "assets/icon/explorea-logo.png",
+                      width: 300.0,
+                      height: 300.0,
+                    ),
+                  ),
             ],
           ),
+            ),
+
+            // The adventures
+            //
+          ],
         )
       ]),
     );
