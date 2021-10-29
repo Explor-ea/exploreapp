@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/interactive_map.dart';
@@ -132,8 +134,12 @@ class NearAdventures extends StatelessWidget {
                               Container(
                                 width: 20,
                               ),
+                              Icon(
+                                Icons.access_time_outlined,
+                                color: Colors.white,
+                              ),
                               Text(
-                                "15 min",
+                                " 15 min",
                                 style: TextStyle(
                                     fontSize: 15.0, color: Colors.white),
                               )
@@ -146,11 +152,19 @@ class NearAdventures extends StatelessWidget {
                                 TextStyle(fontSize: 15.0, color: Colors.white),
                           ),
                           Container(height: 30.0),
-                          ExploreaBtnSquare(
-                            text: "Consulter",
-                            onPressed: () {},
-                            backgroundColor: Colors.white,
-                            textColor: ExploreaColors.purpleDark,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ExploreaBtnSquare(
+                                text: "Consulter",
+                                paddingHorizontal: 80.0,
+                                onPressed: () {
+                                  log("clic on les goêlands");
+                                },
+                                backgroundColor: Colors.white,
+                                textColor: ExploreaColors.purpleDark,
+                              ),
+                            ],
                           )
                         ],
                       ),
