@@ -53,6 +53,9 @@ class _ExploreaBtnSquareState extends State<ExploreaBtnSquare> {
 
         this.widget.onPressed();
       },
+      onTapUp: (notUsed) {
+        // Strangely, this helps to trigger the onPanCancel()
+      },
       onPanCancel: () {
         setState(() {
           var tmpColor = this.backgroundColor;
