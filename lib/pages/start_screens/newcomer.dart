@@ -467,16 +467,21 @@ class _NewcomerState extends State<Newcomer> {
                   setState(() {
                     this.step = 3;
 
+                    if (this.daySelected != null) {
                     this.prefUserBirthdate_day = this.daySelected;
-                    this.prefUserBirthdate_month = this.monthSelected;
-                    this.prefUserBirthdate_year = this.yearSelected;
-
                     prefs?.setInt(
                         "userBirthdate_day", this.prefUserBirthdate_day!);
+                    }
+                    if (this.monthSelected != null) {
+                      this.prefUserBirthdate_month = this.monthSelected;
                     prefs?.setString(
                         "userBirthdate_month", this.prefUserBirthdate_month!);
+                    }
+                    if (this.yearSelected != null) {
+                      this.prefUserBirthdate_year = this.yearSelected;
                     prefs?.setInt(
                         "userBirthdate_year", this.prefUserBirthdate_year!);
+                    }
                   });
                 },
                 paddingHorizontal: 50.5,
