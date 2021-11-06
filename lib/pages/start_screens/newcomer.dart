@@ -275,7 +275,8 @@ class _NewcomerState extends State<Newcomer> {
                                   alignment: Alignment.center,
                                   child: ExploreaTitle(
                                     text: '$i',
-                                    color: i != this.daySelected
+                                    color: i != this.daySelected &&
+                                            i != this.prefUserBirthdate_day
                                         ? Colors.grey
                                         : ExploreaColors.purple,
                                   ));
@@ -339,7 +340,8 @@ class _NewcomerState extends State<Newcomer> {
                                   child: FittedBox(
                                     child: ExploreaTitle(
                                       text: '$i',
-                                      color: i != this.monthSelected
+                                      color: i != this.monthSelected &&
+                                              i != this.prefUserBirthdate_month
                                           ? Colors.grey
                                           : ExploreaColors.purple,
                                     ),
@@ -404,7 +406,8 @@ class _NewcomerState extends State<Newcomer> {
                                   child: FittedBox(
                                     child: ExploreaTitle(
                                       text: '$i',
-                                      color: i != this.yearSelected
+                                      color: i != this.yearSelected &&
+                                              i != this.prefUserBirthdate_year
                                           ? Colors.grey
                                           : ExploreaColors.purple,
                                     ),
