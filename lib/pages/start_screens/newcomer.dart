@@ -468,19 +468,19 @@ class _NewcomerState extends State<Newcomer> {
                     this.step = 3;
 
                     if (this.daySelected != null) {
-                    this.prefUserBirthdate_day = this.daySelected;
-                    prefs?.setInt(
-                        "userBirthdate_day", this.prefUserBirthdate_day!);
+                      this.prefUserBirthdate_day = this.daySelected;
+                      prefs?.setInt(
+                          "userBirthdate_day", this.prefUserBirthdate_day!);
                     }
                     if (this.monthSelected != null) {
                       this.prefUserBirthdate_month = this.monthSelected;
-                    prefs?.setString(
-                        "userBirthdate_month", this.prefUserBirthdate_month!);
+                      prefs?.setString(
+                          "userBirthdate_month", this.prefUserBirthdate_month!);
                     }
                     if (this.yearSelected != null) {
                       this.prefUserBirthdate_year = this.yearSelected;
-                    prefs?.setInt(
-                        "userBirthdate_year", this.prefUserBirthdate_year!);
+                      prefs?.setInt(
+                          "userBirthdate_year", this.prefUserBirthdate_year!);
                     }
                   });
                 },
@@ -542,6 +542,7 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                 child: ExploreaBtnSquare(
                   text: "Suivant",
+                  disabled: this.agreedData == false || this.agreedData == null,
                   paddingHorizontal: 50.5,
                   onPressed: () {
                     if (this.agreedData == true)
