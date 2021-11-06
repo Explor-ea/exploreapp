@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:exploreapp/pages/start_screens/newcomer.dart';
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +12,62 @@ import "package:provider/provider.dart";
 
 import 'package:exploreapp/src/authentification.dart';
 import 'package:exploreapp/pages/start_screens/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   // @see https://stackoverflow.com/a/60769935
   if (!kIsWeb) SystemChrome.setEnabledSystemUIOverlays([]);
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => ApplicationState(),
-    builder: (context, _) => MyApp(),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.getInstance().then((prefInstance) {
+    int? bdDay = prefInstance.getInt("userBirthdate_day");
+    String? bdMonth = prefInstance.getString("userBirthdate_month");
+    int? bdYear = prefInstance.getInt("userBirthdate_year");
+    //
+    bool? agreedData = prefInstance.getBool("dataAgreed");
+    //
+    bool? agreedAd = prefInstance.getBool("adAgreed");
+    //
+    bool? agreedGeo = prefInstance.getBool("geoAgreed");
+    bool? agreedMicro = prefInstance.getBool("microAgreed");
+    bool? agreedCamera = prefInstance.getBool("cameraAgreed");
+
+    bool passNewcomerScreens = (bdDay != null) &&
+        (bdMonth != null) &&
+        (bdYear != null) &&
+        (agreedData != null) &&
+        (agreedAd != null) &&
+        (agreedGeo != null) &&
+        (agreedMicro != null) &&
+        (agreedCamera != null);
+
+    log(passNewcomerScreens.toString());
+
+    runApp(ChangeNotifierProvider(
+      create: (context) => ApplicationState(),
+      builder: (context, _) => passNewcomerScreens
+          ? MyApp(firstWidget:
+              Consumer<ApplicationState>(builder: (context, appState, _) {
+              return SignInSignUp(
+                loginState: appState.loginState,
+              );
+            }))
+          : MyApp(),
+    ));
+  });
+  // runApp(ChangeNotifierProvider(
+  //   create: (context) => ApplicationState(),
+  //   builder: (context, _) => MyApp(),
+  // ));
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+  final Widget firstWidget;
+
+  const MyApp({this.firstWidget = const Newcomer()});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,11 +85,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "ABCProphet"),
       // home: SplashScreen(),
-      home: Consumer<ApplicationState>(builder: (context, appState, _) {
-        return SignInSignUp(
-          loginState: appState.loginState,
-        );
-      }),
+      home: this.firstWidget,
       debugShowCheckedModeBanner: false,
     );
   }
