@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:exploreapp/explorea_colors.dart';
-import 'package:exploreapp/pages/near-adventures.dart';
+import 'package:exploreapp/pages/near_adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/foundation.dart';

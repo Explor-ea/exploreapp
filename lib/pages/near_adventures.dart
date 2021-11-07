@@ -4,6 +4,7 @@ import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/interactive_map.dart';
 import 'package:exploreapp/pages/profile.dart';
+import 'package:exploreapp/src/adventures.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea-title-secondary.dart';
@@ -106,80 +107,7 @@ class NearAdventures extends StatelessWidget {
 
             Container(
               height: 400.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ExploreaNoteFrame(
-                      // backgroundAsset: "assets/icon/explorea-logo.png",
-                      width: 300.0,
-                      height: 300.0,
-                      child: Wrap(
-                        runAlignment: WrapAlignment.end,
-                        children: [
-                          Text(
-                            "Les goëlands contre-attaquent",
-                            style:
-                                TextStyle(fontSize: 24.0, color: Colors.white),
-                          ),
-                          Container(height: 10.0),
-                          Row(
-                            children: [
-                              Text(
-                                "Facile",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white),
-                              ),
-                              Container(
-                                width: 20,
-                              ),
-                              Icon(
-                                Icons.access_time_outlined,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                " 15 min",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white),
-                              )
-                            ],
-                          ),
-                          Container(height: 30.0),
-                          Text(
-                            "Laboris cillum reprehenderit voluptate consectetur excepteur nostrud aute. Lorem deserunt amet ex anim sit non.",
-                            style:
-                                TextStyle(fontSize: 15.0, color: Colors.white),
-                          ),
-                          Container(height: 30.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ExploreaBtnSquare(
-                                text: "Consulter",
-                                paddingHorizontal: 80.0,
-                                onPressed: () {
-                                  log("clic on les goêlands");
-                                },
-                                backgroundColor: Colors.white,
-                                textColor: ExploreaColors.purpleDark,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ExploreaNoteFrame(
-                      // backgroundAsset: "assets/icon/explorea-logo.png",
-                      width: 300.0,
-                      height: 300.0,
-                    ),
-                  ),
-                ],
-              ),
+              child: buildAdventuresList(),
             ),
 
             // The adventures
@@ -189,4 +117,74 @@ class NearAdventures extends StatelessWidget {
       ]),
     );
   }
+}
+
+ListView buildAdventuresList() {
+  List<Widget> adventuresWidgets = [];
+
+  ListView ret =
+      ListView(scrollDirection: Axis.horizontal, children: adventuresWidgets);
+
+  for (var anAdventure in allAdventures) {
+    adventuresWidgets.add(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: ExploreaNoteFrame(
+          // backgroundAsset: "assets/icon/explorea-logo.png",
+          width: 300.0,
+          height: 300.0,
+          child: Wrap(
+            runAlignment: WrapAlignment.end,
+            children: [
+              Text(
+                anAdventure.name,
+                style: TextStyle(fontSize: 24.0, color: Colors.white),
+              ),
+              Container(height: 10.0),
+              Row(
+                children: [
+                  Text(
+                    anAdventure.difficultyText,
+                    style: TextStyle(fontSize: 15.0, color: Colors.white),
+                  ),
+                  Container(
+                    width: 20,
+                  ),
+                  Icon(
+                    Icons.access_time_outlined,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    " ${anAdventure.supposedTime} min",
+                    style: TextStyle(fontSize: 15.0, color: Colors.white),
+                  )
+                ],
+              ),
+              Container(height: 30.0),
+              Text(
+                anAdventure.description,
+                style: TextStyle(fontSize: 15.0, color: Colors.white),
+              ),
+              Container(height: 30.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ExploreaBtnSquare(
+                    text: "Consulter",
+                    paddingHorizontal: 80.0,
+                    onPressed: () {
+                      log("clic on ${anAdventure.name}");
+                    },
+                    backgroundColor: Colors.white,
+                    textColor: ExploreaColors.purpleDark,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  return ret;
 }
