@@ -35,11 +35,11 @@ void main() {
     bool passNewcomerScreens = (bdDay != null) &&
         (bdMonth != null) &&
         (bdYear != null) &&
-        (agreedData != null) &&
-        (agreedAd != null) &&
-        (agreedGeo != null) &&
-        (agreedMicro != null) &&
-        (agreedCamera != null);
+        (agreedData == true) &&
+        (agreedAd == true) &&
+        (agreedGeo == true) &&
+        (agreedMicro == true) &&
+        (agreedCamera == true);
 
     log(passNewcomerScreens.toString());
 

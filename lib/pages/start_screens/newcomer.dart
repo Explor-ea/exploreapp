@@ -542,13 +542,12 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                 child: ExploreaBtnSquare(
                   text: "Suivant",
-                  disabled: this.agreedData == false || this.agreedData == null,
+                  disabled: !(this.agreedData == true),
                   paddingHorizontal: 50.5,
                   onPressed: () {
-                    if (this.agreedData == true)
-                      setState(() {
-                        this.step = 4;
-                      });
+                    setState(() {
+                      this.step = 4;
+                    });
                   },
                 ),
               ),
@@ -615,12 +614,12 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                 child: ExploreaBtnSquare(
                   text: "Suivant",
+                  disabled: !(this.agreedAd == true),
                   paddingHorizontal: 50.5,
                   onPressed: () {
-                    if (this.agreedData == true)
-                      setState(() {
-                        this.step = 5;
-                      });
+                    setState(() {
+                      this.step = 5;
+                    });
                   },
                 ),
               ),
@@ -745,22 +744,19 @@ class _NewcomerState extends State<Newcomer> {
             Center(
                 child: ExploreaBtnSquare(
               onPressed: () {
-                if (this.prefAgreedGeo == true &&
-                    this.prefAgreedMicro == true &&
-                    this.prefAgreedCamera)
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          Consumer<ApplicationState>(
-                            builder: (context, appState, _) => SignInSignUp(
-                              loginState: appState.loginState,
-                            ),
-                          )));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        Consumer<ApplicationState>(
+                          builder: (context, appState, _) => SignInSignUp(
+                            loginState: appState.loginState,
+                          ),
+                        )));
               },
               text: "C'est parti !",
               paddingHorizontal: 50.5,
-              disabled: this.prefAgreedGeo == false ||
-                  this.prefAgreedMicro == false ||
-                  this.prefAgreedCamera == false,
+              disabled: !(this.prefAgreedGeo == true &&
+                  this.prefAgreedMicro == true &&
+                  this.prefAgreedCamera == true),
             )),
           ],
         );
