@@ -2,14 +2,21 @@ enum AdventureDifficulty { EASY, AVERAGE, HARD }
 
 class Adventure {
   final int id;
+
   final String name;
+
   final AdventureDifficulty difficulty;
 
   /// In minutes.
   final int supposedTime;
+
+  /// As [long, lat].
+  final List<double> location;
+
   final String description;
 
-  const Adventure(this.id, this.name, this.difficulty, this.supposedTime,
+  const Adventure(
+      this.id, this.name, this.difficulty, this.supposedTime, this.location,
       {this.description = "?"});
 
   String get difficultyText {
