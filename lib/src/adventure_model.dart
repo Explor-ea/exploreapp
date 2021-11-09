@@ -10,7 +10,7 @@ class Adventure {
   /// In minutes.
   final int supposedTime;
 
-  /// As [long, lat].
+  /// As [lat, long].
   final List<double> location;
 
   final String description;

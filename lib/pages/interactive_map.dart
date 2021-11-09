@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/near_adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
+import 'package:exploreapp/src/adventures.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,17 @@ class _InteractiveMapState extends State<InteractiveMap> {
           urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           subdomains: ['a', 'b', 'c'],
         ),
+        MarkerLayerOptions(markers: [
+          Marker(
+              anchorPos: AnchorPos.align(AnchorAlign.top),
+              point: LatLng(
+                  allAdventures[0].location[0], allAdventures[0].location[1]),
+              builder: (context) => const Icon(
+                    Icons.place,
+                    color: ExploreaColors.purple,
+                    size: 64.0,
+                  ))
+        ])
       ],
     );
   }
