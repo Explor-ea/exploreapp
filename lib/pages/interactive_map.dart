@@ -73,17 +73,21 @@ class _InteractiveMapState extends State<InteractiveMap> {
           urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           subdomains: ['a', 'b', 'c'],
         ),
-        MarkerLayerOptions(markers: [
-          Marker(
-              anchorPos: AnchorPos.align(AnchorAlign.top),
-              point: LatLng(
-                  allAdventures[0].location[0], allAdventures[0].location[1]),
-              builder: (context) => const Icon(
-                    Icons.place,
-                    color: ExploreaColors.purple,
-                    size: 64.0,
-                  ))
-        ])
+        MarkerLayerOptions(
+          markers: allAdventures
+              .map(
+                (anAdventure) => Marker(
+                    anchorPos: AnchorPos.align(AnchorAlign.top),
+                    point: LatLng(
+                        anAdventure.location[0], anAdventure.location[1]),
+                    builder: (context) => const Icon(
+                          Icons.place,
+                          color: ExploreaColors.purple,
+                          size: 64.0,
+                        )),
+              )
+              .toList(),
+        ),
       ],
     );
   }

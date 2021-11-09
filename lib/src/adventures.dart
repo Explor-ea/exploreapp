@@ -18,7 +18,7 @@ List<Adventure> allAdventures = [
     "Lorem culpa mollit",
     AdventureDifficulty.AVERAGE,
     25,
-    [0, 0],
+    [48.055569, -1.866993],
     description: """
     Reprehenderit culpa adipisicing irure voluptate do voluptate ut consequat in ut.
     Dolore aliqua mollit officia ea velit.
