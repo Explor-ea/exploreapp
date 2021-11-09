@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/near_adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventures.dart';
@@ -77,14 +78,21 @@ class _InteractiveMapState extends State<InteractiveMap> {
           markers: allAdventures
               .map(
                 (anAdventure) => Marker(
-                    anchorPos: AnchorPos.align(AnchorAlign.top),
-                    point: LatLng(
-                        anAdventure.location[0], anAdventure.location[1]),
-                    builder: (context) => const Icon(
-                          Icons.place,
-                          color: ExploreaColors.purple,
-                          size: 64.0,
-                        )),
+                  anchorPos: AnchorPos.align(AnchorAlign.top),
+                  point:
+                      LatLng(anAdventure.location[0], anAdventure.location[1]),
+                  builder: (context) => RawMaterialButton(
+                    onPressed: () {
+                      // TODO: redirect to anAdventure.id page
+                      goToNextPage(context, NearAdventures());
+                    },
+                    child: new Icon(
+                      Icons.place,
+                      color: ExploreaColors.purple,
+                      size: 64.0,
+                    ),
+                  ),
+                ),
               )
               .toList(),
         ),
