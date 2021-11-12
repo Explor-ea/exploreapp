@@ -83,7 +83,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                       LatLng(anAdventure.location[0], anAdventure.location[1]),
                   builder: (context) => RawMaterialButton(
                     onPressed: () {
-                      // TODO: redirect to anAdventure.id page
+                      // TODO: redirect to anAdventure.id page <-- No ! display a pop-up with Adventure infos, with a right chevron (>) to acces it.
                       goToNextPage(context, NearAdventures());
                     },
                     child: new Icon(
