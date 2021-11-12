@@ -3,6 +3,9 @@ import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
+import 'package:exploreapp/wigets/explorea-line.dart';
+import 'package:exploreapp/wigets/explorea-title.dart';
+import 'package:exploreapp/wigets/explorea_btn_square.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/material.dart';
 import "dart:math" as math;
@@ -22,6 +25,8 @@ class AdventureDetails extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            //
+            // Full height presentation view
             Container(
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
@@ -99,6 +104,11 @@ class AdventureDetails extends StatelessWidget {
                 ],
               ),
             ),
+            // Full height presentation view
+            //
+
+            //
+            // Adventure requirements & details
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -178,7 +188,49 @@ class AdventureDetails extends StatelessWidget {
                   ),
                 ),
               ],
-            )
+            ),
+            // Adventure requirements & details
+            //
+
+            Container(height: 75.0),
+
+            //
+            // Description and play btn
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ExploreaTitle(text: "Description"),
+                  Container(height: 45.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ExploreaLine(
+                        color: ExploreaColors.yellow,
+                      ),
+                      Flexible(
+                          child: Text(
+                        theAdventure.description,
+                      )),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            Container(height: 45.0),
+
+            ExploreaBtnSquare(
+                paddingHorizontal: 50.0,
+                text: theAdventure.id == 1 ? "Essayer gratuitement" : "Jouer",
+                onPressed: () {}),
+
+            // Description and play btn
+            //
+
+            Container(height: 30)
           ],
         ),
       ),
