@@ -9,6 +9,7 @@ class ExploreaNoteFrame extends StatelessWidget {
     this.backgroundAsset,
     this.width,
     this.height,
+    this.backgroundColor = ExploreaColors.purple,
     this.child,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class ExploreaNoteFrame extends StatelessWidget {
   final String? backgroundAsset;
   final double? width;
   final double? height;
+  final Color? backgroundColor;
   final Widget? child;
 
   @override
@@ -32,7 +34,7 @@ class ExploreaNoteFrame extends StatelessWidget {
                 fit: BoxFit.cover,
               ))
             : null,
-        color: backgroundAsset == null ? ExploreaColors.purple : null,
+        color: backgroundAsset == null ? this.backgroundColor : null,
         //
         width: this.width,
         height: this.height,
