@@ -89,14 +89,11 @@ class _InteractiveMapState extends State<InteractiveMap> {
                   point:
                       LatLng(anAdventure.location[0], anAdventure.location[1]),
                   builder: (context) => RawMaterialButton(
-                    fillColor: Colors.red,
                     onPressed: () {
                       setState(() {
                         this.theSelectedAdventure = allAdventures.firstWhere(
                             ((element) => element.id == anAdventure.id));
                       });
-                      // TODO: redirect to anAdventure.id page <-- No ! display a pop-up with Adventure infos, with a right chevron (>) to acces it.
-                      // goToNextPage(context, NearAdventures());
                     },
                     child: const Icon(
                       Icons.place,
@@ -154,7 +151,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 140),
               child: ExploreaNoteFrame(
                 backgroundColor: Colors.white,
-                height: 195,
+                height: 150,
                 width: 315,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
