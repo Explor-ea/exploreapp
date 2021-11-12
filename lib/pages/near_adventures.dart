@@ -165,7 +165,7 @@ ListView buildAdventuresList(context) {
               ),
               Container(height: 30.0),
               Text(
-                anAdventure.description,
+                anAdventure.description.substring(0, 120) + "...",
                 style: TextStyle(fontSize: 15.0, color: Colors.white),
               ),
               Container(height: 30.0),
