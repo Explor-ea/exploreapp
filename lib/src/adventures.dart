@@ -1,7 +1,7 @@
 import 'package:exploreapp/src/adventure_model.dart';
 
-List<Adventure> allAdventures = [
-  new Adventure(
+const List<Adventure> allAdventures = [
+  const Adventure(
     1,
     "Les goêlands contre-attaquent",
     AdventureDifficulty.EASY,
@@ -11,12 +11,11 @@ List<Adventure> allAdventures = [
     15,
     false,
     description: """
-    Lorem minim irure eiusmod magna ex nostrud nisi nostrud nisi culpa excepteur id.
-    Proident elit duis elit ad voluptate commodo sit consectetur proident qui aliquip ex.
-    Commodo deserunt nulla culpa tempor non voluptate fugiat quis ut.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus sem aenean viverra at massa consectetur. Pellentesque massa nisl turpis amet eget non enim donec. Rhoncus duis felis risus in suscipit urna facilisis. Pretium rhoncus viverra ultrices nibh euismod. Et tortor eu ut non nunc.
+    Proin morbi scelerisque potenti cras orci, et, amet. Arcu lorem id tempus elit felis duis sem. Tellus molestie id in nunc. Et neque quam nullam sed ultrices hendrerit duis elementum. Dictum sem id nunc dui posuere sed. Mattis lectus arcu velit.
     """,
   ),
-  new Adventure(
+  const Adventure(
     2,
     "Lorem culpa mollit",
     AdventureDifficulty.AVERAGE,
