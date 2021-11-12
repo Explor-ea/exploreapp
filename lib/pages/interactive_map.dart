@@ -31,7 +31,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
   //
   // // Enable pinchZoom and doubleTapZoomBy by default
 
-  int? selectedAventureId;
+  Adventure? theSelectedAdventure;
 
   @override
   void initState() {
@@ -92,7 +92,8 @@ class _InteractiveMapState extends State<InteractiveMap> {
                     fillColor: Colors.red,
                     onPressed: () {
                       setState(() {
-                        this.selectedAventureId = anAdventure.id;
+                        this.theSelectedAdventure = allAdventures.firstWhere(
+                            ((element) => element.id == anAdventure.id));
                       });
                       // TODO: redirect to anAdventure.id page <-- No ! display a pop-up with Adventure infos, with a right chevron (>) to acces it.
                       // goToNextPage(context, NearAdventures());
@@ -113,11 +114,6 @@ class _InteractiveMapState extends State<InteractiveMap> {
 
   @override
   Widget build(BuildContext context) {
-    Adventure? theAdventure;
-    if (this.selectedAventureId != null)
-      theAdventure = allAdventures
-          .firstWhere((element) => element.id == this.selectedAventureId);
-
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -151,7 +147,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
             ),
           ),
         ),
-        if (this.selectedAventureId != null)
+        if (this.theSelectedAdventure != null)
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -168,7 +164,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Flexible(
-                            child: Text(theAdventure!.name,
+                            child: Text(this.theSelectedAdventure!.name,
                                 style: TextStyle(
                                     color: ExploreaColors.purpleDark,
                                     fontSize: 24.0)),
@@ -177,7 +173,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                theAdventure!.difficultyText,
+                                this.theSelectedAdventure!.difficultyText,
                                 style: TextStyle(
                                     fontSize: 15.0,
                                     color: ExploreaColors.purpleDark),
@@ -189,7 +185,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                                     color: ExploreaColors.yellow,
                                   ),
                                   Text(
-                                    " ${theAdventure!.supposedTime} min",
+                                    " ${this.theSelectedAdventure!.supposedTime} min",
                                     style: TextStyle(
                                         fontSize: 15.0,
                                         color: ExploreaColors.purpleDark),
@@ -206,7 +202,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                         goToNextPage(
                             context,
                             AdventureDetails(
-                                adventureId: this.selectedAventureId!));
+                                adventureId: this.theSelectedAdventure!.id));
                       },
                       child: Container(
                           width: 50,
