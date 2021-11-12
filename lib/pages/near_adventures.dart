@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
+import 'package:exploreapp/pages/adventure_details.dart';
 import 'package:exploreapp/pages/interactive_map.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventures.dart';
@@ -107,7 +108,7 @@ class NearAdventures extends StatelessWidget {
 
             Container(
               height: 400.0,
-              child: buildAdventuresList(),
+              child: buildAdventuresList(context),
             ),
 
             // The adventures
@@ -119,7 +120,7 @@ class NearAdventures extends StatelessWidget {
   }
 }
 
-ListView buildAdventuresList() {
+ListView buildAdventuresList(context) {
   List<Widget> adventuresWidgets = [];
 
   ListView ret =
@@ -130,7 +131,9 @@ ListView buildAdventuresList() {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ExploreaNoteFrame(
-          // backgroundAsset: "assets/icon/explorea-logo.png",
+          backgroundAsset: anAdventure.backgroundPict != null
+              ? anAdventure.backgroundPict
+              : null, // Default is purple.
           width: 300.0,
           height: 300.0,
           child: Wrap(
@@ -174,6 +177,7 @@ ListView buildAdventuresList() {
                     paddingHorizontal: 80.0,
                     onPressed: () {
                       log("clic on ${anAdventure.name}");
+                      goToNextPage(context, AdventureDetails(adventureId: 1));
                     },
                     backgroundColor: Colors.white,
                     textColor: ExploreaColors.purpleDark,

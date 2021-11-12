@@ -274,3 +274,7 @@ pushReplaceToNextPage(BuildContext context, Widget nextPage) {
 goToNextPage(BuildContext context, Widget nextPage) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => nextPage));
 }
+
+goBack(BuildContext context) {
+  Navigator.pop(context);
+}
