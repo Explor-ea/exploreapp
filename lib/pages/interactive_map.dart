@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
+import 'package:exploreapp/pages/adventure_details.dart';
 import 'package:exploreapp/pages/near_adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
+import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
+import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +30,8 @@ class _InteractiveMapState extends State<InteractiveMap> {
   late final StreamSubscription<MapEvent> subscription;
   //
   // // Enable pinchZoom and doubleTapZoomBy by default
+
+  int? selectedAventureId;
 
   @override
   void initState() {
@@ -78,15 +83,21 @@ class _InteractiveMapState extends State<InteractiveMap> {
           markers: allAdventures
               .map(
                 (anAdventure) => Marker(
+                  height: 64,
+                  width: 64,
                   anchorPos: AnchorPos.align(AnchorAlign.top),
                   point:
                       LatLng(anAdventure.location[0], anAdventure.location[1]),
                   builder: (context) => RawMaterialButton(
+                    fillColor: Colors.red,
                     onPressed: () {
+                      setState(() {
+                        this.selectedAventureId = anAdventure.id;
+                      });
                       // TODO: redirect to anAdventure.id page <-- No ! display a pop-up with Adventure infos, with a right chevron (>) to acces it.
-                      goToNextPage(context, NearAdventures());
+                      // goToNextPage(context, NearAdventures());
                     },
-                    child: new Icon(
+                    child: const Icon(
                       Icons.place,
                       color: ExploreaColors.purple,
                       size: 64.0,
@@ -102,6 +113,11 @@ class _InteractiveMapState extends State<InteractiveMap> {
 
   @override
   Widget build(BuildContext context) {
+    Adventure? theAdventure;
+    if (this.selectedAventureId != null)
+      theAdventure = allAdventures
+          .firstWhere((element) => element.id == this.selectedAventureId);
+
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -135,6 +151,76 @@ class _InteractiveMapState extends State<InteractiveMap> {
             ),
           ),
         ),
+        if (this.selectedAventureId != null)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 140),
+              child: ExploreaNoteFrame(
+                backgroundColor: Colors.white,
+                height: 195,
+                width: 315,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Flexible(
+                            child: Text(theAdventure!.name,
+                                style: TextStyle(
+                                    color: ExploreaColors.purpleDark,
+                                    fontSize: 24.0)),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                theAdventure!.difficultyText,
+                                style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: ExploreaColors.purpleDark),
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.access_time_outlined,
+                                    color: ExploreaColors.yellow,
+                                  ),
+                                  Text(
+                                    " ${theAdventure!.supposedTime} min",
+                                    style: TextStyle(
+                                        fontSize: 15.0,
+                                        color: ExploreaColors.purpleDark),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTapDown: (unusedDetails) {
+                        goToNextPage(
+                            context,
+                            AdventureDetails(
+                                adventureId: this.selectedAventureId!));
+                      },
+                      child: Container(
+                          width: 50,
+                          child: Icon(
+                            Icons.chevron_right,
+                            color: ExploreaColors.yellow,
+                            size: 32,
+                          )),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.fromLTRB(24.0, 0, 0, 24.0),
           child: Align(
