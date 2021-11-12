@@ -1,7 +1,10 @@
 // import 'dart:html';
 
+import 'dart:async';
+
 import 'package:exploreapp/pages/interactive_map.dart';
 import 'package:flutter/material.dart';
+import 'package:exploreapp/main.dart';
 
 import '../../pass_points.dart';
 
@@ -10,6 +13,10 @@ class Cinematic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Timer(Duration(seconds: 1), () async {
+      goToNextPage(context, InteractiveMap());
+    });
+
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.all(32.0),

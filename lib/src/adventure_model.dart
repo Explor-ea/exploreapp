@@ -18,8 +18,19 @@ class Adventure {
   /// Asset path. Remember to declare the asset in pubspec.
   final String? backgroundPict;
 
-  const Adventure(this.id, this.name, this.difficulty, this.supposedTime,
-      this.location, this.backgroundPict,
+  final int ageRestriction;
+
+  final bool suitableForDisabledPeople;
+
+  const Adventure(
+      this.id,
+      this.name,
+      this.difficulty,
+      this.supposedTime,
+      this.location,
+      this.backgroundPict,
+      this.ageRestriction,
+      this.suitableForDisabledPeople,
       {this.description = "?"});
 
   String get difficultyText {
