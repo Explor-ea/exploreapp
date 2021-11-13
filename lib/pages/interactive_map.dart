@@ -32,6 +32,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
   // // Enable pinchZoom and doubleTapZoomBy by default
 
   Adventure? theSelectedAdventure;
+  // bool showAdventureCard = false;
 
   @override
   void initState() {
@@ -61,6 +62,11 @@ class _InteractiveMapState extends State<InteractiveMap> {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
+        onTap: (latlong) {
+          setState(() {
+            this.theSelectedAdventure = null;
+          });
+        },
         center: LatLng(48.163, -2.73),
         zoom: 7.0,
         maxZoom: 18,
@@ -93,6 +99,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                       setState(() {
                         this.theSelectedAdventure = allAdventures.firstWhere(
                             ((element) => element.id == anAdventure.id));
+                        // this.showAdventureCard = true;
                       });
                     },
                     child: const Icon(
@@ -144,8 +151,16 @@ class _InteractiveMapState extends State<InteractiveMap> {
             ),
           ),
         ),
-        if (this.theSelectedAdventure != null)
-          Align(
+        AnimatedOpacity(
+          opacity: this.theSelectedAdventure != null ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 250),
+          // onEnd: () {
+          //   // if (this.theSelectedAdventure == null)
+          //   //   this.showAdventureCard = false;
+          // },
+          child: Visibility(
+              // visible: this.showAdventureCard,
+              child: Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 140),
@@ -161,7 +176,10 @@ class _InteractiveMapState extends State<InteractiveMap> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Flexible(
-                            child: Text(this.theSelectedAdventure!.name,
+                            child: Text(
+                                this.theSelectedAdventure != null
+                                    ? this.theSelectedAdventure!.name
+                                    : '',
                                 style: TextStyle(
                                     color: ExploreaColors.purpleDark,
                                     fontSize: 24.0)),
@@ -170,7 +188,9 @@ class _InteractiveMapState extends State<InteractiveMap> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                this.theSelectedAdventure!.difficultyText,
+                                this.theSelectedAdventure != null
+                                    ? this.theSelectedAdventure!.difficultyText
+                                    : '',
                                 style: TextStyle(
                                     fontSize: 15.0,
                                     color: ExploreaColors.purpleDark),
@@ -182,7 +202,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                                     color: ExploreaColors.yellow,
                                   ),
                                   Text(
-                                    " ${this.theSelectedAdventure!.supposedTime} min",
+                                    " ${this.theSelectedAdventure != null ? this.theSelectedAdventure!.supposedTime : ''} min",
                                     style: TextStyle(
                                         fontSize: 15.0,
                                         color: ExploreaColors.purpleDark),
@@ -213,7 +233,8 @@ class _InteractiveMapState extends State<InteractiveMap> {
                 ),
               ),
             ),
-          ),
+          )),
+        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(24.0, 0, 0, 24.0),
           child: Align(
