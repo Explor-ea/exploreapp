@@ -275,9 +275,12 @@ class _NewcomerState extends State<Newcomer> {
                                   alignment: Alignment.center,
                                   child: ExploreaTitle(
                                     text: '$i',
-                                    color: i != this.daySelected
-                                        ? Colors.grey
-                                        : ExploreaColors.purple,
+                                    color: i == this.daySelected
+                                        ? ExploreaColors.purple
+                                        : (i == this.prefUserBirthdate_day &&
+                                                this.daySelected == null)
+                                            ? ExploreaColors.purple
+                                            : Colors.grey,
                                   ));
                             },
                           );
@@ -339,9 +342,12 @@ class _NewcomerState extends State<Newcomer> {
                                   child: FittedBox(
                                     child: ExploreaTitle(
                                       text: '$i',
-                                      color: i != this.monthSelected
-                                          ? Colors.grey
-                                          : ExploreaColors.purple,
+                                      color: i == this.monthSelected
+                                          ? ExploreaColors.purple
+                                          : (i == this.prefUserBirthdate_month &&
+                                                  this.monthSelected == null)
+                                              ? ExploreaColors.purple
+                                              : Colors.grey,
                                     ),
                                   ));
                             },
@@ -404,9 +410,12 @@ class _NewcomerState extends State<Newcomer> {
                                   child: FittedBox(
                                     child: ExploreaTitle(
                                       text: '$i',
-                                      color: i != this.yearSelected
-                                          ? Colors.grey
-                                          : ExploreaColors.purple,
+                                      color: i == this.yearSelected
+                                          ? ExploreaColors.purple
+                                          : (i == this.prefUserBirthdate_year &&
+                                                  this.yearSelected == null)
+                                              ? ExploreaColors.purple
+                                              : Colors.grey,
                                     ),
                                   ));
                             },
@@ -448,20 +457,31 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                   child: ExploreaBtnSquare(
                 text: "Suivant",
+                disabled: (this.daySelected == null &&
+                        this.prefUserBirthdate_day == null) ||
+                    (this.monthSelected == null &&
+                        this.prefUserBirthdate_month == null) ||
+                    (this.yearSelected == null &&
+                        this.prefUserBirthdate_year == null),
                 onPressed: () {
                   setState(() {
                     this.step = 3;
 
-                    this.prefUserBirthdate_day = this.daySelected;
-                    this.prefUserBirthdate_month = this.monthSelected;
-                    this.prefUserBirthdate_year = this.yearSelected;
-
-                    prefs?.setInt(
-                        "userBirthdate_day", this.prefUserBirthdate_day!);
-                    prefs?.setString(
-                        "userBirthdate_month", this.prefUserBirthdate_month!);
-                    prefs?.setInt(
-                        "userBirthdate_year", this.prefUserBirthdate_year!);
+                    if (this.daySelected != null) {
+                      this.prefUserBirthdate_day = this.daySelected;
+                      prefs?.setInt(
+                          "userBirthdate_day", this.prefUserBirthdate_day!);
+                    }
+                    if (this.monthSelected != null) {
+                      this.prefUserBirthdate_month = this.monthSelected;
+                      prefs?.setString(
+                          "userBirthdate_month", this.prefUserBirthdate_month!);
+                    }
+                    if (this.yearSelected != null) {
+                      this.prefUserBirthdate_year = this.yearSelected;
+                      prefs?.setInt(
+                          "userBirthdate_year", this.prefUserBirthdate_year!);
+                    }
                   });
                 },
                 paddingHorizontal: 50.5,
@@ -522,12 +542,12 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                 child: ExploreaBtnSquare(
                   text: "Suivant",
+                  disabled: !(this.agreedData == true),
                   paddingHorizontal: 50.5,
                   onPressed: () {
-                    if (this.agreedData == true)
-                      setState(() {
-                        this.step = 4;
-                      });
+                    setState(() {
+                      this.step = 4;
+                    });
                   },
                 ),
               ),
@@ -594,12 +614,12 @@ class _NewcomerState extends State<Newcomer> {
               child: Center(
                 child: ExploreaBtnSquare(
                   text: "Suivant",
+                  disabled: !(this.agreedAd == true),
                   paddingHorizontal: 50.5,
                   onPressed: () {
-                    if (this.agreedData == true)
-                      setState(() {
-                        this.step = 5;
-                      });
+                    setState(() {
+                      this.step = 5;
+                    });
                   },
                 ),
               ),
@@ -724,22 +744,19 @@ class _NewcomerState extends State<Newcomer> {
             Center(
                 child: ExploreaBtnSquare(
               onPressed: () {
-                if (this.prefAgreedGeo == true &&
-                    this.prefAgreedMicro == true &&
-                    this.prefAgreedCamera)
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          Consumer<ApplicationState>(
-                            builder: (context, appState, _) => SignInSignUp(
-                              loginState: appState.loginState,
-                            ),
-                          )));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        Consumer<ApplicationState>(
+                          builder: (context, appState, _) => SignInSignUp(
+                            loginState: appState.loginState,
+                          ),
+                        )));
               },
               text: "C'est parti !",
               paddingHorizontal: 50.5,
-              disabled: this.prefAgreedGeo == false ||
-                  this.prefAgreedMicro == false ||
-                  this.prefAgreedCamera == false,
+              disabled: !(this.prefAgreedGeo == true &&
+                  this.prefAgreedMicro == true &&
+                  this.prefAgreedCamera == true),
             )),
           ],
         );
