@@ -69,6 +69,7 @@ flutter:
   assets:
     - assets/
     - assets/icon/
+    - assets/adventure-background-pict/
 
   fonts:
     - family: ABCProphet

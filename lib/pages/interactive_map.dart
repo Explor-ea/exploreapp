@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
+import 'package:exploreapp/pages/adventure_details.dart';
 import 'package:exploreapp/pages/near_adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
+import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
+import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +30,12 @@ class _InteractiveMapState extends State<InteractiveMap> {
   late final StreamSubscription<MapEvent> subscription;
   //
   // // Enable pinchZoom and doubleTapZoomBy by default
+
+  Adventure? theSelectedAdventure;
+
+  /// This will be used by the AnimatedOpacity() and the Visibility() Wigets,
+  /// wich will be in charge of setting theSelectedAdventure to null.
+  bool showAdventureCard = false;
 
   @override
   void initState() {
@@ -56,6 +65,11 @@ class _InteractiveMapState extends State<InteractiveMap> {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
+        onTap: (latlong) {
+          setState(() {
+            this.showAdventureCard = false;
+          });
+        },
         center: LatLng(48.163, -2.73),
         zoom: 7.0,
         maxZoom: 18,
@@ -78,15 +92,20 @@ class _InteractiveMapState extends State<InteractiveMap> {
           markers: allAdventures
               .map(
                 (anAdventure) => Marker(
+                  height: 64,
+                  width: 64,
                   anchorPos: AnchorPos.align(AnchorAlign.top),
                   point:
                       LatLng(anAdventure.location[0], anAdventure.location[1]),
                   builder: (context) => RawMaterialButton(
                     onPressed: () {
-                      // TODO: redirect to anAdventure.id page
-                      goToNextPage(context, NearAdventures());
+                      setState(() {
+                        this.theSelectedAdventure = allAdventures.firstWhere(
+                            ((element) => element.id == anAdventure.id));
+                        this.showAdventureCard = true;
+                      });
                     },
-                    child: new Icon(
+                    child: const Icon(
                       Icons.place,
                       color: ExploreaColors.purple,
                       size: 64.0,
@@ -134,6 +153,96 @@ class _InteractiveMapState extends State<InteractiveMap> {
               ],
             ),
           ),
+        ),
+        AnimatedOpacity(
+          opacity: this.showAdventureCard ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 250),
+          onEnd: () {
+            if (!this.showAdventureCard)
+              setState(() {
+                this.theSelectedAdventure = null;
+              });
+          },
+          child: Visibility(
+              visible: this.theSelectedAdventure != null,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 140),
+                  child: ExploreaNoteFrame(
+                    backgroundColor: Colors.white,
+                    height: 150,
+                    width: 315,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                    this.theSelectedAdventure != null
+                                        ? this.theSelectedAdventure!.name
+                                        : '',
+                                    style: TextStyle(
+                                        color: ExploreaColors.purpleDark,
+                                        fontSize: 24.0)),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    this.theSelectedAdventure != null
+                                        ? this
+                                            .theSelectedAdventure!
+                                            .difficultyText
+                                        : '',
+                                    style: TextStyle(
+                                        fontSize: 15.0,
+                                        color: ExploreaColors.purpleDark),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.access_time_outlined,
+                                        color: ExploreaColors.yellow,
+                                      ),
+                                      Text(
+                                        " ${this.theSelectedAdventure != null ? this.theSelectedAdventure!.supposedTime : ''} min",
+                                        style: TextStyle(
+                                            fontSize: 15.0,
+                                            color: ExploreaColors.purpleDark),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTapDown: (unusedDetails) {
+                            goToNextPage(
+                                context,
+                                AdventureDetails(
+                                    adventureId:
+                                        this.theSelectedAdventure!.id));
+                          },
+                          child: Container(
+                              width: 50,
+                              child: Icon(
+                                Icons.chevron_right,
+                                color: ExploreaColors.yellow,
+                                size: 32,
+                              )),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(24.0, 0, 0, 24.0),
