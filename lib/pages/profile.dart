@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:exploreapp/wigets/explorea-line.dart';
+import 'package:exploreapp/wigets/explorea-note-frame.dart';
+import 'package:exploreapp/wigets/explorea_goto_icon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:exploreapp/wigets/explorea_fab.dart';
@@ -97,6 +99,7 @@ class Profil extends StatelessWidget {
                           Tab(text: "Réglages"),
                         ],
                       ),
+                      Container(height: 40),
                       Expanded(
                         child: TabBarView(children: [
                           Container(
@@ -115,7 +118,34 @@ class Profil extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            child: Text("tab 2"),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ExploreaNoteFrame(
+                                      width: 60,
+                                      height: 60,
+                                      padding: EdgeInsets.zero,
+                                      child: Center(
+                                          child: Text(
+                                        "?",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 24),
+                                      )),
+                                    ),
+                                    Text(
+                                      "F.A.Q",
+                                      style: TextStyle(
+                                          color: ExploreaColors.purpleDark,
+                                          fontSize: 24.0),
+                                    ),
+                                    ExploreaGotoIcon(),
+                                  ],
+                                )
+                              ],
+                            ),
                           )
                         ]),
                       ),
