@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:flutter/material.dart';
 
 import 'package:exploreapp/wigets/explorea_fab.dart';
@@ -15,66 +16,107 @@ class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ExploreaFab(
-                onPressed: () {},
-                padding: const EdgeInsets.all(8.0),
-                icon: const Icon(Icons.settings),
-              ),
-              ExploreaFab(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                padding: const EdgeInsets.all(8.0),
-                icon: const Icon(Icons.close),
-              ),
-            ],
-          ),
-          Align(
-              alignment: Alignment.center,
-              child: Column(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 15, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Image.asset(
-                    "assets/explorea-no_pict.png",
-                    height: 128.0,
-                    width: 128.0,
+                  ExploreaFab(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: const EdgeInsets.all(8.0),
+                    icon: const Icon(Icons.close),
                   ),
-                  Text("New User"),
                 ],
-              )),
-          SizedBox(height: 28.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Consumer<ApplicationState>(
-                builder: (context, appState, _) => Authentification(
-                    loginState: appState.loginState,
-                    email: appState.email,
-                    startLoginFlow: appState.startLoginFlow,
-                    verifyEmail: appState.verifyEmail,
-                    signInWithEmailAndPassword:
-                        appState.signInWithEmailAndPassword,
-                    cancelRegistration: appState.cancelRegistration,
-                    registerAccount: appState.registerAccount,
-                    signOut: appState.signOut),
               ),
-            ],
-          ),
-          SizedBox(height: 28.0),
-          Row(
-            children: [Text("Mes parcours accomplis")],
-          ),
-          buildScenarioList(),
-          SizedBox(height: 28.0),
-          Row(
-            children: [Text("Mes récompenses")],
-          ),
-          buildScenarioList(),
-        ],
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     Consumer<ApplicationState>(
+            //       builder: (context, appState, _) => Authentification(
+            //           loginState: appState.loginState,
+            //           email: appState.email,
+            //           startLoginFlow: appState.startLoginFlow,
+            //           verifyEmail: appState.verifyEmail,
+            //           signInWithEmailAndPassword:
+            //               appState.signInWithEmailAndPassword,
+            //           cancelRegistration: appState.cancelRegistration,
+            //           registerAccount: appState.registerAccount,
+            //           signOut: appState.signOut),
+            //     ),
+            //   ],
+            // ),
+
+            Container(
+              height: 50,
+            ),
+
+            Text("Welcome"),
+            Row(
+              children: [
+                ExploreaLine(
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+                ),
+                // TODO: mettre le nom
+                Text("METTRE LE NOM")
+              ],
+            ),
+
+            Container(
+              height: 50,
+            ),
+
+            DefaultTabController(
+                initialIndex: 1,
+                length: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      height: 50.0,
+                      child: TabBar(
+                        labelColor: ExploreaColors.purpleDark,
+                        indicatorColor: ExploreaColors.yellow,
+                        tabs: [
+                          Tab(text: "Statistiques"),
+                          Tab(text: "Réglages"),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 300,
+                      child: TabBarView(children: [
+                        Container(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [Text("Mes parcours accomplis")],
+                              ),
+                              buildScenarioList(),
+                              Container(height: 28.0),
+                              Row(
+                                children: [Text("Mes récompenses")],
+                              ),
+                              buildScenarioList(),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Text("tab 2"),
+                        )
+                      ]),
+                    ),
+                  ],
+                )),
+          ],
+        ),
       ),
     );
   }
