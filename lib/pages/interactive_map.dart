@@ -9,6 +9,7 @@ import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
+import 'package:exploreapp/wigets/explorea_goto_icon.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -222,22 +223,11 @@ class _InteractiveMapState extends State<InteractiveMap> {
                             ],
                           ),
                         ),
-                        GestureDetector(
-                          onTapDown: (unusedDetails) {
-                            goToNextPage(
-                                context,
-                                AdventureDetails(
-                                    adventureId:
-                                        this.theSelectedAdventure!.id));
-                          },
-                          child: Container(
-                              width: 50,
-                              child: Icon(
-                                Icons.chevron_right,
-                                color: ExploreaColors.yellow,
-                                size: 32,
-                              )),
-                        )
+                        if (this.theSelectedAdventure != null)
+                          ExploreaGotoIcon(
+                            nextPage: AdventureDetails(
+                                adventureId: this.theSelectedAdventure!.id),
+                          )
                       ],
                     ),
                   ),
