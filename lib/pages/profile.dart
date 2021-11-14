@@ -102,6 +102,8 @@ class Profil extends StatelessWidget {
                       Container(height: 40),
                       Expanded(
                         child: TabBarView(children: [
+                          //
+                          // 'Statistiques' tab
                           Container(
                             child: Column(
                               children: [
@@ -117,36 +119,16 @@ class Profil extends StatelessWidget {
                               ],
                             ),
                           ),
+                          // 'Statistiques' tab
+                          //
+
+                          //
+                          // 'Réglages' tab
                           Container(
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ExploreaNoteFrame(
-                                      width: 60,
-                                      height: 60,
-                                      padding: EdgeInsets.zero,
-                                      child: Center(
-                                          child: Text(
-                                        "?",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 24),
-                                      )),
-                                    ),
-                                    Text(
-                                      "F.A.Q",
-                                      style: TextStyle(
-                                          color: ExploreaColors.purpleDark,
-                                          fontSize: 24.0),
-                                    ),
-                                    ExploreaGotoIcon(),
-                                  ],
-                                )
-                              ],
-                            ),
+                            child: buildSettingsList(),
                           )
+                          // 'Réglages' tab
+                          //
                         ]),
                       ),
                     ],
@@ -186,6 +168,85 @@ class Profil extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: scenarioList,
       ),
+    );
+  }
+
+  Widget buildSettingsList() {
+    var items = [
+      <Widget>[
+        Text(
+          "?",
+          style: TextStyle(color: Colors.white, fontSize: 24),
+        ),
+        Text(
+          "F.A.Q",
+          style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
+        ),
+        ExploreaGotoIcon()
+      ],
+      [
+        Icon(
+          Icons.phone_android,
+          color: Colors.white,
+        ),
+        Text(
+          "C.G.U",
+          style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
+        ),
+        ExploreaGotoIcon()
+      ],
+      [
+        Icon(
+          Icons.people_outline,
+          color: Colors.white,
+        ),
+        Text(
+          "C.G.V",
+          style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
+        ),
+        ExploreaGotoIcon()
+      ],
+      [
+        Icon(
+          Icons.person,
+          color: Colors.white,
+        ),
+        Text(
+          "Infos",
+          style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
+        ),
+        ExploreaGotoIcon()
+      ]
+    ];
+
+    List<Widget> itemList = [];
+
+    for (int i = 0; i < items.length; i++) {
+      var anItem = items[i];
+
+      itemList.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ExploreaNoteFrame(
+            width: 60,
+            height: 60,
+            padding: EdgeInsets.zero,
+            child: Center(child: anItem[0]),
+          ),
+          anItem[1],
+          anItem[2],
+        ],
+      ));
+
+      if (i < items.length - 1)
+        itemList.add(Divider(
+          height: 26.0,
+          color: ExploreaColors.purpleDark,
+        ));
+    }
+
+    return Column(
+      children: itemList,
     );
   }
 }
