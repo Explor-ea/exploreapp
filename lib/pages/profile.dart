@@ -73,48 +73,55 @@ class Profil extends StatelessWidget {
               height: 50,
             ),
 
-            DefaultTabController(
-                initialIndex: 1,
-                length: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      height: 50.0,
-                      child: TabBar(
+            Expanded(
+              child: DefaultTabController(
+                  initialIndex: 1,
+                  length: 2,
+                  child: Column(
+                    children: [
+                      TabBar(
                         labelColor: ExploreaColors.purpleDark,
+                        unselectedLabelColor: ExploreaColors.darkGrey,
+                        //
+                        labelStyle: TextStyle(
+                            color: ExploreaColors.purpleDark, fontSize: 20.0),
+                        unselectedLabelStyle:
+                            TextStyle(color: ExploreaColors.darkGrey),
+                        //
+                        //
                         indicatorColor: ExploreaColors.yellow,
+                        //
+                        //
                         tabs: [
                           Tab(text: "Statistiques"),
                           Tab(text: "Réglages"),
                         ],
                       ),
-                    ),
-                    Container(
-                      height: 300,
-                      child: TabBarView(children: [
-                        Container(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [Text("Mes parcours accomplis")],
-                              ),
-                              buildScenarioList(),
-                              Container(height: 28.0),
-                              Row(
-                                children: [Text("Mes récompenses")],
-                              ),
-                              buildScenarioList(),
-                            ],
+                      Expanded(
+                        child: TabBarView(children: [
+                          Container(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [Text("Mes parcours accomplis")],
+                                ),
+                                buildScenarioList(),
+                                Container(height: 28.0),
+                                Row(
+                                  children: [Text("Mes récompenses")],
+                                ),
+                                buildScenarioList(),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          child: Text("tab 2"),
-                        )
-                      ]),
-                    ),
-                  ],
-                )),
+                          Container(
+                            child: Text("tab 2"),
+                          )
+                        ]),
+                      ),
+                    ],
+                  )),
+            ),
           ],
         ),
       ),
