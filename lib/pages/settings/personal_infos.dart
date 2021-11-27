@@ -19,6 +19,7 @@ class PersonalInfos extends StatefulWidget {
 // TODO: maybe add the possibility to verify user's email.
 class _PersonalInfosState extends State<PersonalInfos> {
   final TextEditingController tecEmail = new TextEditingController();
+  final TextEditingController tecPassword = new TextEditingController();
   User? currentUser;
 
   @override
@@ -27,6 +28,8 @@ class _PersonalInfosState extends State<PersonalInfos> {
     if (currentUser != null) {
       tecEmail.text = currentUser!.email ?? "";
     }
+
+    tecPassword.text = "******";
 
     super.initState();
   }
@@ -72,73 +75,53 @@ class _PersonalInfosState extends State<PersonalInfos> {
               ],
             ),
             Container(height: 50),
-            Row(
-              children: [
-                ExploreaNoteFrame(
-                  width: 60,
-                  height: 60,
-                  padding: EdgeInsets.zero,
-                  child: Center(
-                    child: Icon(
-                      Icons.mail_outline_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Container(width: 30),
-                Flexible(
-                  child: TextFormField(
-                    cursorColor: ExploreaColors.purple,
-                    keyboardType: TextInputType.emailAddress,
-                    readOnly: true,
-
-                    controller: tecEmail,
-                    style: const TextStyle(
-                      color: ExploreaColors.purple,
-                      decorationColor: ExploreaColors.purple,
-                    ),
-                    decoration: const InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                        color: ExploreaColors.purple,
-                      )),
-                      focusColor: ExploreaColors.purple,
-                      fillColor: ExploreaColors.purple,
-
-                      hintText: "E-mail",
-                      // prefixIcon: Icon(
-                      //   Icons.mail_outline,
-                      //   color: ExploreaColors.purple,
-                      // ),
-                    ),
-                    // validator: (value) {
-                    //   return value!.isEmpty ? "Renseignez votre email" : null;
-                    // },
-                    // onFieldSubmitted: onFieldSubmitted,
-                  ),
-                )
-              ],
-            ),
+            buildRowWithTF(Icons.mail_outline_outlined, tecEmail, "E-mail"),
             Container(height: 50),
-            Row(
-              children: [
-                ExploreaNoteFrame(
-                  width: 60,
-                  height: 60,
-                  padding: EdgeInsets.zero,
-                  child: Center(
-                    child: Icon(
-                      Icons.lock_outline,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                // textfield
-              ],
-            )
+            buildRowWithTF(Icons.lock_outline, tecPassword, "Mot de passe"),
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildRowWithTF(
+      IconData anIcon, TextEditingController aTEC, String? aHintText) {
+    return Row(
+      children: [
+        ExploreaNoteFrame(
+          width: 60,
+          height: 60,
+          padding: EdgeInsets.zero,
+          child: Center(
+            child: Icon(
+              anIcon,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        Container(width: 30),
+        Flexible(
+          child: TextFormField(
+            cursorColor: ExploreaColors.purple,
+            keyboardType: TextInputType.emailAddress,
+            readOnly: true,
+            controller: aTEC,
+            style: const TextStyle(
+              color: ExploreaColors.purple,
+              decorationColor: ExploreaColors.purple,
+            ),
+            decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                color: ExploreaColors.purple,
+              )),
+              focusColor: ExploreaColors.purple,
+              fillColor: ExploreaColors.purple,
+              hintText: aHintText,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
