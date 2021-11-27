@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea-title-secondary.dart';
+import 'package:exploreapp/wigets/explorea_btn_square.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,17 @@ class _PersonalInfosState extends State<PersonalInfos> {
             buildRowWithTF(Icons.mail_outline_outlined, tecEmail, "E-mail"),
             Container(height: 50),
             buildRowWithTF(Icons.lock_outline, tecPassword, "Mot de passe"),
+            Expanded(
+              child: Center(
+                  child: ExploreaBtnSquare(
+                disabled: true,
+                text: "Valider",
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                paddingHorizontal: 100,
+              )),
+            ),
           ],
         ),
       ),
