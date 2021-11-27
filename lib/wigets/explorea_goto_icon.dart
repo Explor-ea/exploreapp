@@ -23,7 +23,7 @@ class ExploreaGotoIcon extends StatelessWidget {
           width: 50,
           child: Icon(
             this.icon,
-            color: ExploreaColors.yellow,
+            color: nextPage != null ? ExploreaColors.yellow : Colors.grey,
             size: 32,
           )),
     );

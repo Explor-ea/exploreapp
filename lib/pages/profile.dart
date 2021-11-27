@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:exploreapp/pages/settings/cgu.dart';
+import 'package:exploreapp/pages/settings/cgv.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_goto_icon.dart';
@@ -193,7 +195,9 @@ class Profil extends StatelessWidget {
           "C.G.U",
           style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
         ),
-        ExploreaGotoIcon()
+        ExploreaGotoIcon(
+          nextPage: Cgu(),
+        )
       ],
       [
         Icon(
@@ -204,7 +208,9 @@ class Profil extends StatelessWidget {
           "C.G.V",
           style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
         ),
-        ExploreaGotoIcon()
+        ExploreaGotoIcon(
+          nextPage: Cgv(),
+        )
       ],
       [
         Icon(
