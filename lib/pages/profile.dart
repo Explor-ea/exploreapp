@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:exploreapp/pages/settings/cgu.dart';
 import 'package:exploreapp/pages/settings/cgv.dart';
+import 'package:exploreapp/pages/settings/personal_infos.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_goto_icon.dart';
@@ -221,7 +222,9 @@ class Profil extends StatelessWidget {
           "Infos",
           style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
         ),
-        ExploreaGotoIcon()
+        ExploreaGotoIcon(
+          nextPage: PersonalInfos(),
+        )
       ]
     ];
 
