@@ -177,7 +177,8 @@ ListView buildAdventuresList(context) {
                     paddingHorizontal: 80.0,
                     onPressed: () {
                       log("clic on ${anAdventure.name}");
-                      goToNextPage(context, AdventureDetails(adventureId: 1));
+                      goToNextPage(context,
+                          AdventureDetails(adventureId: anAdventure.id));
                     },
                     backgroundColor: Colors.white,
                     textColor: ExploreaColors.purpleDark,
