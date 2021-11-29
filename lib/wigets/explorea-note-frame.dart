@@ -10,6 +10,7 @@ class ExploreaNoteFrame extends StatelessWidget {
     this.width,
     this.height,
     this.backgroundColor = ExploreaColors.purple,
+    this.padding = const EdgeInsets.fromLTRB(24, 20, 24, 20),
     this.child,
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class ExploreaNoteFrame extends StatelessWidget {
   final double? width;
   final double? height;
   final Color? backgroundColor;
+  final EdgeInsetsGeometry padding;
   final Widget? child;
 
   @override
@@ -39,7 +41,7 @@ class ExploreaNoteFrame extends StatelessWidget {
         width: this.width,
         height: this.height,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
+          padding: this.padding,
           child: this.child,
         ),
       ),

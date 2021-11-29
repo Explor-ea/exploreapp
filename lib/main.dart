@@ -14,11 +14,13 @@ import 'package:exploreapp/src/authentification.dart';
 import 'package:exploreapp/pages/start_screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   // @see https://stackoverflow.com/a/60769935
   if (!kIsWeb) SystemChrome.setEnabledSystemUIOverlays([]);
 
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   SharedPreferences.getInstance().then((prefInstance) {
     int? bdDay = prefInstance.getInt("userBirthdate_day");
     String? bdMonth = prefInstance.getString("userBirthdate_month");
