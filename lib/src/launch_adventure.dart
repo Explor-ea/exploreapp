@@ -1,5 +1,6 @@
 import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/adventures/adventure_1_gulls.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:flutter/material.dart';
 
 launchAdventure(int adventureId, BuildContext context) {

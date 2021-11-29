@@ -4,6 +4,7 @@ import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
 import 'package:exploreapp/src/launch_adventure.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
 import 'package:exploreapp/wigets/explorea_btn_square.dart';
