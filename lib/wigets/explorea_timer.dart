@@ -35,10 +35,32 @@ class _ExploreaTimerState extends State<ExploreaTimer> {
     // super.initState();
   }
 
+  String displayTimeAsTimer(nbSecondes) {
+    String retMin = "";
+    String retSec = "";
+
+    int displayedMin = (nbSecondes ~/ 60);
+    if (displayedMin < 10)
+      retMin = "0" + displayedMin.toString();
+    else
+      retMin = displayedMin.toString();
+    //
+    int displayedSec = (nbSecondes % 60);
+    if (displayedSec < 10)
+      retSec = "0" + displayedSec.toString();
+    else
+      retSec = displayedSec.toString();
+
+    return retMin + ":" + retSec;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(this._counter.toString()),
+      child: Text(
+        displayTimeAsTimer(this._counter),
+        style: TextStyle(fontSize: 24.0),
+      ),
     );
   }
 }
