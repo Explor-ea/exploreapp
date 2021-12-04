@@ -7,12 +7,14 @@ class ExploreaTimer extends StatefulWidget {
   const ExploreaTimer({
     Key? key,
     required this.totalTime,
+    this.color = Colors.white,
   }) : super(key: key);
 
   @override
   _ExploreaTimerState createState() => _ExploreaTimerState();
 
   final Duration totalTime;
+  final Color color;
 }
 
 class _ExploreaTimerState extends State<ExploreaTimer> {
@@ -56,11 +58,17 @@ class _ExploreaTimerState extends State<ExploreaTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        displayTimeAsTimer(this._counter),
-        style: TextStyle(fontSize: 24.0),
-      ),
+    return Row(
+      children: [
+        Icon(Icons.alarm_outlined, color: this.widget.color),
+        Container(width: 30),
+        Container(
+          child: Text(
+            displayTimeAsTimer(this._counter),
+            style: TextStyle(fontSize: 24.0, color: this.widget.color),
+          ),
+        ),
+      ],
     );
   }
 }
