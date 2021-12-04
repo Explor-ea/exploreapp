@@ -1,5 +1,6 @@
 import 'dart:developer';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exploreapp/pages/adventures/adventure_1_gulls.dart';
 import 'package:exploreapp/pages/start_screens/newcomer.dart';
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
 import 'package:flutter/foundation.dart';
@@ -171,8 +172,19 @@ class ApplicationState extends ChangeNotifier {
   void registerAccount(String email, String password,
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
-      var credential = await FirebaseAuth.instance
+      var userCredentials = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      if (userCredentials.user != null)
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(userCredentials.user!.uid)
+            .set({
+          "birthdate": null,
+          "playedScenario": [],
+          "allowedScenario": [1],
+          "success": []
+        });
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
