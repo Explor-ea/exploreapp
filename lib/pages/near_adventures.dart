@@ -6,6 +6,7 @@ import 'package:exploreapp/pages/adventure_details.dart';
 import 'package:exploreapp/pages/interactive_map.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventures.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea-title-secondary.dart';
@@ -177,7 +178,8 @@ ListView buildAdventuresList(context) {
                     paddingHorizontal: 80.0,
                     onPressed: () {
                       log("clic on ${anAdventure.name}");
-                      goToNextPage(context, AdventureDetails(adventureId: 1));
+                      goToNextPage(context,
+                          AdventureDetails(adventureId: anAdventure.id));
                     },
                     backgroundColor: Colors.white,
                     textColor: ExploreaColors.purpleDark,

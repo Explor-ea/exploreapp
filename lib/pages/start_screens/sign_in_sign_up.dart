@@ -1,6 +1,7 @@
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/start_screens/cinematic.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

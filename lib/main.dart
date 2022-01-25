@@ -1,7 +1,10 @@
 import 'dart:developer';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exploreapp/pages/adventures/adventure_1_gulls.dart';
 import 'package:exploreapp/pages/start_screens/newcomer.dart';
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
+import 'package:exploreapp/src/SharedPref.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,42 +24,41 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  SharedPreferences.getInstance().then((prefInstance) {
-    int? bdDay = prefInstance.getInt("userBirthdate_day");
-    String? bdMonth = prefInstance.getString("userBirthdate_month");
-    int? bdYear = prefInstance.getInt("userBirthdate_year");
-    //
-    bool? agreedData = prefInstance.getBool("dataAgreed");
-    //
-    bool? agreedAd = prefInstance.getBool("adAgreed");
-    //
-    bool? agreedGeo = prefInstance.getBool("geoAgreed");
-    bool? agreedMicro = prefInstance.getBool("microAgreed");
-    bool? agreedCamera = prefInstance.getBool("cameraAgreed");
+  await SharedPref.init();
+  int? bdDay = SharedPref.theSharedPreferences!.getInt("userBirthdate_day");
+  String? bdMonth =
+      SharedPref.theSharedPreferences!.getString("userBirthdate_month");
+  int? bdYear = SharedPref.theSharedPreferences!.getInt("userBirthdate_year");
+  //
+  bool? agreedData = SharedPref.theSharedPreferences!.getBool("dataAgreed");
+  //
+  bool? agreedAd = SharedPref.theSharedPreferences!.getBool("adAgreed");
+  //
+  bool? agreedGeo = SharedPref.theSharedPreferences!.getBool("geoAgreed");
+  bool? agreedMicro = SharedPref.theSharedPreferences!.getBool("microAgreed");
+  bool? agreedCamera = SharedPref.theSharedPreferences!.getBool("cameraAgreed");
 
-    bool passNewcomerScreens = (bdDay != null) &&
-        (bdMonth != null) &&
-        (bdYear != null) &&
-        (agreedData == true) &&
-        (agreedAd == true) &&
-        (agreedGeo == true) &&
-        (agreedMicro == true) &&
-        (agreedCamera == true);
+  bool passNewcomerScreens = (bdDay != null) &&
+      (bdMonth != null) &&
+      (bdYear != null) &&
+      (agreedData == true) &&
+      (agreedAd == true) &&
+      (agreedGeo == true) &&
+      (agreedMicro == true) &&
+      (agreedCamera == true);
 
-    log(passNewcomerScreens.toString());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: (context, _) => passNewcomerScreens
+        ? MyApp(firstWidget:
+            Consumer<ApplicationState>(builder: (context, appState, _) {
+            return SignInSignUp(
+              loginState: appState.loginState,
+            );
+          }))
+        : MyApp(),
+  ));
 
-    runApp(ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      builder: (context, _) => passNewcomerScreens
-          ? MyApp(firstWidget:
-              Consumer<ApplicationState>(builder: (context, appState, _) {
-              return SignInSignUp(
-                loginState: appState.loginState,
-              );
-            }))
-          : MyApp(),
-    ));
-  });
   // runApp(ChangeNotifierProvider(
   //   create: (context) => ApplicationState(),
   //   builder: (context, _) => MyApp(),
@@ -73,6 +75,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: NavigationService.navServiceInstance.navKey,
       title: 'Flutter Demo',
       theme: ThemeData(
           // This is the theme of your application.
@@ -171,10 +174,34 @@ class ApplicationState extends ChangeNotifier {
   void registerAccount(String email, String password,
       void Function(FirebaseAuthException e) errorCallback) async {
     try {
-      var credential = await FirebaseAuth.instance
+      var year = SharedPref.theSharedPreferences!.getInt("userBirthdate_year")!;
+      var month =
+          SharedPref.theSharedPreferences!.getInt("userBirthdate_month")!;
+      var day = SharedPref.theSharedPreferences!.getInt("userBirthdate_day")!;
+
+      var userCredentials = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
+
+      if (userCredentials.user != null)
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(userCredentials.user!.uid)
+            .set({
+          "birthdate": DateTime(
+            year,
+            month,
+            day,
+          ),
+          "playedScenario": [],
+          "allowedScenario": [1],
+          "success": []
+        });
+    } on FirebaseAuthException catch (err) {
+      errorCallback(err);
+    } catch (err) {
+      NavigationService.navServiceInstance.navigateTo(AlertDialog(
+        title: const Text("Erreur"),
+      ));
     }
   }
 
@@ -267,16 +294,3 @@ class ApplicationState extends ChangeNotifier {
 //     );
 //   }
 // }
-
-pushReplaceToNextPage(BuildContext context, Widget nextPage) {
-  Navigator.of(context)
-      .pushReplacement(MaterialPageRoute(builder: (context) => nextPage));
-}
-
-goToNextPage(BuildContext context, Widget nextPage) {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => nextPage));
-}
-
-goBack(BuildContext context) {
-  Navigator.pop(context);
-}

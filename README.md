@@ -2,9 +2,12 @@
 
 ## Todo list 
 
-- [ ] Créer un profil utilisateur dans Firestore
+- [x] Créer un profil utilisateur dans Firestore
+- [ ] Ajouter success.idScenario ? 
 
 ## Schéma de données
+
+- [ ] Décider si on met un timestamp de date de création de compte. 
 
 ```json
 {
@@ -50,3 +53,16 @@
     }]
 }   
 ``` 
+
+## Build et distribution
+
+Avant chaque nouveau déploiement, penser à modifier la version de l'application dans le `pubspec.yaml`.
+
+### Build Android
+
+`flutter build apk`
+
+### Build iOS
+
+La commande `flutter build ipa` could be run on an iOS device, or with the online service : [codemagic.io](https://codemagic.io/apps).
+But the iOS app must be signed, by creating an Apple Developer account (100€

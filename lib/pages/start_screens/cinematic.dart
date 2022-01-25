@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:exploreapp/pages/interactive_map.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:exploreapp/main.dart';
 

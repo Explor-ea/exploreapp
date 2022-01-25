@@ -3,6 +3,8 @@ import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
+import 'package:exploreapp/src/launch_adventure.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
 import 'package:exploreapp/wigets/explorea_btn_square.dart';
@@ -225,7 +227,9 @@ class AdventureDetails extends StatelessWidget {
             ExploreaBtnSquare(
                 paddingHorizontal: 50.0,
                 text: theAdventure.id == 1 ? "Essayer gratuitement" : "Jouer",
-                onPressed: () {}),
+                onPressed: () {
+                  launchAdventure(theAdventure.id, context);
+                }),
 
             // Description and play btn
             //

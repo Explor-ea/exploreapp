@@ -1,3 +1,4 @@
+import 'package:exploreapp/src/navigation.dart';
 import 'package:flutter/material.dart';
 
 import '../explorea_colors.dart';
