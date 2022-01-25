@@ -2,7 +2,8 @@
 
 ## Todo list 
 
-- [ ] Créer un profil utilisateur dans Firestore
+- [x] Créer un profil utilisateur dans Firestore
+- [ ] Ajouter success.idScenario ? 
 
 ## Schéma de données
 

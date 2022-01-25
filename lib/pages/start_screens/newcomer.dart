@@ -61,6 +61,7 @@ class _NewcomerState extends State<Newcomer> {
   bool prefAgreedCamera = false;
 
   Future<void> initializePreference() async {
+    // Prefer to use SharedPref custom class.
     this.prefs = await SharedPreferences.getInstance();
 
     this.prefUserBirthdate_day = prefs?.getInt("userBirthdate_day");
