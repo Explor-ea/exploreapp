@@ -74,9 +74,44 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                             sigmaY: 10,
                           ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ExploreaTimer(
                                 totalTime: Duration(seconds: 60 * 15),
+                              ),
+
+                              //
+
+                              Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                    color: Colors.black.withOpacity(0.0)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 4.0),
+                                  child: Icon(Icons.backpack_outlined,
+                                      color: Colors.white),
+                                ),
+                              ),
+
+                              //
+
+                              Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                    color: Colors.black.withOpacity(0.0)),
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 4.0),
+                                    child: Text(
+                                      "Indices",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18.0),
+                                    )),
                               ),
                             ],
                           )),
