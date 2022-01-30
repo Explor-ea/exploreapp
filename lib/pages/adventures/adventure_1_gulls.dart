@@ -6,6 +6,18 @@ import 'package:flutter/material.dart';
 
 import 'package:video_player/video_player.dart';
 
+class AdventureData {
+  static const List<String> ADVENTURE_SCREENS = [
+    "assets/adventure_1_gulls/SCREEN01.mp4",
+  ];
+
+  /// Enventory containing key-Strings.
+  List<String> inventory = [];
+
+  /// Zero based index, references AdventureData.ADVENTURE_SCREENS
+  int currentScreen = 0;
+}
+
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
 
@@ -17,12 +29,16 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   late VideoPlayerController _vpController;
   late Future<void> _initializeVideoPlayerFuture;
 
+  AdventureData _theAdventureData = new AdventureData();
+
   @override
   void initState() {
     super.initState();
 
-    this._vpController =
-        VideoPlayerController.asset("assets/adventure_1_gulls/SCREEN01.mp4");
+    this._theAdventureData.currentScreen = 0;
+
+    this._vpController = VideoPlayerController.asset(
+        AdventureData.ADVENTURE_SCREENS[_theAdventureData.currentScreen]);
 
     this._vpController.setLooping(false);
 
@@ -58,16 +74,16 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                             sigmaY: 10,
                           ),
                           child: Row(
-        children: [
-          ExploreaTimer(
-            totalTime: Duration(seconds: 60 * 15),
+                            children: [
+                              ExploreaTimer(
+                                totalTime: Duration(seconds: 60 * 15),
                               ),
                             ],
                           )),
-          ),
-          )
-        ],
-      ),
+                    ),
+                  )
+                ],
+              ),
             )
           ],
         ));
