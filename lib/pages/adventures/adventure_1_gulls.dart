@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:flutter/material.dart';
@@ -35,37 +37,39 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+        backgroundColor: Colors.black,
+        body: Stack(
+          children: [
+            AspectRatio(
+              aspectRatio: 9.0 / 16.0,
+              child: VideoPlayer(this._vpController),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ClipRect(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 8.0),
+                      child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: 10,
+                            sigmaY: 10,
+                          ),
+                          child: Row(
         children: [
           ExploreaTimer(
             totalTime: Duration(seconds: 60 * 15),
-            color: ExploreaColors.purple,
+                              ),
+                            ],
+                          )),
           ),
-          // Center(
-          //     child: FutureBuilder(
-          //   future: this._initializeVideoPlayerFuture,
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.done)
-          //       return AspectRatio(
-          //         aspectRatio: this._vpController.value.aspectRatio,
-          //         child: VideoPlayer(this._vpController),
-          //       );
-          //     else
-          //       return const Center(
-          //         child: CircularProgressIndicator(),
-          //       );
-          //   },
-          // ))
-
-          //
-
-          // _vpController!.value.isInitialized ?
-          AspectRatio(
-            aspectRatio: 9.0 / 16.0,
-            child: VideoPlayer(this._vpController),
           )
         ],
       ),
-    );
+            )
+          ],
+        ));
   }
 }
