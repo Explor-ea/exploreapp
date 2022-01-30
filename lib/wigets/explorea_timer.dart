@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:exploreapp/explorea_colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreaTimer extends StatefulWidget {
@@ -8,6 +9,7 @@ class ExploreaTimer extends StatefulWidget {
     Key? key,
     required this.totalTime,
     this.color = Colors.white,
+    this.bgColor = ExploreaColors.purple,
   }) : super(key: key);
 
   @override
@@ -15,6 +17,7 @@ class ExploreaTimer extends StatefulWidget {
 
   final Duration totalTime;
   final Color color;
+  final Color bgColor;
 }
 
 class _ExploreaTimerState extends State<ExploreaTimer> {
@@ -58,17 +61,26 @@ class _ExploreaTimerState extends State<ExploreaTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(Icons.alarm_outlined, color: this.widget.color),
-        Container(width: 30),
-        Container(
-          child: Text(
-            displayTimeAsTimer(this._counter),
-            style: TextStyle(fontSize: 24.0, color: this.widget.color),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: this.widget.bgColor),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.access_time, color: this.widget.color),
+            Container(width: 16),
+            Container(
+              child: Text(
+                displayTimeAsTimer(this._counter),
+                style: TextStyle(fontSize: 24.0, color: this.widget.color),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
