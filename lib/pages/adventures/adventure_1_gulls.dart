@@ -53,12 +53,15 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: ExploreaColors.purple,
         body: Stack(
           children: [
-            AspectRatio(
-              aspectRatio: 9.0 / 16.0,
-              child: VideoPlayer(this._vpController),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController),
+              ),
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -78,6 +81,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                             children: [
                               ExploreaTimer(
                                 totalTime: Duration(seconds: 60 * 15),
+                                borderColor: Colors.white,
                               ),
 
                               //
