@@ -10,6 +10,7 @@ class ExploreaTimer extends StatefulWidget {
     required this.totalTime,
     this.color = Colors.white,
     this.bgColor = ExploreaColors.purple,
+    this.borderColor,
   }) : super(key: key);
 
   @override
@@ -18,6 +19,7 @@ class ExploreaTimer extends StatefulWidget {
   final Duration totalTime;
   final Color color;
   final Color bgColor;
+  final Color? borderColor;
 }
 
 class _ExploreaTimerState extends State<ExploreaTimer> {
@@ -63,8 +65,12 @@ class _ExploreaTimerState extends State<ExploreaTimer> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          color: this.widget.bgColor),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        color: this.widget.bgColor,
+        border: Border.all(
+          color: this.widget.borderColor ?? Colors.black.withOpacity(0.0),
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         child: Row(
