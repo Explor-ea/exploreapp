@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:exploreapp/explorea_colors.dart';
@@ -42,7 +43,20 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this._vpController.setLooping(false);
 
-    this._vpController.initialize();
+    this._vpController.initialize().then((nothing) => {
+          this._vpController.addListener(() {
+            log(this._vpController.value.position.toString());
+
+            if (this._vpController.value.position ==
+                this._vpController.value.duration) {
+              log('video Ended');
+            }
+          })
+        });
+
+    // // REMOVE
+    // this._vpController.setLooping(true);
+    // this._vpController.setPlaybackSpeed(0.1);
 
     this._vpController.play();
 
