@@ -10,6 +10,7 @@ import 'package:video_player/video_player.dart';
 class AdventureData {
   static const List<String> ADVENTURE_SCREENS = [
     "assets/adventure_1_gulls/SCREEN01.mp4",
+    "assets/adventure_1_gulls/SCREEN02.mp4",
   ];
 
   /// Enventory containing key-Strings.
@@ -37,31 +38,46 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     super.initState();
 
     this._theAdventureData.currentScreen = 0;
-
     this._vpController = VideoPlayerController.asset(
-        AdventureData.ADVENTURE_SCREENS[_theAdventureData.currentScreen]);
-
-    this._vpController.setLooping(false);
-
-    this._vpController.initialize().then((nothing) => {
-          this._vpController.addListener(() {
-            log(this._vpController.value.position.toString());
-
-            if (this._vpController.value.position ==
-                this._vpController.value.duration) {
-              log('video Ended');
-            }
-          })
-        });
+        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
 
     // // REMOVE
     // this._vpController.setLooping(true);
     // this._vpController.setPlaybackSpeed(0.1);
+    this._vpController.setLooping(false);
 
-    this._vpController.play();
+    this._initializeVideoPlayerFuture =
+        this._vpController.initialize().then((nothing) {
+      this._vpController.play();
 
-    // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-    setState(() {});
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController.addListener(() {
+        // log(this._vpController.value.position.toString());
+
+        // When first video
+        if (this._vpController.value.position ==
+            this._vpController.value.duration) {
+          if (this._theAdventureData.currentScreen == 0) {
+            this._vpController.dispose();
+
+            this._theAdventureData.currentScreen++;
+            this._vpController = VideoPlayerController.asset(AdventureData
+                .ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+
+            this._vpController.initialize().then((nothing) {
+              // When initialized, the position is aleady at a new Duration value.
+              // this._vpController.seekTo(new Duration()).then((value) {});
+
+              this._vpController.play();
+
+              setState(() {});
+            });
+          }
+        }
+      });
+    });
   }
 
   @override
