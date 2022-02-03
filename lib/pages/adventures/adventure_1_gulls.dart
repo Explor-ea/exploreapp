@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,14 @@ class AdventureData {
     "assets/adventure_1_gulls/SCREEN01.mp4",
     "assets/adventure_1_gulls/SCREEN02.mp4",
   ];
+
+  /// A bunch of adventure params to move through the adventure.
+  ///
+  /// Note: Although a final object cannot be modified, its fields can be changed. In comparison, a const object and its fields cannot be changed: they’re immutable.
+  final Map<String, dynamic> adventureParams = {
+    "screen2_continue": false,
+    "nothing": 5
+  };
 
   /// Enventory containing key-Strings.
   List<String> inventory = [];
@@ -37,6 +46,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   void initState() {
     super.initState();
 
+    // XXX : REMETTRE A 0
     this._theAdventureData.currentScreen = 0;
     this._vpController = VideoPlayerController.asset(
         AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
@@ -56,7 +66,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       this._vpController.addListener(() {
         // log(this._vpController.value.position.toString());
 
-        // When first video
+        // At first video end.
         if (this._vpController.value.position ==
             this._vpController.value.duration) {
           if (this._theAdventureData.currentScreen == 0) {
@@ -73,11 +83,76 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               this._vpController.play();
 
               setState(() {});
+
+              this._vpController.addListener(() {
+                // At end.
+                if (this
+                            ._theAdventureData
+                            .adventureParams["screen2_continue"] ==
+                        false &&
+                    this._vpController.value.position > Duration(seconds: 5)) {
+                  setState(() {
+                    this._theAdventureData.adventureParams["screen2_continue"] =
+                        true;
+                    log(this._theAdventureData.adventureParams.toString());
+                  });
+                }
+              });
             });
           }
         }
       });
     });
+  }
+
+  Widget buildCurrentAdventureScreen() {
+    Widget ret = Container(
+      color: ExploreaColors.purpleDark,
+    );
+
+    switch (this._theAdventureData.currentScreen) {
+      case 0:
+        ret = AspectRatio(
+          aspectRatio: 9.0 / 16.0,
+          child: VideoPlayer(this._vpController),
+        );
+        break;
+
+      case 1:
+        ret = Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController),
+              ),
+            ),
+            if (this._theAdventureData.adventureParams["screen2_continue"])
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: ExploreaBtnNext(
+                    onPressed: () {},
+                  ),
+                ),
+              )
+          ],
+        );
+        break;
+
+      case 2:
+        break;
+
+      default:
+        ret = AspectRatio(
+          aspectRatio: 9.0 / 16.0,
+          child: VideoPlayer(this._vpController),
+        );
+        break;
+    }
+    return ret;
   }
 
   @override
@@ -87,12 +162,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         body: Stack(
           children: [
             Align(
-              alignment: Alignment.bottomCenter,
-              child: AspectRatio(
-                aspectRatio: 9.0 / 16.0,
-                child: VideoPlayer(this._vpController),
-              ),
-            ),
+                alignment: Alignment.bottomCenter,
+                child: this.buildCurrentAdventureScreen()),
             Align(
               alignment: Alignment.topLeft,
               child: Column(
