@@ -94,16 +94,16 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
       this._vpController.play();
 
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
       this._vpController.addListener(() {
-        // At end.
+        // Show next btn.
         if (this._theAdventureData.adventureParams["screen2_continue"] ==
                 false &&
             this._vpController.value.position > Duration(seconds: 5)) {
           setState(() {
             this._theAdventureData.adventureParams["screen2_continue"] = true;
-            log(this._theAdventureData.adventureParams.toString());
           });
         }
       });
