@@ -12,6 +12,8 @@ class AdventureData {
   static const List<String> ADVENTURE_SCREENS = [
     "assets/adventure_1_gulls/SCREEN01.mp4",
     "assets/adventure_1_gulls/SCREEN02.mp4",
+    "assets/adventure_1_gulls/SCREEN03_04_05.mp4",
+    "assets/adventure_1_gulls/SCREEN06.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -25,7 +27,7 @@ class AdventureData {
   /// Enventory containing key-Strings.
   List<String> inventory = [];
 
-  /// Zero based index, references AdventureData.ADVENTURE_SCREENS
+  /// Zero based index, references `AdventureData.ADVENTURE_SCREENS`
   int currentScreen = 0;
 }
 
@@ -110,19 +112,35 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  void runScreen_3() {
+    // XXX CAREFUL: when putted after the asset asignation, makes errors. And it's asynchronous so...
+    this._vpController.dispose();
+
+    this._theAdventureData.currentScreen = 2;
+    this._vpController = VideoPlayerController.asset(
+        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+
+    this._vpController.initialize().then((nothing) {
+      this._vpController.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      // this._vpController.addListener(() {
+      //   if (this._vpController.value.position ==
+      //       this._vpController.value.duration) {
+      //     //
+      //   }
+      // });
+    });
+  }
+
   Widget buildCurrentAdventureScreen() {
     Widget ret = Container(
       color: ExploreaColors.purpleDark,
     );
 
     switch (this._theAdventureData.currentScreen) {
-      case 0:
-        ret = AspectRatio(
-          aspectRatio: 9.0 / 16.0,
-          child: VideoPlayer(this._vpController),
-        );
-        break;
-
       case 1:
         ret = Stack(
           children: [
@@ -139,17 +157,20 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                 child: Padding(
                   padding: const EdgeInsets.all(0.0),
                   child: ExploreaBtnNext(
-                    onPressed: () {},
+                    onPressed: () {
+                      this.runScreen_3();
+                    },
                   ),
                 ),
               )
           ],
         );
         break;
-
-      case 2:
+      case 3:
         break;
 
+      case 0:
+      case 2:
       default:
         ret = AspectRatio(
           aspectRatio: 9.0 / 16.0,
