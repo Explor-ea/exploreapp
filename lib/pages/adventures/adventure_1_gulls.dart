@@ -46,15 +46,19 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   void initState() {
     super.initState();
 
-    // XXX : REMETTRE A 0
-    this._theAdventureData.currentScreen = 0;
-    this._vpController = VideoPlayerController.asset(
-        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+    this.runScreen_1();
 
     // // REMOVE
     // this._vpController.setLooping(true);
     // this._vpController.setPlaybackSpeed(0.1);
-    this._vpController.setLooping(false);
+  }
+
+  void runScreen_1() {
+    // XXX : REMETTRE A 0
+    this._theAdventureData.currentScreen = 0;
+
+    this._vpController = VideoPlayerController.asset(
+        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
 
     this._initializeVideoPlayerFuture =
         this._vpController.initialize().then((nothing) {
@@ -70,36 +74,37 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         if (this._vpController.value.position ==
             this._vpController.value.duration) {
           if (this._theAdventureData.currentScreen == 0) {
-            this._vpController.dispose();
-
-            this._theAdventureData.currentScreen++;
-            this._vpController = VideoPlayerController.asset(AdventureData
-                .ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
-
-            this._vpController.initialize().then((nothing) {
-              // When initialized, the position is aleady at a new Duration value.
-              // this._vpController.seekTo(new Duration()).then((value) {});
-
-              this._vpController.play();
-
-              setState(() {});
-
-              this._vpController.addListener(() {
-                // At end.
-                if (this
-                            ._theAdventureData
-                            .adventureParams["screen2_continue"] ==
-                        false &&
-                    this._vpController.value.position > Duration(seconds: 5)) {
-                  setState(() {
-                    this._theAdventureData.adventureParams["screen2_continue"] =
-                        true;
-                    log(this._theAdventureData.adventureParams.toString());
-                  });
-                }
-              });
-            });
+            this.runScreen_2();
           }
+        }
+      });
+    });
+  }
+
+  void runScreen_2() {
+    this._vpController.dispose();
+
+    this._theAdventureData.currentScreen = 1;
+    this._vpController = VideoPlayerController.asset(
+        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+
+    this._vpController.initialize().then((nothing) {
+      // When initialized, the position is aleady at a new Duration value.
+      // this._vpController.seekTo(new Duration()).then((value) {});
+
+      this._vpController.play();
+
+      setState(() {});
+
+      this._vpController.addListener(() {
+        // At end.
+        if (this._theAdventureData.adventureParams["screen2_continue"] ==
+                false &&
+            this._vpController.value.position > Duration(seconds: 5)) {
+          setState(() {
+            this._theAdventureData.adventureParams["screen2_continue"] = true;
+            log(this._theAdventureData.adventureParams.toString());
+          });
         }
       });
     });
