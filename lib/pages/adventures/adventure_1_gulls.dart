@@ -126,10 +126,31 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
+      this._vpController.addListener(() {
+        if (this._vpController.value.position ==
+            this._vpController.value.duration) {
+          runScreen_4();
+        }
+      });
+    });
+  }
+
+  void runScreen_4() {
+    this._vpController.dispose();
+
+    this._theAdventureData.currentScreen = 3;
+    this._vpController = VideoPlayerController.asset(
+        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+
+    this._vpController.initialize().then((nothing) {
+      this._vpController.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
       // this._vpController.addListener(() {
       //   if (this._vpController.value.position ==
       //       this._vpController.value.duration) {
-      //     //
       //   }
       // });
     });
@@ -166,11 +187,12 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
           ],
         );
         break;
-      case 3:
+      case 4:
         break;
 
       case 0:
       case 2:
+      case 3:
       default:
         ret = AspectRatio(
           aspectRatio: 9.0 / 16.0,
