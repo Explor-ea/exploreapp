@@ -14,6 +14,7 @@ class AdventureData {
     "assets/adventure_1_gulls/SCREEN02.mp4",
     "assets/adventure_1_gulls/SCREEN03_04_05.mp4",
     "assets/adventure_1_gulls/SCREEN06.mp4",
+    "assets/adventure_1_gulls/SCREEN07.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -112,7 +113,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
-  void runScreen_3() {
+  void runScreen_3_4_5() {
     // XXX CAREFUL: when putted after the asset asignation, makes errors. And it's asynchronous so...
     this._vpController.dispose();
 
@@ -129,16 +130,38 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       this._vpController.addListener(() {
         if (this._vpController.value.position ==
             this._vpController.value.duration) {
-          runScreen_4();
+          runScreen_6();
         }
       });
     });
   }
 
-  void runScreen_4() {
+  void runScreen_6() {
     this._vpController.dispose();
 
     this._theAdventureData.currentScreen = 3;
+    this._vpController = VideoPlayerController.asset(
+        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+
+    this._vpController.initialize().then((nothing) {
+      this._vpController.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController.addListener(() {
+        if (this._vpController.value.position ==
+            this._vpController.value.duration) {
+          this.runScreen_7();
+        }
+      });
+    });
+  }
+
+  void runScreen_7() {
+    this._vpController.dispose();
+
+    this._theAdventureData.currentScreen = 4;
     this._vpController = VideoPlayerController.asset(
         AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
 
@@ -162,7 +185,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     );
 
     switch (this._theAdventureData.currentScreen) {
-      case 1:
+      case 1: // 02
         ret = Stack(
           children: [
             Align(
@@ -179,7 +202,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                   padding: const EdgeInsets.all(0.0),
                   child: ExploreaBtnNext(
                     onPressed: () {
-                      this.runScreen_3();
+                      this.runScreen_3_4_5();
                     },
                   ),
                 ),
@@ -187,12 +210,11 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
           ],
         );
         break;
-      case 4:
-        break;
 
-      case 0:
-      case 2:
-      case 3:
+      case 0: // 01
+      case 2: // 03 & 04 & 05
+      case 3: // 06
+      case 4: // 07
       default:
         ret = AspectRatio(
           aspectRatio: 9.0 / 16.0,
