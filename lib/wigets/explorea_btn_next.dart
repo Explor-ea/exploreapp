@@ -12,6 +12,7 @@ class ExploreaBtnNext extends StatefulWidget {
     // this.minimumSize = const Size(60.0, 30.0),
     this.backgroundColor = ExploreaColors.yellow,
     this.mainColor = ExploreaColors.purple,
+    this.text,
   }) : super(key: key);
 
   final bool disabled;
@@ -19,6 +20,7 @@ class ExploreaBtnNext extends StatefulWidget {
   // final Size minimumSize;
   Color backgroundColor;
   Color mainColor;
+  String? text;
 
   @override
   _ExploreaBtnNextState createState() => _ExploreaBtnNextState();
@@ -61,17 +63,28 @@ class _ExploreaBtnNextState extends State<ExploreaBtnNext> {
       child: ClipPath(
         clipper: new CustomSquareClip(),
         child: Container(
-          width: 100.0,
+          width: this.widget.text != null
+              ? (32.0 * this.widget.text!.length)
+              : (100),
           height: 50.0,
+          alignment: Alignment.center,
           color:
               this.widget.disabled ? ExploreaColors.grey : this.backgroundColor,
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 0.0),
-              child: Icon(
-                Icons.arrow_forward,
-                color: this.widget.mainColor,
-                size: 48.0,
-              )),
+              child: this.widget.text != null
+                  ? Text(
+                      this.widget.text!,
+                      style: TextStyle(
+                        color: this.widget.mainColor,
+                        fontSize: 32.0,
+                      ),
+                    )
+                  : Icon(
+                      Icons.arrow_forward,
+                      color: this.widget.mainColor,
+                      size: 48.0,
+                    )),
         ),
       ),
     );

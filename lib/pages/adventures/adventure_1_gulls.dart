@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:exploreapp/explorea_colors.dart';
@@ -15,6 +15,7 @@ class AdventureData {
     "assets/adventure_1_gulls/SCREEN03_04_05.mp4",
     "assets/adventure_1_gulls/SCREEN06.mp4",
     "assets/adventure_1_gulls/SCREEN07.mp4",
+    "assets/adventure_1_gulls/SCREEN08_09.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -22,7 +23,11 @@ class AdventureData {
   /// Note: Although a final object cannot be modified, its fields can be changed. In comparison, a const object and its fields cannot be changed: they’re immutable.
   final Map<String, dynamic> adventureParams = {
     "screen2_continue": false,
-    "nothing": 5
+    "nothing": 5,
+
+    ///  Set to true if the user is near [48.0485911,-1.7421397]
+    "near_eiffel": false,
+    "found_eiffel": false,
   };
 
   /// Enventory containing key-Strings.
@@ -58,6 +63,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     // this._vpController.setPlaybackSpeed(0.1);
   }
 
+  /// After it, [_vpController] is `!= null`.
   void changeCurrentScreenAndLoadAsset(int newCurrentScreen) {
     // XXX CAREFUL: when putted after the asset asignation, makes errors. And it's asynchronous so...
     if (this._vpController != null && this._vpController!.value.isInitialized)
@@ -153,6 +159,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// "L'homme à la dame de fer vous ouvrira le chemin."
   void runScreen_7() {
     this.changeCurrentScreenAndLoadAsset(4);
 
@@ -162,11 +169,14 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      // this._vpController!.addListener(() {
-      //   if (this._vpController!.value.position ==
-      //       this._vpController!.value.duration) {
-      //   }
-      // });
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          Timer(const Duration(seconds: 5), () {
+            this.runScreen_8_9();
+          });
+        }
+      });
     });
   }
 
@@ -179,11 +189,25 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      // this._vpController!.addListener(() {
-      //   if (this._vpController!.value.position ==
-      //       this._vpController!.value.duration) {
-      //   }
-      // });
+      this._vpController!.addListener(() {
+        if (this._theAdventureData.adventureParams["found_eiffel"] == false &&
+            this._vpController!.value.position >= const Duration(seconds: 15) &&
+            this._theAdventureData.adventureParams["near_eiffel"] == false) {
+          this._vpController!.pause();
+          this.setState(() {
+            // TODO: this should be set when the user is geologically near the point.
+            this._theAdventureData.adventureParams["near_eiffel"] = true;
+          });
+        }
+      });
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          // 20 Second after the eiffel point is found, the next screen appears.
+          Timer(const Duration(seconds: 20 - (26 - 15)), () {});
+        }
+      });
     });
   }
 
@@ -212,6 +236,39 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     onPressed: () {
                       this.runScreen_3_4_5();
                     },
+                  ),
+                ),
+              )
+          ],
+        );
+        break;
+
+      case 5:
+        ret = Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController!),
+              ),
+            ),
+            if (this._theAdventureData.adventureParams["near_eiffel"] &&
+                this._theAdventureData.adventureParams["found_eiffel"] != true)
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: ExploreaBtnNext(
+                    onPressed: () {
+                      setState(() {
+                        this._theAdventureData.adventureParams["found_eiffel"] =
+                            true;
+
+                        this._vpController!.play();
+                      });
+                    },
+                    text: "Oui !",
                   ),
                 ),
               )
