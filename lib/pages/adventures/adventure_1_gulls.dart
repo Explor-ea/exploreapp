@@ -40,14 +40,16 @@ class Adventure1Gulls extends StatefulWidget {
 }
 
 class _Adventure1GullsState extends State<Adventure1Gulls> {
-  late VideoPlayerController _vpController;
-  late Future<void> _initializeVideoPlayerFuture;
+  VideoPlayerController? _vpController;
+  Future<void>? _initializeVideoPlayerFuture;
 
   AdventureData _theAdventureData = new AdventureData();
 
   @override
   void initState() {
     super.initState();
+
+    this.changeCurrentScreenAndLoadAsset(0);
 
     this.runScreen_1();
 
@@ -56,26 +58,32 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     // this._vpController.setPlaybackSpeed(0.1);
   }
 
-  void runScreen_1() {
-    // XXX : REMETTRE A 0
-    this._theAdventureData.currentScreen = 0;
+  void changeCurrentScreenAndLoadAsset(int newCurrentScreen) {
+    // XXX CAREFUL: when putted after the asset asignation, makes errors. And it's asynchronous so...
+    if (this._vpController != null && this._vpController!.value.isInitialized)
+      this._vpController!.dispose();
 
+    this._theAdventureData.currentScreen = newCurrentScreen;
     this._vpController = VideoPlayerController.asset(
         AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+  }
+
+  void runScreen_1() {
+    this.changeCurrentScreenAndLoadAsset(0);
 
     this._initializeVideoPlayerFuture =
-        this._vpController.initialize().then((nothing) {
-      this._vpController.play();
+        this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
 
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      this._vpController.addListener(() {
-        // log(this._vpController.value.position.toString());
+      this._vpController!.addListener(() {
+        // log(this._vpController!.value.position.toString());
 
         // At first video end.
-        if (this._vpController.value.position ==
-            this._vpController.value.duration) {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
           if (this._theAdventureData.currentScreen == 0) {
             this.runScreen_2();
           }
@@ -85,26 +93,22 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   }
 
   void runScreen_2() {
-    this._vpController.dispose();
+    this.changeCurrentScreenAndLoadAsset(1);
 
-    this._theAdventureData.currentScreen = 1;
-    this._vpController = VideoPlayerController.asset(
-        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
-
-    this._vpController.initialize().then((nothing) {
+    this._vpController!.initialize().then((nothing) {
       // When initialized, the position is aleady at a new Duration value.
-      // this._vpController.seekTo(new Duration()).then((value) {});
+      // this._vpController!.seekTo(new Duration()).then((value) {});
 
-      this._vpController.play();
+      this._vpController!.play();
 
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      this._vpController.addListener(() {
+      this._vpController!.addListener(() {
         // Show next btn.
         if (this._theAdventureData.adventureParams["screen2_continue"] ==
                 false &&
-            this._vpController.value.position > Duration(seconds: 5)) {
+            this._vpController!.value.position > Duration(seconds: 5)) {
           setState(() {
             this._theAdventureData.adventureParams["screen2_continue"] = true;
           });
@@ -114,22 +118,17 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   }
 
   void runScreen_3_4_5() {
-    // XXX CAREFUL: when putted after the asset asignation, makes errors. And it's asynchronous so...
-    this._vpController.dispose();
+    this.changeCurrentScreenAndLoadAsset(2);
 
-    this._theAdventureData.currentScreen = 2;
-    this._vpController = VideoPlayerController.asset(
-        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
-
-    this._vpController.initialize().then((nothing) {
-      this._vpController.play();
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
 
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      this._vpController.addListener(() {
-        if (this._vpController.value.position ==
-            this._vpController.value.duration) {
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
           runScreen_6();
         }
       });
@@ -137,21 +136,17 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   }
 
   void runScreen_6() {
-    this._vpController.dispose();
+    this.changeCurrentScreenAndLoadAsset(3);
 
-    this._theAdventureData.currentScreen = 3;
-    this._vpController = VideoPlayerController.asset(
-        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
-
-    this._vpController.initialize().then((nothing) {
-      this._vpController.play();
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
 
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      this._vpController.addListener(() {
-        if (this._vpController.value.position ==
-            this._vpController.value.duration) {
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
           this.runScreen_7();
         }
       });
@@ -159,21 +154,34 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   }
 
   void runScreen_7() {
-    this._vpController.dispose();
+    this.changeCurrentScreenAndLoadAsset(4);
 
-    this._theAdventureData.currentScreen = 4;
-    this._vpController = VideoPlayerController.asset(
-        AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
-
-    this._vpController.initialize().then((nothing) {
-      this._vpController.play();
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
 
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      // this._vpController.addListener(() {
-      //   if (this._vpController.value.position ==
-      //       this._vpController.value.duration) {
+      // this._vpController!.addListener(() {
+      //   if (this._vpController!.value.position ==
+      //       this._vpController!.value.duration) {
+      //   }
+      // });
+    });
+  }
+
+  void runScreen_8_9() {
+    this.changeCurrentScreenAndLoadAsset(5);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      // this._vpController!.addListener(() {
+      //   if (this._vpController!.value.position ==
+      //       this._vpController!.value.duration) {
       //   }
       // });
     });
@@ -192,7 +200,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               alignment: Alignment.bottomCenter,
               child: AspectRatio(
                 aspectRatio: 9.0 / 16.0,
-                child: VideoPlayer(this._vpController),
+                child: VideoPlayer(this._vpController!),
               ),
             ),
             if (this._theAdventureData.adventureParams["screen2_continue"])
@@ -218,7 +226,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       default:
         ret = AspectRatio(
           aspectRatio: 9.0 / 16.0,
-          child: VideoPlayer(this._vpController),
+          child: VideoPlayer(this._vpController!),
         );
         break;
     }
