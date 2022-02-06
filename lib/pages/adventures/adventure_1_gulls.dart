@@ -16,6 +16,7 @@ class AdventureData {
     "assets/adventure_1_gulls/SCREEN06.mp4",
     "assets/adventure_1_gulls/SCREEN07.mp4",
     "assets/adventure_1_gulls/SCREEN08_09.mp4",
+    "assets/adventure_1_gulls/SCREEN10.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -56,7 +57,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this.changeCurrentScreenAndLoadAsset(0);
 
-    this.runScreen_1();
+    // this.runScreen_1();
+    this.runScreen_8_9();
 
     // // REMOVE
     // this._vpController.setLooping(true);
@@ -205,11 +207,26 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         if (this._vpController!.value.position ==
             this._vpController!.value.duration) {
           // 20 Second after the eiffel point is found, the next screen appears.
-          Timer(const Duration(seconds: 20 - (26 - 15)), () {});
+          Timer(const Duration(seconds: 20 - (26 - 15)), () {
+            this.runScreen_10();
+          });
         }
       });
     });
   }
+
+  void runScreen_10() {
+    this.changeCurrentScreenAndLoadAsset(6);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+    });
+  }
+
+  // Listen user's position and run 11 screen
 
   Widget buildCurrentAdventureScreen() {
     Widget ret = Container(
@@ -243,7 +260,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
-      case 5:
+      case 5: // 08 & 09
         ret = Stack(
           children: [
             Align(
@@ -280,6 +297,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       case 2: // 03 & 04 & 05
       case 3: // 06
       case 4: // 07
+      case 6: // 10
       default:
         ret = AspectRatio(
           aspectRatio: 9.0 / 16.0,
