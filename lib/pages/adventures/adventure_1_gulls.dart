@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/src/permissions.dart';
 import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:video_player/video_player.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AdventureData {
   static const List<String> ADVENTURE_SCREENS = [
@@ -51,14 +54,28 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
   AdventureData _theAdventureData = new AdventureData();
 
+  final LocationSettings _locationSettings = new LocationSettings(
+    accuracy: LocationAccuracy.best,
+    distanceFilter: 2,
+  );
+
   @override
   void initState() {
     super.initState();
 
+    // If somehow the location permission has not been agreed, display an error Widget.
+    checkAndAskPosition().then((permission) {
+      if (permission.index < 2) {
+        setState(() {
+          this._theAdventureData.currentScreen = 9000;
+        });
+      }
+    });
+
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_8_9();
+    this.runScreen_10();
 
     // // REMOVE
     // this._vpController.setLooping(true);
@@ -215,6 +232,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// With the porthole accross the univers.
   void runScreen_10() {
     this.changeCurrentScreenAndLoadAsset(6);
 
@@ -223,6 +241,25 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
+
+      StreamSubscription<Position>? positionStream;
+      positionStream =
+          Geolocator.getPositionStream(locationSettings: _locationSettings)
+              .listen((Position? currentPosition) {
+        if (currentPosition != null) {
+          const pointCoordinates = [48.048873, -1.741273];
+          double distanceFromThePoint = Geolocator.distanceBetween(
+              pointCoordinates[0],
+              pointCoordinates[1],
+              currentPosition.latitude,
+              currentPosition.longitude);
+
+          if (distanceFromThePoint <= 10 /* metters */) {
+            log("Arrivé au pint ! lancement de l'acean suivant !! ");
+            positionStream!.cancel();
+          }
+        }
+      });
     });
   }
 
@@ -234,6 +271,13 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     );
 
     switch (this._theAdventureData.currentScreen) {
+      case 9000:
+        ret = Container(
+          child: Text(
+              "Explor'ea doit pouvoir accéder à votre position pour cette adventure."),
+        );
+        break;
+
       case 1: // 02
         ret = Stack(
           children: [

@@ -5,6 +5,7 @@ import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/start_screens/cinematic.dart';
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
+import 'package:exploreapp/src/permissions.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea-chekbox.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
@@ -662,9 +663,14 @@ class _NewcomerState extends State<Newcomer> {
                       Expanded(
                         child: ExploreaBtn(
                           onPressed: () {
-                            setState(() {
-                              this.prefAgreedGeo = !this.prefAgreedGeo;
-                              prefs?.setBool('geoAgreed', this.prefAgreedGeo);
+                            checkAndAskPosition().then((permission) {
+                              if (permission.index > 1) {
+                                setState(() {
+                                  this.prefAgreedGeo = true;
+                                  prefs?.setBool(
+                                      'geoAgreed', this.prefAgreedGeo);
+                                });
+                              }
                             });
                           },
                           disabled: this.prefAgreedGeo == false,

@@ -27,7 +27,8 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 30
+    // compileSdkVersion 30
+    compileSdkVersion 31 // Needed by Geolocator : https://pub.dev/packages/geolocator 
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -37,7 +38,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "fr.explorea.exploreapp"
         minSdkVersion 21 // Default was 16 (25/09/2021)  |  21 was advised by official Firebase Codelab : https://www.youtube.com/watch?v=wUSkeTaBonA
-        targetSdkVersion 30
+        targetSdkVersion 30 // XXX QUESTION: Is it to be changed (to 31, see up there)?
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
