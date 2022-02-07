@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/src/permissions.dart';
 import 'package:exploreapp/wigets/explorea_btn_next.dart';
+import 'package:exploreapp/wigets/explorea_inventory.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     accuracy: LocationAccuracy.best,
     distanceFilter: 2,
   );
+
+  bool _inventoryIsOpen = false;
 
   @override
   void initState() {
@@ -405,6 +408,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
                           onTap: () {
+                            setState(() {
+                              this._theAdventureData.inventory.add("fish_grey");
+                            });
                             log("clic poisson gris");
                           }),
                     ),
@@ -413,6 +419,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
                           onTap: () {
+                            setState(() {
+                              this._theAdventureData.inventory.add("fish_red");
+                            });
                             log("clic poisson rouge");
                           }),
                     ),
@@ -421,6 +430,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
                           onTap: () {
+                            setState(() {
+                              this._theAdventureData.inventory.add("fish_blue");
+                            });
                             log("clic poisson bleu");
                           }),
                     ),
@@ -458,6 +470,29 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
             Align(
                 alignment: Alignment.bottomCenter,
                 child: this.buildCurrentAdventureScreen()),
+
+            //
+
+            if (this._inventoryIsOpen)
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: ExploreaInventory(
+                      currentInventory: this._theAdventureData.inventory,
+                      itemMatching: {
+                        "fish_grey":
+                            "assets/adventure_1_gulls/items/fish_grey.png",
+                        "fish_red":
+                            "assets/adventure_1_gulls/items/fish_red.png",
+                        "fish_blue":
+                            "assets/adventure_1_gulls/items/fish_blue.png",
+                      }),
+                ),
+              ),
+
+            //
+
             Align(
               alignment: Alignment.topLeft,
               child: Column(
@@ -481,18 +516,31 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
                               //
 
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                    color: Colors.black.withOpacity(0.0)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 4.0),
-                                  child: Icon(Icons.backpack_outlined,
-                                      color: Colors.white),
+                              GestureDetector(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: this._inventoryIsOpen
+                                              ? ExploreaColors.yellow
+                                              : Colors.white),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      color: Colors.black.withOpacity(0.0)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 4.0),
+                                    child: Icon(Icons.backpack_outlined,
+                                        color: this._inventoryIsOpen
+                                            ? ExploreaColors.yellow
+                                            : Colors.white),
+                                  ),
                                 ),
+                                onTap: () {
+                                  setState(() {
+                                    this._inventoryIsOpen =
+                                        !this._inventoryIsOpen;
+                                  });
+                                },
                               ),
 
                               //
@@ -519,6 +567,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                 ],
               ),
             )
+
+            //
           ],
         ));
   }
