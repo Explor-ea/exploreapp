@@ -23,6 +23,7 @@ class AdventureData {
     "assets/adventure_1_gulls/SCREEN10.mp4", // 06
     "assets/adventure_1_gulls/SCREEN12.mp4",
     "assets/adventure_1_gulls/SCREEN13.mp4", // 08
+    "assets/adventure_1_gulls/SCREEN14.mp4", // 08
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -301,12 +302,30 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
+    });
+  }
+
+  /// Return back to the portal !.
+  void runScreen_14() {
+    this.changeCurrentScreenAndLoadAsset(9);
+
+    this._vpController!.setLooping(false);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
 
       this._vpController!.addListener(() {
-        if (this._vpController!.value.position ==
-            this._vpController!.value.duration) {
-          // Add it in the next screen
-          // this._vpController!.setLooping(false);
+        if (this._vpController!.value.position >= const Duration(seconds: 13)) {
+          this
+              ._vpController!
+              .seekTo(const Duration(seconds: 5))
+              .then((nothing) {
+            this._vpController!.play();
+            setState(() {});
+          });
         }
       });
     });
@@ -410,6 +429,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTap: () {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_grey");
+                              this.runScreen_14();
                             });
                             log("clic poisson gris");
                           }),
@@ -421,6 +441,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTap: () {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_red");
+                              this.runScreen_14();
                             });
                             log("clic poisson rouge");
                           }),
@@ -432,6 +453,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTap: () {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_blue");
+                              this.runScreen_14();
                             });
                             log("clic poisson bleu");
                           }),
