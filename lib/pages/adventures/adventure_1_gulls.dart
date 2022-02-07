@@ -23,7 +23,8 @@ class AdventureData {
     "assets/adventure_1_gulls/SCREEN10.mp4", // 06
     "assets/adventure_1_gulls/SCREEN12.mp4",
     "assets/adventure_1_gulls/SCREEN13.mp4", // 08
-    "assets/adventure_1_gulls/SCREEN14.mp4", // 08
+    "assets/adventure_1_gulls/SCREEN14.mp4",
+    "assets/adventure_1_gulls/SCREEN15.mp4", // 10
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -33,9 +34,13 @@ class AdventureData {
     "screen2_continue": false,
     "nothing": 5,
 
-    ///  Set to true if the user is near [48.0485911,-1.7421397]
+    /// Set to true if the user is near [48.0485911,-1.7421397]
     "near_eiffel": false,
     "found_eiffel": false,
+
+    // TODO: set it onTap with the ExploreaInventory
+    /// Selection from the inventory.
+    "selected_item": null,
   };
 
   /// Enventory containing key-Strings.
@@ -317,6 +322,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
+      // Loop the video from the middle.
       this._vpController!.addListener(() {
         if (this._vpController!.value.position >= const Duration(seconds: 13)) {
           this
@@ -328,6 +334,41 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
           });
         }
       });
+
+      // Run the next screen when arrived at the point.
+      StreamSubscription<Position>? positionStream;
+      positionStream =
+          Geolocator.getPositionStream(locationSettings: _locationSettings)
+              .listen((Position? currentPosition) {
+        if (currentPosition != null) {
+          const pointCoordinates = [48.04856, -1.74249];
+          double distanceFromThePoint = Geolocator.distanceBetween(
+              pointCoordinates[0],
+              pointCoordinates[1],
+              currentPosition.latitude,
+              currentPosition.longitude);
+
+          if (distanceFromThePoint <= 7 /* metters */) {
+            positionStream!.cancel();
+
+            this.runScreen_15();
+          }
+        }
+      });
+    });
+  }
+
+  /// Throw the fish.
+  void runScreen_15() {
+    this.changeCurrentScreenAndLoadAsset(10);
+
+    this._vpController!.setLooping(false);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
     });
   }
 
@@ -464,6 +505,37 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
             )
           ],
         );
+        break;
+
+      case 10: // 15
+        ret = Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController!),
+              ),
+            ),
+            if (this._theAdventureData.adventureParams["selected_item"] != null)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: GestureDetector(
+                    onVerticalDragEnd: (details) {
+                      log(details.toString());
+                    },
+                    child: Container(
+                      color: Colors.red,
+                      width: 50.0,
+                      height: 50.0,
+                    ),
+                  ),
+                ),
+              )
+          ],
+        );
 
         break;
 
@@ -473,6 +545,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       case 4: // 07
       case 6: // 10
       case 7: // 12
+      case 9: // 14
+
       default:
         ret = AspectRatio(
           aspectRatio: 9.0 / 16.0,
@@ -531,6 +605,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              // FIXME: Timer is resetted when the inventory is openned.
+
                               ExploreaTimer(
                                 totalTime: Duration(seconds: 60 * 15),
                                 borderColor: Colors.white,
