@@ -13,13 +13,15 @@ import 'package:geolocator/geolocator.dart';
 
 class AdventureData {
   static const List<String> ADVENTURE_SCREENS = [
-    "assets/adventure_1_gulls/SCREEN01.mp4",
+    "assets/adventure_1_gulls/SCREEN01.mp4", // 00
     "assets/adventure_1_gulls/SCREEN02.mp4",
-    "assets/adventure_1_gulls/SCREEN03_04_05.mp4",
+    "assets/adventure_1_gulls/SCREEN03_04_05.mp4", // 02
     "assets/adventure_1_gulls/SCREEN06.mp4",
-    "assets/adventure_1_gulls/SCREEN07.mp4",
+    "assets/adventure_1_gulls/SCREEN07.mp4", // 04
     "assets/adventure_1_gulls/SCREEN08_09.mp4",
-    "assets/adventure_1_gulls/SCREEN10.mp4",
+    "assets/adventure_1_gulls/SCREEN10.mp4", // 06
+    "assets/adventure_1_gulls/SCREEN12.mp4",
+    "assets/adventure_1_gulls/SCREEN13.mp4", // 08
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -75,7 +77,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_10();
+    this.runScreen_13();
 
     // // REMOVE
     // this._vpController.setLooping(true);
@@ -239,6 +241,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this._vpController!.initialize().then((nothing) {
       this._vpController!.play();
 
+      // TODO: add vibration.
+
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
@@ -255,9 +259,51 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               currentPosition.longitude);
 
           if (distanceFromThePoint <= 10 /* metters */) {
-            log("Arrivé au pint ! lancement de l'acean suivant !! ");
             positionStream!.cancel();
+
+            this.runScreen_12();
           }
+        }
+      });
+    });
+  }
+
+  /// With the fisherman.
+  void runScreen_12() {
+    this.changeCurrentScreenAndLoadAsset(7);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this.runScreen_13();
+        }
+      });
+    });
+  }
+
+  /// The fishes in the basket.
+  void runScreen_13() {
+    this.changeCurrentScreenAndLoadAsset(8);
+
+    this._vpController!.setLooping(true);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          // Add it in the next screen
+          // this._vpController!.setLooping(false);
         }
       });
     });
@@ -337,11 +383,62 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
+      case 8: // 13
+        ret = Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController!),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: FractionallySizedBox(
+                heightFactor: 0.5,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                          child:
+                              Container(color: Colors.black.withOpacity(0.0)),
+                          onTap: () {
+                            log("clic poisson gris");
+                          }),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                          child:
+                              Container(color: Colors.black.withOpacity(0.0)),
+                          onTap: () {
+                            log("clic poisson rouge");
+                          }),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                          child:
+                              Container(color: Colors.black.withOpacity(0.0)),
+                          onTap: () {
+                            log("clic poisson bleu");
+                          }),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        );
+
+        break;
+
       case 0: // 01
       case 2: // 03 & 04 & 05
       case 3: // 06
       case 4: // 07
       case 6: // 10
+      case 7: // 12
       default:
         ret = AspectRatio(
           aspectRatio: 9.0 / 16.0,
