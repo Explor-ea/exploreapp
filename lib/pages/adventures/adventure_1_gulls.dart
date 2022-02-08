@@ -43,6 +43,8 @@ class AdventureData {
     "selected_item": null,
   };
 
+  int currentTime = (60 * 15);
+
   /// Enventory containing key-Strings.
   List<String> inventory = [];
 
@@ -73,6 +75,15 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   @override
   void initState() {
     super.initState();
+
+    var advTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
+      setState(() {
+        if (this._theAdventureData.currentTime > 0)
+          this._theAdventureData.currentTime--;
+        else
+          advTimer.cancel();
+      });
+    });
 
     // If somehow the location permission has not been agreed, display an error Widget.
     checkAndAskPosition().then((permission) {
@@ -616,7 +627,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               // FIXME: Timer is resetted when the inventory is openned.
 
                               ExploreaTimer(
-                                totalTime: Duration(seconds: 60 * 15),
+                                currentTime: this._theAdventureData.currentTime,
                                 borderColor: Colors.white,
                               ),
 
