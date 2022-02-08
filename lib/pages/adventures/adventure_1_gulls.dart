@@ -575,15 +575,23 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                 child: Padding(
                   padding: const EdgeInsets.all(32.0),
                   child: ExploreaInventory(
-                      currentInventory: this._theAdventureData.inventory,
-                      itemMatching: {
-                        "fish_grey":
-                            "assets/adventure_1_gulls/items/fish_grey.png",
-                        "fish_red":
-                            "assets/adventure_1_gulls/items/fish_red.png",
-                        "fish_blue":
-                            "assets/adventure_1_gulls/items/fish_blue.png",
-                      }),
+                    currentInventory: this._theAdventureData.inventory,
+                    itemMatching: {
+                      "fish_grey":
+                          "assets/adventure_1_gulls/items/fish_grey.png",
+                      "fish_red": "assets/adventure_1_gulls/items/fish_red.png",
+                      "fish_blue":
+                          "assets/adventure_1_gulls/items/fish_blue.png",
+                    },
+                    onItemSelected: (selectedItem) {
+                      if (selectedItem != null) {
+                        log(selectedItem);
+                        // setState(() {
+                        //   this._inventoryIsOpen = false;
+                        // });
+                      }
+                    },
+                  ),
                 ),
               ),
 
