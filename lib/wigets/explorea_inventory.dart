@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:exploreapp/pages/adventures/adventure_1_gulls.dart';
 import 'package:flutter/material.dart';
 
 import '../explorea_colors.dart';
@@ -9,12 +10,14 @@ class ExploreaInventory extends StatefulWidget {
   ExploreaInventory({
     Key? key,
     required this.currentInventory,
-    required this.itemMatching,
+    this.itemSelected,
     this.onItemSelected,
   }) : super(key: key);
 
   final List<String> currentInventory;
-  final Map<String, String> itemMatching;
+  final String? itemSelected;
+
+  // Tous les items
 
   final Function(String?)? onItemSelected;
 
@@ -23,8 +26,6 @@ class ExploreaInventory extends StatefulWidget {
 }
 
 class _ExploreaInventoryState extends State<ExploreaInventory> {
-  String? _selectedItem;
-
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
@@ -33,14 +34,35 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
         sigmaY: 1,
       ),
       child: Container(
-        color: ExploreaColors.yellow.withOpacity(0.75),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [ExploreaColors.purple, ExploreaColors.purpleDark],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight),
+        ),
         height: 300,
         width: 300,
         child: SingleChildScrollView(
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            runSpacing: 8.0,
-            children: this.buildItemList(),
+          child: Column(
+            children: [
+              Container(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Inventaire",
+                    style: TextStyle(color: Colors.white, fontSize: 32.0),
+                  ),
+                ],
+              ),
+              Container(height: 48),
+              Wrap(
+                alignment: WrapAlignment.center,
+                runSpacing: 8.0,
+                children: this.buildItemList(),
+              ),
+              Container(height: 24),
+            ],
           ),
         ),
       ),
@@ -50,10 +72,16 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
   List<Widget> buildItemList() {
     List<Widget> retList = [];
 
-    for (var ind = 0; ind < this.widget.currentInventory.length; ind++) {
-      String? matchingAsset =
-          this.widget.itemMatching[this.widget.currentInventory[ind]];
-      if (matchingAsset != null) {
+    int minInventorySize = this.widget.currentInventory.length < 5
+        ? 9
+        : this.widget.currentInventory.length + 1;
+
+    for (var ind = 0; ind < minInventorySize; ind++) {
+      if (ind < this.widget.currentInventory.length) {
+        String i_item = this.widget.currentInventory[ind];
+
+        String? matchingAsset = AdventureData.getAssetForItem(i_item);
+
         retList.add(Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
@@ -62,34 +90,36 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
                 height: 64.0,
                 // color: ExploreaColors.yellow,
                 decoration: BoxDecoration(
-                    gradient:
-                        this._selectedItem == this.widget.currentInventory[ind]
-                            ? RadialGradient(
-                                colors: [
-                                  ExploreaColors.purple,
-                                  Colors.white.withOpacity(0.0)
-                                ],
-                                radius: 0.5,
-                              )
-                            : null,
-                    image: DecorationImage(
-                        image: AssetImage(matchingAsset), fit: BoxFit.contain)),
+                  border: this.widget.itemSelected == i_item
+                      ? Border.all(color: ExploreaColors.yellow, width: 2.0)
+                      : null,
+                  color: ExploreaColors.purpleLight,
+                  image: DecorationImage(
+                      image: AssetImage(matchingAsset != null
+                          ? matchingAsset
+                          : "assets/icon/question_mark.png"),
+                      fit: BoxFit.contain),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
               ),
               onTap: () {
-                // TODO: verif it's the name of the item, not the path
-                log("selected item : " + this.widget.currentInventory[ind]);
-                setState(() {
-                  if (this._selectedItem == this.widget.currentInventory[ind])
-                    this._selectedItem = null;
-                  else
-                    this._selectedItem = this.widget.currentInventory[ind];
+                log("selected item : " + i_item);
 
-                  if (this.widget.onItemSelected != null)
-                    this.widget.onItemSelected!(this._selectedItem);
-                });
+                if (this.widget.onItemSelected != null)
+                  this.widget.onItemSelected!(i_item);
               },
             )));
-      }
+      } else
+        retList.add(Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                width: 64.0,
+                height: 64.0,
+                // color: ExploreaColors.yellow,
+                decoration: BoxDecoration(
+                  color: ExploreaColors.purpleLight,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ))));
     }
     return retList;
   }
