@@ -6,6 +6,7 @@ import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/src/permissions.dart';
 import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_inventory.dart';
+import 'package:exploreapp/wigets/explorea_throwable_container.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -577,30 +578,24 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 50.0),
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: GestureDetector(
-                          onVerticalDragEnd: (details) {
-                            if (details.primaryVelocity != null &&
-                                details.primaryVelocity! < 0)
-                              log("Throw : " +
-                                  this._theAdventureData.selectedItem!);
-                          },
-                          child: Container(
-                            width: 200.0,
-                            height: 200.0,
-                            // color: ExploreaColors.yellow,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                      AdventureData.getAssetForItem(this
-                                              ._theAdventureData
-                                              .selectedItem!) ??
-                                          "assets/icon/question_mark.png"),
-                                  fit: BoxFit.contain),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
+                      child: ExploreaThrowableContainer(
+                        onThrowed: () {
+                          log("throwed : " +
+                              this._theAdventureData.selectedItem!);
+                        },
+                        child: Container(
+                          // The Fish.
+
+                          width: 200.0,
+                          height: 200.0,
+                          // color: ExploreaColors.yellow,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(AdventureData.getAssetForItem(
+                                        this._theAdventureData.selectedItem!) ??
+                                    "assets/icon/question_mark.png"),
+                                fit: BoxFit.contain),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                         ),
                       ),
