@@ -44,18 +44,54 @@ class AdventureData extends ChangeNotifier {
     "selected_item": null,
   };
 
+  //
+  // Timer
+
   int currentTime = (60 * 15);
-
-  /// Enventory containing key-Strings.
-  List<String> inventory = [];
-
-  /// Zero based index, references `AdventureData.ADVENTURE_SCREENS`
-  int currentScreen = 0;
 
   decrementTimer() {
     currentTime--;
     notifyListeners();
   }
+
+  // Timer
+  //
+
+  //
+  // Inventory
+
+  /// Enventory containing key-Strings.
+  List<String> inventory = [];
+  String? selectedItem;
+
+  selectItem(String itemSelected) {
+    if (this.selectedItem == itemSelected)
+      this.selectedItem = null;
+    else
+      this.selectedItem = itemSelected;
+
+    notifyListeners();
+  }
+
+  static String? getAssetForItem(String itemId) {
+    switch (itemId) {
+      case "fish_blue":
+        return "assets/adventure_1_gulls/items/fish_blue.png";
+      case "fish_grey":
+        return "assets/adventure_1_gulls/items/fish_grey.png";
+      case "fish_red":
+        return "assets/adventure_1_gulls/items/fish_red.png";
+
+      default:
+        return null;
+    }
+  }
+
+  // Inventory
+  //
+
+  /// Zero based index, references `AdventureData.ADVENTURE_SCREENS`
+  int currentScreen = 0;
 }
 
 class Adventure1Gulls extends StatefulWidget {
@@ -591,25 +627,16 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                   alignment: Alignment.center,
                   child: Padding(
                     padding: const EdgeInsets.all(32.0),
-                    child: ExploreaInventory(
-                      currentInventory: this._theAdventureData.inventory,
-                      itemMatching: {
-                        "fish_grey":
-                            "assets/adventure_1_gulls/items/fish_grey.png",
-                        "fish_red":
-                            "assets/adventure_1_gulls/items/fish_red.png",
-                        "fish_blue":
-                            "assets/adventure_1_gulls/items/fish_blue.png",
-                      },
-                      onItemSelected: (selectedItem) {
-                        if (selectedItem != null) {
-                          log(selectedItem);
-                          // setState(() {
-                          //   this._inventoryIsOpen = false;
-                          // });
-                        }
-                      },
-                    ),
+                    child: Consumer<AdventureData>(
+                        builder: (context, theAdvData, child) =>
+                            ExploreaInventory(
+                              currentInventory: theAdvData.inventory,
+                              itemSelected: theAdvData.selectedItem,
+                              onItemSelected: (selectedItem) {
+                                if (selectedItem != null)
+                                  theAdvData.selectItem(selectedItem);
+                              },
+                            )),
                   ),
                 ),
 
