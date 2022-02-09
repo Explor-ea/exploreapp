@@ -559,47 +559,56 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         break;
 
       case 10: // 15
-        ret = Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: AspectRatio(
-                aspectRatio: 9.0 / 16.0,
-                child: VideoPlayer(this._vpController!),
-              ),
-            ),
-            if (this._theAdventureData.selectedItem != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 50.0),
-                child: Align(
+        ret = ChangeNotifierProvider(
+          create: (context) => this._theAdventureData,
+          child: Consumer<AdventureData>(
+            builder: (context, theAdvData, child) => Stack(
+              children: [
+                Align(
                   alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: GestureDetector(
-                      onVerticalDragEnd: (details) {
-                        if (details.primaryVelocity != null &&
-                            details.primaryVelocity! < 0)
-                          log("Throw : " +
-                              this._theAdventureData.selectedItem!);
-                      },
-                      child: Container(
-                        width: 200.0,
-                        height: 200.0,
-                        // color: ExploreaColors.yellow,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(AdventureData.getAssetForItem(
-                                      this._theAdventureData.selectedItem!) ??
-                                  "assets/icon/question_mark.png"),
-                              fit: BoxFit.contain),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: AspectRatio(
+                    aspectRatio: 9.0 / 16.0,
+                    child: VideoPlayer(this._vpController!),
+                  ),
+                ),
+                // Check if fish, not any != null
+                if (theAdvData.selectedItem != null)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 50.0),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: GestureDetector(
+                          onVerticalDragEnd: (details) {
+                            if (details.primaryVelocity != null &&
+                                details.primaryVelocity! < 0)
+                              log("Throw : " +
+                                  this._theAdventureData.selectedItem!);
+                          },
+                          child: Container(
+                            width: 200.0,
+                            height: 200.0,
+                            // color: ExploreaColors.yellow,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      AdventureData.getAssetForItem(this
+                                              ._theAdventureData
+                                              .selectedItem!) ??
+                                          "assets/icon/question_mark.png"),
+                                  fit: BoxFit.contain),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              )
-          ],
+                  )
+              ],
+            ),
+          ),
         );
 
         break;
