@@ -8,11 +8,12 @@ import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_inventory.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:video_player/video_player.dart';
 import 'package:geolocator/geolocator.dart';
 
-class AdventureData {
+class AdventureData extends ChangeNotifier {
   static const List<String> ADVENTURE_SCREENS = [
     "assets/adventure_1_gulls/SCREEN01.mp4", // 00
     "assets/adventure_1_gulls/SCREEN02.mp4",
@@ -43,10 +44,51 @@ class AdventureData {
     "selected_item": null,
   };
 
+  //
+  // Timer
+
   int currentTime = (60 * 15);
+
+  decrementTimer() {
+    currentTime--;
+    notifyListeners();
+  }
+
+  // Timer
+  //
+
+  //
+  // Inventory
 
   /// Enventory containing key-Strings.
   List<String> inventory = [];
+  String? selectedItem;
+
+  selectItem(String itemSelected) {
+    if (this.selectedItem == itemSelected)
+      this.selectedItem = null;
+    else
+      this.selectedItem = itemSelected;
+
+    notifyListeners();
+  }
+
+  static String? getAssetForItem(String itemId) {
+    switch (itemId) {
+      case "fish_blue":
+        return "assets/adventure_1_gulls/items/fish_blue.png";
+      case "fish_grey":
+        return "assets/adventure_1_gulls/items/fish_grey.png";
+      case "fish_red":
+        return "assets/adventure_1_gulls/items/fish_red.png";
+
+      default:
+        return null;
+    }
+  }
+
+  // Inventory
+  //
 
   /// Zero based index, references `AdventureData.ADVENTURE_SCREENS`
   int currentScreen = 0;
@@ -77,12 +119,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     super.initState();
 
     var advTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
-      setState(() {
-        if (this._theAdventureData.currentTime > 0)
-          this._theAdventureData.currentTime--;
-        else
-          advTimer.cancel();
-      });
+      if (this._theAdventureData.currentTime > 0)
+        this._theAdventureData.decrementTimer();
+      else
+        advTimer.cancel();
     });
 
     // If somehow the location permission has not been agreed, display an error Widget.
@@ -572,121 +612,119 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ExploreaColors.purple,
-        body: Stack(
-          children: [
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: this.buildCurrentAdventureScreen()),
-
-            //
-
-            if (this._inventoryIsOpen)
+        body: ChangeNotifierProvider(
+          create: (context) => this._theAdventureData,
+          child: Stack(
+            children: [
               Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: ExploreaInventory(
-                    currentInventory: this._theAdventureData.inventory,
-                    itemMatching: {
-                      "fish_grey":
-                          "assets/adventure_1_gulls/items/fish_grey.png",
-                      "fish_red": "assets/adventure_1_gulls/items/fish_red.png",
-                      "fish_blue":
-                          "assets/adventure_1_gulls/items/fish_blue.png",
-                    },
-                    onItemSelected: (selectedItem) {
-                      if (selectedItem != null) {
-                        log(selectedItem);
-                        // setState(() {
-                        //   this._inventoryIsOpen = false;
-                        // });
-                      }
-                    },
+                  alignment: Alignment.bottomCenter,
+                  child: this.buildCurrentAdventureScreen()),
+
+              //
+
+              if (this._inventoryIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Consumer<AdventureData>(
+                        builder: (context, theAdvData, child) =>
+                            ExploreaInventory(
+                              currentInventory: theAdvData.inventory,
+                              itemSelected: theAdvData.selectedItem,
+                              onItemSelected: (selectedItem) {
+                                if (selectedItem != null)
+                                  theAdvData.selectItem(selectedItem);
+                              },
+                            )),
                   ),
                 ),
-              ),
 
-            //
+              //
 
-            Align(
-              alignment: Alignment.topLeft,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipRect(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 8.0),
-                      child: BackdropFilter(
-                          filter: ImageFilter.blur(
-                            sigmaX: 10,
-                            sigmaY: 10,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // FIXME: Timer is resetted when the inventory is openned.
+              Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ClipRect(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 8.0),
+                        child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaX: 10,
+                              sigmaY: 10,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Consumer<AdventureData>(
+                                  builder: (context, theAdvData, child) =>
+                                      ExploreaTimer(
+                                    currentTime: theAdvData.currentTime,
+                                    borderColor: Colors.white,
+                                  ),
+                                ),
 
-                              ExploreaTimer(
-                                currentTime: this._theAdventureData.currentTime,
-                                borderColor: Colors.white,
-                              ),
+                                //
 
-                              //
-
-                              GestureDetector(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
+                                GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: this._inventoryIsOpen
+                                                ? ExploreaColors.yellow
+                                                : Colors.white),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        color: Colors.black.withOpacity(0.0)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 4.0),
+                                      child: Icon(Icons.backpack_outlined,
                                           color: this._inventoryIsOpen
                                               ? ExploreaColors.yellow
                                               : Colors.white),
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      this._inventoryIsOpen =
+                                          !this._inventoryIsOpen;
+                                    });
+                                  },
+                                ),
+
+                                //
+
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.white),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10.0)),
                                       color: Colors.black.withOpacity(0.0)),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 4.0),
-                                    child: Icon(Icons.backpack_outlined,
-                                        color: this._inventoryIsOpen
-                                            ? ExploreaColors.yellow
-                                            : Colors.white),
-                                  ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 4.0),
+                                      child: Text(
+                                        "Indices",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18.0),
+                                      )),
                                 ),
-                                onTap: () {
-                                  setState(() {
-                                    this._inventoryIsOpen =
-                                        !this._inventoryIsOpen;
-                                  });
-                                },
-                              ),
+                              ],
+                            )),
+                      ),
+                    )
+                  ],
+                ),
+              )
 
-                              //
-
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                    color: Colors.black.withOpacity(0.0)),
-                                child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 4.0),
-                                    child: Text(
-                                      "Indices",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18.0),
-                                    )),
-                              ),
-                            ],
-                          )),
-                    ),
-                  )
-                ],
-              ),
-            )
-
-            //
-          ],
+              //
+            ],
+          ),
         ));
   }
 }
