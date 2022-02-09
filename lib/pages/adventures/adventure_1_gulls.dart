@@ -27,6 +27,7 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN13.mp4", // 08
     "assets/adventure_1_gulls/SCREEN14.mp4",
     "assets/adventure_1_gulls/SCREEN15.mp4", // 10
+    "assets/adventure_1_gulls/SCREEN16.mp4", // 10
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -64,6 +65,18 @@ class AdventureData extends ChangeNotifier {
   /// Enventory containing key-Strings.
   List<String> inventory = [];
   String? selectedItem;
+
+  addItem(String itemId) {
+    this.inventory.add(itemId);
+
+    notifyListeners();
+  }
+
+  removeItem(String itemId) {
+    this.inventory.remove(itemId);
+
+    notifyListeners();
+  }
 
   selectItem(String itemSelected) {
     if (this.selectedItem == itemSelected)
@@ -424,6 +437,20 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// The seagulls are eating.
+  void runScreen_16() {
+    this.changeCurrentScreenAndLoadAsset(11);
+
+    this._vpController!.setLooping(false);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+    });
+  }
+
   // Listen user's position and run 11 screen
 
   Widget buildCurrentAdventureScreen() {
@@ -580,8 +607,11 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       alignment: Alignment.bottomCenter,
                       child: ExploreaThrowableContainer(
                         onThrowed: () {
-                          log("throwed : " +
-                              this._theAdventureData.selectedItem!);
+                          this
+                              ._theAdventureData
+                              .removeItem(theAdvData.selectedItem!);
+
+                          this.runScreen_16();
                         },
                         child: Container(
                           // The Fish.
