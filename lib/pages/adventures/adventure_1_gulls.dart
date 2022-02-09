@@ -568,19 +568,33 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                 child: VideoPlayer(this._vpController!),
               ),
             ),
-            if (this._theAdventureData.adventureParams["selected_item"] != null)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: GestureDetector(
-                    onVerticalDragEnd: (details) {
-                      log(details.toString());
-                    },
-                    child: Container(
-                      color: Colors.red,
-                      width: 50.0,
-                      height: 50.0,
+            if (this._theAdventureData.selectedItem != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 50.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: GestureDetector(
+                      onVerticalDragEnd: (details) {
+                        if (details.primaryVelocity != null &&
+                            details.primaryVelocity! < 0)
+                          log("Throw : " +
+                              this._theAdventureData.selectedItem!);
+                      },
+                      child: Container(
+                        width: 200.0,
+                        height: 200.0,
+                        // color: ExploreaColors.yellow,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(AdventureData.getAssetForItem(
+                                      this._theAdventureData.selectedItem!) ??
+                                  "assets/icon/question_mark.png"),
+                              fit: BoxFit.contain),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
                     ),
                   ),
                 ),
