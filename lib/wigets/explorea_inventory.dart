@@ -34,7 +34,12 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
         sigmaY: 1,
       ),
       child: Container(
-        color: ExploreaColors.purple,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [ExploreaColors.purple, ExploreaColors.purpleDark],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight),
+        ),
         height: 300,
         width: 300,
         child: SingleChildScrollView(
@@ -69,21 +74,17 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
                 height: 64.0,
                 // color: ExploreaColors.yellow,
                 decoration: BoxDecoration(
-                    color: ExploreaColors.purpleLight,
-                    gradient: this.widget.itemSelected == i_item
-                        ? RadialGradient(
-                            colors: [
-                              ExploreaColors.yellow,
-                              Colors.white.withOpacity(0.0)
-                            ],
-                            radius: 0.5,
-                          )
-                        : null,
-                    image: DecorationImage(
-                        image: AssetImage(matchingAsset != null
-                            ? matchingAsset
-                            : "assets/icon/question_mark.png"),
-                        fit: BoxFit.contain)),
+                  border: this.widget.itemSelected == i_item
+                      ? Border.all(color: ExploreaColors.yellow, width: 2.0)
+                      : null,
+                  color: ExploreaColors.purpleLight,
+                  image: DecorationImage(
+                      image: AssetImage(matchingAsset != null
+                          ? matchingAsset
+                          : "assets/icon/question_mark.png"),
+                      fit: BoxFit.contain),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
               ),
               onTap: () {
                 log("selected item : " + i_item);
@@ -101,6 +102,7 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
                 // color: ExploreaColors.yellow,
                 decoration: BoxDecoration(
                   color: ExploreaColors.purpleLight,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ))));
     }
     return retList;

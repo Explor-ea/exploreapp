@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/adventures/adventure_1_gulls.dart';
 import 'package:exploreapp/pages/start_screens/newcomer.dart';
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
@@ -87,7 +88,8 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.yellow,
+          // primaryColor: ExploreaColors.yellow,
           fontFamily: "ABCProphet"),
       // home: SplashScreen(),
       home: this.firstWidget,
