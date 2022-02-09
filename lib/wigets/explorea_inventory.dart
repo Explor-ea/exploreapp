@@ -43,10 +43,26 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
         height: 300,
         width: 300,
         child: SingleChildScrollView(
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            runSpacing: 8.0,
-            children: this.buildItemList(),
+          child: Column(
+            children: [
+              Container(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Inventaire",
+                    style: TextStyle(color: Colors.white, fontSize: 32.0),
+                  ),
+                ],
+              ),
+              Container(height: 48),
+              Wrap(
+                alignment: WrapAlignment.center,
+                runSpacing: 8.0,
+                children: this.buildItemList(),
+              ),
+              Container(height: 24),
+            ],
           ),
         ),
       ),
@@ -57,7 +73,7 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
     List<Widget> retList = [];
 
     int minInventorySize = this.widget.currentInventory.length < 5
-        ? 12
+        ? 9
         : this.widget.currentInventory.length + 1;
 
     for (var ind = 0; ind < minInventorySize; ind++) {
