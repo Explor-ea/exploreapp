@@ -27,7 +27,8 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN13.mp4", // 08
     "assets/adventure_1_gulls/SCREEN14.mp4",
     "assets/adventure_1_gulls/SCREEN15.mp4", // 10
-    "assets/adventure_1_gulls/SCREEN16.mp4", // 10
+    "assets/adventure_1_gulls/SCREEN16.mp4",
+    "assets/adventure_1_gulls/SCREEN17.mp4", // 12
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -441,13 +442,41 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   void runScreen_16() {
     this.changeCurrentScreenAndLoadAsset(11);
 
-    this._vpController!.setLooping(true);
+    this._vpController!.setLooping(false);
 
     this._vpController!.initialize().then((nothing) {
       this._vpController!.play();
 
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this.runScreen_17();
+        }
+      });
+    });
+  }
+
+  /// The rat shout : let's go.
+  void runScreen_17() {
+    this.changeCurrentScreenAndLoadAsset(12);
+
+    this._vpController!.setLooping(false);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      // this._vpController!.addListener(() {
+      //   if (this._vpController!.value.position ==
+      //       this._vpController!.value.duration) {
+      //     // this.runScreen_18();
+      //   }
+      // });
     });
   }
 
