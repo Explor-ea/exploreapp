@@ -8,6 +8,7 @@ import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_inventory.dart';
 import 'package:exploreapp/wigets/explorea_throwable_container.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +35,8 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN19.mp4", // 14
     "assets/adventure_1_gulls/SCREEN20.mp4",
     "assets/adventure_1_gulls/SCREEN22.mp4", // 16
+    "assets/adventure_1_gulls/SCREEN23.mp4",
+    "assets/adventure_1_gulls/SCREEN24.mp4", // 18
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -159,7 +162,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_22();
+    this.runScreen_24();
 
     // // REMOVE
     // this._vpController.setLooping(true);
@@ -236,7 +239,12 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       case 16:
         this.runScreen_22();
         break;
-
+      case 17:
+        this.runScreen_23();
+        break;
+      case 18:
+        this.runScreen_24();
+        break;
       default:
         break;
     }
@@ -626,8 +634,54 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       setState(() {});
 
       this._vpController!.addListener(() {
+        if (!this._nextBtnIsDisplayed &&
+            this._vpController!.value.position >= const Duration(seconds: 4)) {
+          setState(() {
+            this._nextBtnIsDisplayed = true;
+          });
+        }
+      });
+    });
+  }
+
+  /// Chose the good container.
+  void runScreen_23() {
+    this.changeCurrentScreenAndLoadAsset(17);
+
+    this._vpController!.setLooping(true);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
         if (this._vpController!.value.position ==
             this._vpController!.value.duration) {}
+      });
+    });
+  }
+
+  /// Nice done screen, ask to go to the container.
+  void runScreen_24() {
+    this.changeCurrentScreenAndLoadAsset(18);
+
+    this._vpController!.setLooping(false);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this._vpController!.seekTo(Duration(seconds: 6)).then((nothing) {
+            this._vpController!.play();
+          });
+        }
       });
     });
   }
@@ -931,6 +985,78 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               child: AspectRatio(
                 aspectRatio: 1080 / 300,
                 child: VideoPlayer(this._vpController!),
+              ),
+            ),
+          ],
+        );
+        break;
+
+      case 17: // 19
+        ret = Stack(
+          children: [
+            // Containers video
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController!),
+              ),
+            ),
+
+            // Click handlers.
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 150, 0, 0),
+                child: FractionallySizedBox(
+                  heightFactor: 0.3,
+                  child: Container(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        // Container blue.
+                        Expanded(
+                          flex: 165,
+                          child:
+                              GestureDetector(child: Container(), onTap: () {}),
+                        ),
+                        // No container.
+                        Expanded(
+                          flex: 125,
+                          child:
+                              GestureDetector(child: Container(), onTap: () {}),
+                        ),
+                        // Container jaune.
+                        Expanded(
+                          flex: 130,
+                          child: GestureDetector(
+                              child: Container(
+                                color:
+                                    // kDebugMode
+                                    //     ? Colors.white.withOpacity(0.5)
+                                    //     : Colors.white.withOpacity(0),
+                                    Colors.white.withOpacity(0.0),
+                              ),
+                              onTap: () {
+                                this.runScreen_24();
+                              }),
+                        ),
+                        // Container rouge.
+                        Expanded(
+                          flex: 215,
+                          child:
+                              GestureDetector(child: Container(), onTap: () {}),
+                        ),
+                        // Container vert.
+                        Expanded(
+                          flex: 362,
+                          child:
+                              GestureDetector(child: Container(), onTap: () {}),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
