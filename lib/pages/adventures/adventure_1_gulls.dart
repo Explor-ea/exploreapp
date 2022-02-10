@@ -30,6 +30,7 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN16.mp4",
     "assets/adventure_1_gulls/SCREEN17.mp4", // 12
     "assets/adventure_1_gulls/SCREEN18.mp4",
+    "assets/adventure_1_gulls/SCREEN19.png", // 14
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -155,7 +156,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_16();
+    this.runScreen_18();
 
     // // REMOVE
     // this._vpController.setLooping(true);
@@ -550,13 +551,29 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      // this._vpController!.addListener(() {
-      //   if (this._vpController!.value.position >
-      //       this._vpController!.value.duration) {
-      //     // this.runScreen_18();
-      //   }
-      // });
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this.runScreen_19();
+        }
+      });
     });
+  }
+
+  /// Panorama.
+  void runScreen_19() {
+    // this.changeCurrentScreenAndLoadAsset(14);
+
+    this._theAdventureData.currentScreen = 14;
+
+    setState(() {});
+
+    if (this._vpController != null && this._vpController!.value.isInitialized)
+      this._vpController!.dispose().then((value) {
+        setState(() {});
+      });
+
+    // this._vpController!.setLooping(false);
   }
 
   // Listen user's position and run 11 screen
@@ -743,7 +760,103 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
             ),
           ),
         );
+        break;
 
+      case 14: // 19
+        ret = Stack(
+          children: [
+            // Scrollable Panorama
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: AspectRatio(
+                  aspectRatio: 9.0 / 16.0,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      // XXX CAREFUL: This code might not work on all devices.
+                      width: 1400.0,
+                      decoration: BoxDecoration(
+                          // gradient: LinearGradient(
+                          //     colors: [Colors.pink, Colors.cyan]),
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/adventure_1_gulls/Panorama.png"))),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 165.0,
+                            top: 185.0,
+                            // Blue Container.
+                            child: Container(
+                              width: 100.0,
+                              height: 150.0,
+                              // color: Colors.pink.withOpacity(0.5),
+                            ),
+                          ),
+                          Positioned(
+                            left: 350.0,
+                            top: 210.0,
+                            // Yellow Container.
+                            child: Container(
+                              width: 100.0,
+                              height: 110.0,
+                              // color: Colors.pink.withOpacity(0.5),
+                            ),
+                          ),
+                          Positioned(
+                            left: 450.0,
+                            top: 170.0,
+                            // Red Container.
+                            child: Container(
+                              width: 155.0,
+                              height: 200.0,
+                              // color: Colors.pink.withOpacity(0.5),
+                            ),
+                          ),
+                          Positioned(
+                            left: 610.0,
+                            top: 170.0,
+                            // Green Container.
+                            child: Container(
+                              width: 205.0,
+                              height: 225.0,
+                              // color: Colors.pink.withOpacity(0.5),
+                            ),
+                          ),
+                          Positioned(
+                            left: 1010.0,
+                            top: 210.0,
+                            // Generator sign.
+                            child: GestureDetector(
+                              onTap: () {
+                                log("Click on sign.");
+                              },
+                              child: Container(
+                                width: 40.0,
+                                height: 120.0,
+                                color: Colors.pink.withOpacity(0.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )),
+
+            // // Frame
+            // Align(
+            //     alignment: Alignment.bottomCenter,
+            //     child: AspectRatio(
+            //       aspectRatio: 9.0 / 16.0,
+            //       child: Container(
+            //           decoration: BoxDecoration(
+            //               image: DecorationImage(
+            //                   image: AssetImage(AdventureData.ADVENTURE_SCREENS[
+            //                       this._theAdventureData!.currentScreen])))),
+            //     )),
+          ],
+        );
         break;
 
       case 0: // 01
