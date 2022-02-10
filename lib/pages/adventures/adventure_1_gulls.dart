@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/src/permissions.dart';
 import 'package:exploreapp/wigets/explorea_btn_next.dart';
@@ -38,6 +39,8 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN23.mp4",
     "assets/adventure_1_gulls/SCREEN24.mp4", // 18
     "assets/adventure_1_gulls/SCREEN26.mp4",
+    "assets/adventure_1_gulls/SCREEN27.mp4", // 20
+    "assets/adventure_1_gulls/SCREEN28.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -51,9 +54,11 @@ class AdventureData extends ChangeNotifier {
     "near_eiffel": false,
     "found_eiffel": false,
 
-    // TODO: set it onTap with the ExploreaInventory
     /// Selection from the inventory.
     "selected_item": null,
+
+    /// Composed of "#" 0 or 1, the correct code is : "".
+    "self_destruct_enterred_code": [7, 7, 7, 7],
   };
 
   //
@@ -114,6 +119,33 @@ class AdventureData extends ChangeNotifier {
   // Inventory
   //
 
+  //
+  // Self destruct code
+
+  /// Add a number to the code the user is gessing.
+  /// If the number match the destruction code, the next screen should be run.
+  ///
+  /// @return `true` the current guessed code matches the self-destruction code, else `false`.
+  addToCurrentCode(int number) {
+    /// [0, 0, 1, 1] but reversed.
+    const List<int> CORRECT_DESTRUCTION_CODE = [1, 1, 0, 0];
+
+    List<int> currentCode = this.adventureParams["self_destruct_enterred_code"];
+
+    currentCode.insert(0, number);
+
+    while (currentCode.length > CORRECT_DESTRUCTION_CODE.length) {
+      currentCode.removeLast();
+    }
+
+    log(currentCode.toString());
+
+    return ListEquality().equals(currentCode, CORRECT_DESTRUCTION_CODE);
+  }
+
+  // Self destruct code
+  //
+
   /// Zero based index, references `AdventureData.ADVENTURE_SCREENS`
   int currentScreen = 0;
 }
@@ -163,7 +195,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_24();
+    this.runScreen_26();
 
     // // REMOVE
     // this._vpController.setLooping(true);
@@ -248,6 +280,12 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         break;
       case 19:
         this.runScreen_26();
+        break;
+      case 20:
+        this.runScreen_27();
+        break;
+      case 21:
+        this.runScreen_28();
         break;
       default:
         break;
@@ -738,7 +776,43 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
-  // Listen user's position and run 11 screen
+  /// Inside the generator.
+  void runScreen_27() {
+    this.changeCurrentScreenAndLoadAsset(20);
+
+    this._vpController!.setLooping(true);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      // this._vpController!.addListener(() {
+      //   if (this._vpController!.value.position ==
+      //       this._vpController!.value.duration) {}
+      // });
+    });
+  }
+
+  /// Inside the generator.
+  void runScreen_28() {
+    this.changeCurrentScreenAndLoadAsset(21);
+
+    this._vpController!.setLooping(false);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      // this._vpController!.addListener(() {
+      //   if (this._vpController!.value.position ==
+      //       this._vpController!.value.duration) {}
+      // });
+    });
+  }
 
   Widget buildCurrentAdventureScreen() {
     Widget ret = Container(
@@ -1149,11 +1223,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           flex: 4,
                           child: GestureDetector(
                               child: Container(
-                                color: Colors.white.withOpacity(0.5),
+                                color: Colors.white.withOpacity(0.0),
                               ),
                               onTap: () {
-                                // this.runScreen_27();
-                                log("Click on the console :)");
+                                this.runScreen_27();
                               }),
                         ),
 
@@ -1165,6 +1238,97 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       ],
                     ),
                   ),
+                ),
+              ),
+            ),
+          ],
+        );
+        break;
+
+      case 20: // 27
+        ret = Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: Stack(
+                  children: [
+                    // Video
+                    VideoPlayer(this._vpController!),
+
+                    // Click handler.
+                    Column(
+                      children: [
+                        // Nothing
+                        Expanded(flex: 14, child: Container()),
+
+                        // Buttons
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                // No container.
+                                Expanded(
+                                  flex: 9,
+                                  child: Container(),
+                                ),
+
+                                // The button "0".
+                                Expanded(
+                                  flex: 10,
+                                  child: GestureDetector(
+                                      child: Container(
+                                        color: Colors.white.withOpacity(0.5),
+                                      ),
+                                      onTap: () {
+                                        // TODO: play tap sound
+                                        if (this
+                                            ._theAdventureData
+                                            .addToCurrentCode(0))
+                                          this.runScreen_28();
+                                      }),
+                                ),
+
+                                // No container.
+                                Expanded(
+                                  flex: 5,
+                                  child: Container(),
+                                ),
+
+                                // The button "0".
+                                Expanded(
+                                  flex: 10,
+                                  child: GestureDetector(
+                                      child: Container(
+                                        color: Colors.white.withOpacity(0.5),
+                                      ),
+                                      onTap: () {
+                                        // TODO: play tap sound
+                                        if (this
+                                            ._theAdventureData
+                                            .addToCurrentCode(1))
+                                          this.runScreen_28();
+                                      }),
+                                ),
+
+                                // No container.
+                                Expanded(
+                                  flex: 10,
+                                  child: Container(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        // Nothing
+                        Expanded(flex: 4, child: Container()),
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),
