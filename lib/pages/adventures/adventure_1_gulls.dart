@@ -29,6 +29,7 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN15.mp4", // 10
     "assets/adventure_1_gulls/SCREEN16.mp4",
     "assets/adventure_1_gulls/SCREEN17.mp4", // 12
+    "assets/adventure_1_gulls/SCREEN18.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -120,6 +121,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   VideoPlayerController? _vpController;
   Future<void>? _initializeVideoPlayerFuture;
 
+  bool _nextBtnIsDisplayed = false;
+
   AdventureData _theAdventureData = new AdventureData();
 
   final LocationSettings _locationSettings = new LocationSettings(
@@ -160,7 +163,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   }
 
   /// After it, [_vpController] is `!= null`.
-  void changeCurrentScreenAndLoadAsset(int newCurrentScreen) {
+  void changeCurrentScreenAndLoadAsset(int newCurrentScreen,
+      {bool resetNextBtn: true}) {
+    if (resetNextBtn) this._nextBtnIsDisplayed = false;
+
     // XXX CAREFUL: when putted after the asset asignation, makes errors. And it's asynchronous so...
     if (this._vpController != null && this._vpController!.value.isInitialized)
       this._vpController!.dispose();
@@ -168,6 +174,56 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this._theAdventureData.currentScreen = newCurrentScreen;
     this._vpController = VideoPlayerController.asset(
         AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+  }
+
+  void runNextScreen() {
+    switch (++this._theAdventureData.currentScreen) {
+      case 0:
+        this.runScreen_1();
+        break;
+      case 1:
+        this.runScreen_2();
+        break;
+      case 2:
+        this.runScreen_3_4_5();
+        break;
+      case 3:
+        this.runScreen_6();
+        break;
+      case 4:
+        this.runScreen_7();
+        break;
+      case 5:
+        this.runScreen_8_9();
+        break;
+      case 6:
+        this.runScreen_10();
+        break;
+      case 7:
+        this.runScreen_12();
+        break;
+      case 8:
+        this.runScreen_13();
+        break;
+      case 9:
+        this.runScreen_14();
+        break;
+      case 10:
+        this.runScreen_15();
+        break;
+      case 11:
+        this.runScreen_16();
+        break;
+      case 12:
+        this.runScreen_17();
+        break;
+      case 13:
+        this.runScreen_18();
+        break;
+
+      default:
+        break;
+    }
   }
 
   void runScreen_1() {
@@ -463,6 +519,29 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   void runScreen_17() {
     this.changeCurrentScreenAndLoadAsset(12);
 
+    this._vpController!.setLooping(true);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (!this._nextBtnIsDisplayed &&
+            this._vpController!.value.position > const Duration(seconds: 2)) {
+          setState(() {
+            this._nextBtnIsDisplayed = true;
+          });
+        }
+      });
+    });
+  }
+
+  /// Enter the portal.
+  void runScreen_18() {
+    this.changeCurrentScreenAndLoadAsset(13);
+
     this._vpController!.setLooping(false);
 
     this._vpController!.initialize().then((nothing) {
@@ -472,7 +551,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       setState(() {});
 
       // this._vpController!.addListener(() {
-      //   if (this._vpController!.value.position ==
+      //   if (this._vpController!.value.position >
       //       this._vpController!.value.duration) {
       //     // this.runScreen_18();
       //   }
@@ -797,9 +876,22 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     )
                   ],
                 ),
-              )
+              ),
 
               //
+
+              if (this._nextBtnIsDisplayed)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                    child: ExploreaBtnNext(
+                      onPressed: () {
+                        this.runNextScreen();
+                      },
+                    ),
+                  ),
+                ),
             ],
           ),
         ));
