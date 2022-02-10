@@ -32,6 +32,8 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN18.mp4",
     // "assets/adventure_1_gulls/SCREEN19.png", // 14
     "assets/adventure_1_gulls/SCREEN19.mp4", // 14
+    "assets/adventure_1_gulls/SCREEN20.mp4",
+    "assets/adventure_1_gulls/SCREEN22.mp4", // 16
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -157,7 +159,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_18();
+    this.runScreen_22();
 
     // // REMOVE
     // this._vpController.setLooping(true);
@@ -221,6 +223,18 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         break;
       case 13:
         this.runScreen_18();
+        break;
+      case 13:
+        this.runScreen_19();
+        break;
+      case 14:
+        this.runScreen_19();
+        break;
+      case 15:
+        this.runScreen_20();
+        break;
+      case 16:
+        this.runScreen_22();
         break;
 
       default:
@@ -580,6 +594,44 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     // this._vpController!.setLooping(false);
   }
 
+  /// In front of the sign  confirmation.
+  void runScreen_20() {
+    this.changeCurrentScreenAndLoadAsset(15);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (!this._nextBtnIsDisplayed &&
+            this._vpController!.value.position >= const Duration(seconds: 3)) {
+          setState(() {
+            this._nextBtnIsDisplayed = true;
+          });
+        }
+      });
+    });
+  }
+
+  /// Alternate dimension sign.
+  void runScreen_22() {
+    this.changeCurrentScreenAndLoadAsset(16);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {}
+      });
+    });
+  }
+
   // Listen user's position and run 11 screen
 
   Widget buildCurrentAdventureScreen() {
@@ -834,6 +886,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                             child: GestureDetector(
                               onTap: () {
                                 log("Click on sign.");
+                                this.runScreen_20();
                               },
                               child: Container(
                                 width: 40.0,
