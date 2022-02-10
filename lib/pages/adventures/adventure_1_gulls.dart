@@ -30,7 +30,8 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN16.mp4",
     "assets/adventure_1_gulls/SCREEN17.mp4", // 12
     "assets/adventure_1_gulls/SCREEN18.mp4",
-    "assets/adventure_1_gulls/SCREEN19.png", // 14
+    // "assets/adventure_1_gulls/SCREEN19.png", // 14
+    "assets/adventure_1_gulls/SCREEN19.mp4", // 14
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -562,16 +563,19 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
   /// Panorama.
   void runScreen_19() {
-    // this.changeCurrentScreenAndLoadAsset(14);
+    this.changeCurrentScreenAndLoadAsset(14);
 
-    this._theAdventureData.currentScreen = 14;
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
 
-    setState(() {});
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
 
-    if (this._vpController != null && this._vpController!.value.isInitialized)
-      this._vpController!.dispose().then((value) {
-        setState(() {});
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {}
       });
+    });
 
     // this._vpController!.setLooping(false);
   }
@@ -855,6 +859,27 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
             //                   image: AssetImage(AdventureData.ADVENTURE_SCREENS[
             //                       this._theAdventureData!.currentScreen])))),
             //     )),
+            // Frame
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: SizedBox.expand(
+            //     child: FittedBox(
+            //       fit: BoxFit.fitWidth,
+            //       child: SizedBox(
+            //         height: this._vpController!.value.size.height,
+            //         width: MediaQuery.of(context).size.width,
+            //         child: VideoPlayer(this._vpController!),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 1080 / 300,
+                child: VideoPlayer(this._vpController!),
+              ),
+            ),
           ],
         );
         break;
