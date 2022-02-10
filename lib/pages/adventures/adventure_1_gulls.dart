@@ -37,6 +37,7 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN22.mp4", // 16
     "assets/adventure_1_gulls/SCREEN23.mp4",
     "assets/adventure_1_gulls/SCREEN24.mp4", // 18
+    "assets/adventure_1_gulls/SCREEN26.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -244,6 +245,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         break;
       case 18:
         this.runScreen_24();
+        break;
+      case 19:
+        this.runScreen_26();
         break;
       default:
         break;
@@ -683,6 +687,54 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
           });
         }
       });
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position > const Duration(seconds: 3)) {
+          // Run the next screen when arrived at the point.
+          StreamSubscription<Position>? positionStream;
+          positionStream =
+              Geolocator.getPositionStream(locationSettings: _locationSettings)
+                  .listen((Position? currentPosition) {
+            if (currentPosition != null) {
+              const pointCoordinates = [48.048442, -1.742608];
+              double distanceFromThePoint = Geolocator.distanceBetween(
+                  pointCoordinates[0],
+                  pointCoordinates[1],
+                  currentPosition.latitude,
+                  currentPosition.longitude);
+
+              if (distanceFromThePoint <= 7 /* metters */) {
+                positionStream!.cancel();
+
+                this.runScreen_26();
+              }
+            }
+          });
+        }
+      });
+    });
+  }
+
+  /// Inside the generator.
+  void runScreen_26() {
+    this.changeCurrentScreenAndLoadAsset(19);
+
+    this._vpController!.setLooping(false);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this._vpController!.seekTo(Duration(seconds: 2)).then((nothing) {
+            this._vpController!.play();
+          });
+        }
+      });
     });
   }
 
@@ -991,7 +1043,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
-      case 17: // 19
+      case 17: // 23
         ret = Stack(
           children: [
             // Containers video
@@ -1052,6 +1104,63 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           flex: 362,
                           child:
                               GestureDetector(child: Container(), onTap: () {}),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+        break;
+
+      case 19: // 26
+        ret = Stack(
+          children: [
+            // Video
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController!),
+              ),
+            ),
+
+            // Click handler.
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 150, 0, 0),
+                child: FractionallySizedBox(
+                  heightFactor: 0.3,
+                  child: Container(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        // No container.
+                        Expanded(
+                          flex: 1,
+                          child: Container(),
+                        ),
+
+                        // The console.
+                        Expanded(
+                          flex: 4,
+                          child: GestureDetector(
+                              child: Container(
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                              onTap: () {
+                                // this.runScreen_27();
+                                log("Click on the console :)");
+                              }),
+                        ),
+
+                        // No container.
+                        Expanded(
+                          flex: 1,
+                          child: Container(),
                         ),
                       ],
                     ),
