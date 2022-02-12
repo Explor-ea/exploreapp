@@ -1562,7 +1562,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                   flex: 10,
                                   child: GestureDetector(
                                       child: Container(
-                                        color: Colors.white.withOpacity(0.5),
+                                        color: Colors.white.withOpacity(0),
                                       ),
                                       onTap: () {
                                         // TODO: play tap sound
@@ -1584,7 +1584,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                   flex: 10,
                                   child: GestureDetector(
                                       child: Container(
-                                        color: Colors.white.withOpacity(0.5),
+                                        color: Colors.white.withOpacity(0),
                                       ),
                                       onTap: () {
                                         // TODO: play tap sound
