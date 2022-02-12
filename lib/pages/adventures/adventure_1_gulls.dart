@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exploreapp/explorea_colors.dart';
+import 'package:exploreapp/pages/adventure_details.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/src/permissions.dart';
 import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_inventory.dart';
@@ -45,6 +47,10 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN31.mp4",
     "assets/adventure_1_gulls/SCREEN32.mp4", // 24
     "assets/adventure_1_gulls/SCREEN33.mp4",
+    "assets/adventure_1_gulls/SCREEN34.mp4", // 26
+    "assets/adventure_1_gulls/SCREEN35.mp4",
+    "assets/adventure_1_gulls/SCREEN36.mp4", // 28
+    "assets/adventure_1_gulls/SCREEN37.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -63,6 +69,10 @@ class AdventureData extends ChangeNotifier {
 
     /// Composed of "#" 0 or 1, the correct code is : "".
     "self_destruct_enterred_code": [7, 7, 7, 7],
+
+    ///
+    "end_the_adventure": false,
+    "display_end_btn": false,
   };
 
   //
@@ -178,6 +188,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   bool _nextBtnIsDisplayed = false;
 
   AdventureData _theAdventureData = new AdventureData();
+  Timer? _theAdvTimer;
 
   final LocationSettings _locationSettings = new LocationSettings(
     accuracy: LocationAccuracy.best,
@@ -192,7 +203,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this.initialiseAudioController();
 
-    var advTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
+    this._theAdvTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
       if (this._theAdventureData.currentTime > 0)
         this._theAdventureData.decrementTimer();
       else
@@ -211,7 +222,15 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_32();
+    this.runScreen_33();
+  }
+
+  bool endTimer() {
+    if (this._theAdvTimer != null) {
+      this._theAdvTimer!.cancel();
+      return true;
+    } else
+      return false;
   }
 
   initialiseAudioController() {
@@ -322,6 +341,18 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         break;
       case 25:
         this.runScreen_33();
+        break;
+      case 26:
+        this.runScreen_34();
+        break;
+      case 27:
+        this.runScreen_35();
+        break;
+      case 28:
+        this.runScreen_36();
+        break;
+      case 29:
+        this.runScreen_37();
         break;
       default:
         break;
@@ -953,7 +984,31 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
   /// So, did you make it ?
   void runScreen_33() {
+    this.endTimer();
+
     this.changeCurrentScreenAndLoadAsset(25);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      this._vpAudioController!.pause();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position >= const Duration(seconds: 2)) {
+          setState(() {
+            this._nextBtnIsDisplayed = true;
+          });
+        }
+      });
+    });
+  }
+
+  /// The gate closes.
+  void runScreen_34() {
+    this.changeCurrentScreenAndLoadAsset(26);
     this._vpController!.initialize().then((nothing) {
       this._vpController!.play();
 
@@ -963,10 +1018,81 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       this._vpController!.addListener(() {
         if (this._vpController!.value.position ==
             this._vpController!.value.duration) {
-          this._nextBtnIsDisplayed = true;
+          this.runScreen_35();
         }
       });
     });
+  }
+
+  /// Quest validation, but . . .
+  void runScreen_35() {
+    this.changeCurrentScreenAndLoadAsset(27);
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this.runScreen_36();
+        }
+      });
+    });
+  }
+
+  /// The rats are invading.
+  void runScreen_36() {
+    this.changeCurrentScreenAndLoadAsset(28);
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this.runScreen_37();
+        }
+      });
+    });
+  }
+
+  /// Thanks.
+  void runScreen_37() {
+    this.changeCurrentScreenAndLoadAsset(29);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position >= const Duration(seconds: 6) &&
+            _theAdventureData.adventureParams["end_the_adventure"] == false) {
+          this._vpController!.pause();
+
+          setState(() {
+            _theAdventureData.adventureParams["display_end_btn"] = true;
+          });
+        }
+      });
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          theEnd();
+        }
+      });
+    });
+  }
+
+  /// Save things, leave the adventure.
+  void theEnd() {
+    goToNextPage(context, AdventureDetails(adventureId: 1));
   }
 
   Widget buildCurrentAdventureScreen() {
@@ -1487,6 +1613,49 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                 ),
               ),
             ),
+          ],
+        );
+        break;
+
+      case 29: // 37
+        ret = Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController!),
+              ),
+            ),
+            if (this._theAdventureData.adventureParams["display_end_btn"])
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: AspectRatio(
+                  aspectRatio: 9.0 / 16.0,
+                  child: Column(
+                    children: [
+                      Expanded(child: Container()),
+                      Expanded(child: Center(
+                        child: ExploreaBtnNext(
+                          onPressed: () {
+                            setState(() {
+                              this
+                                  ._theAdventureData
+                                  .adventureParams["end_the_adventure"] = true;
+                              this
+                                  ._theAdventureData
+                                  .adventureParams["display_end_btn"] = false;
+
+                              this._vpController!.play();
+                            });
+                          },
+                          // text: "Terminer l'aventure.",
+                        ),
+                      ))
+                    ],
+                  ),
+                ),
+              ),
           ],
         );
         break;
