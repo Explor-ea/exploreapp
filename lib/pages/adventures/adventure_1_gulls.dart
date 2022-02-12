@@ -617,7 +617,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   void runScreen_15() {
     this.changeCurrentScreenAndLoadAsset(10);
 
-    this._vpController!.setLooping(false);
+    this._vpController!.setLooping(true);
 
     this._vpController!.initialize().then((nothing) {
       this._vpController!.play();
