@@ -465,6 +465,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// Did you find the man of the Dame de fer ?
   void runScreen_8_9() {
     this.changeCurrentScreenAndLoadAsset(5);
 
@@ -1123,7 +1124,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
-                  padding: const EdgeInsets.all(0.0),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                   child: ExploreaBtnNext(
                     onPressed: () {
                       this.runScreen_3_4_5();
@@ -1148,9 +1149,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
             if (this._theAdventureData.adventureParams["near_eiffel"] &&
                 this._theAdventureData.adventureParams["found_eiffel"] != true)
               Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.all(0.0),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                   child: ExploreaBtnNext(
                     onPressed: () {
                       setState(() {
