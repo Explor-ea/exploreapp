@@ -793,10 +793,11 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
 
+      StreamSubscription<Position>? positionStream;
       this._vpController!.addListener(() {
-        if (this._vpController!.value.position > const Duration(seconds: 3)) {
+        if (positionStream == null &&
+            this._vpController!.value.position > const Duration(seconds: 3)) {
           // Run the next screen when arrived at the point.
-          StreamSubscription<Position>? positionStream;
           positionStream =
               Geolocator.getPositionStream(locationSettings: _locationSettings)
                   .listen((Position? currentPosition) {
