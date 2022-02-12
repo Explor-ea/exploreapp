@@ -43,6 +43,8 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN28.mp4",
     "assets/adventure_1_gulls/SCREEN29.mp4", // 22
     "assets/adventure_1_gulls/SCREEN31.mp4",
+    "assets/adventure_1_gulls/SCREEN32.mp4", // 24
+    "assets/adventure_1_gulls/SCREEN33.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -209,7 +211,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_29();
+    this.runScreen_32();
   }
 
   initialiseAudioController() {
@@ -314,6 +316,12 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         break;
       case 23:
         this.runScreen_31();
+        break;
+      case 24:
+        this.runScreen_32();
+        break;
+      case 25:
+        this.runScreen_33();
         break;
       default:
         break;
@@ -883,6 +891,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   /// Go ! The way is clear !
   void runScreen_31() {
     this.changeCurrentScreenAndLoadAsset(23);
+
+    this._vpController!.setLooping(true);
+
     this._vpController!.initialize().then((nothing) {
       this._vpController!.play();
 
@@ -893,6 +904,68 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       //   if (this._vpController!.value.position ==
       //       this._vpController!.value.duration) {}
       // });
+
+      //
+      //
+      //
+
+      // Run the next screen when arrived at the point.
+      StreamSubscription<Position>? positionStream;
+      positionStream =
+          Geolocator.getPositionStream(locationSettings: _locationSettings)
+              .listen((Position? currentPosition) {
+        if (currentPosition != null) {
+          const pointCoordinates = [48.04852, -1.7424216];
+          double distanceFromThePoint = Geolocator.distanceBetween(
+              pointCoordinates[0],
+              pointCoordinates[1],
+              currentPosition.latitude,
+              currentPosition.longitude);
+
+          if (distanceFromThePoint <= 7 /* metters */) {
+            positionStream!.cancel();
+
+            this.runScreen_32();
+          }
+        }
+      });
+    });
+  }
+
+  /// Leave the dimension through the portal.
+  void runScreen_32() {
+    this.changeCurrentScreenAndLoadAsset(24);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this.runScreen_33();
+        }
+      });
+    });
+  }
+
+  /// So, did you make it ?
+  void runScreen_33() {
+    this.changeCurrentScreenAndLoadAsset(25);
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this._nextBtnIsDisplayed = true;
+        }
+      });
     });
   }
 
