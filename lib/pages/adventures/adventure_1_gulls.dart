@@ -41,6 +41,7 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN26.mp4",
     "assets/adventure_1_gulls/SCREEN27.mp4", // 20
     "assets/adventure_1_gulls/SCREEN28.mp4",
+    "assets/adventure_1_gulls/SCREEN29.mp4", // 22
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -150,6 +151,12 @@ class AdventureData extends ChangeNotifier {
   int currentScreen = 0;
 }
 
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
 
@@ -158,8 +165,12 @@ class Adventure1Gulls extends StatefulWidget {
 }
 
 class _Adventure1GullsState extends State<Adventure1Gulls> {
+  /// Main videos controller.
   VideoPlayerController? _vpController;
   Future<void>? _initializeVideoPlayerFuture;
+
+  /// Controller for the foreground audio, for the music.
+  VideoPlayerController? _vpAudioController;
 
   bool _nextBtnIsDisplayed = false;
 
@@ -175,6 +186,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   @override
   void initState() {
     super.initState();
+
+    this.initialiseAudioController();
 
     var advTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
       if (this._theAdventureData.currentTime > 0)
@@ -195,11 +208,19 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_26();
+    this.runScreen_29();
+  }
 
-    // // REMOVE
-    // this._vpController.setLooping(true);
-    // this._vpController.setPlaybackSpeed(0.1);
+  initialiseAudioController() {
+    // if (this._vpAudioController != null &&
+    //     this._vpAudioController!.value.isInitialized)
+    //   await this._vpAudioController!.dispose();
+
+    this._vpAudioController = VideoPlayerController.asset(
+        "assets/adventure_1_gulls/sounds/run.mp3",
+        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true));
+
+    this._vpAudioController!.setLooping(true);
   }
 
   /// After it, [_vpController] is `!= null`.
@@ -286,6 +307,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         break;
       case 21:
         this.runScreen_28();
+        break;
+      case 22:
+        this.runScreen_29();
         break;
       default:
         break;
@@ -795,9 +819,30 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
-  /// Inside the generator.
+  /// Auto destruction in progress.
   void runScreen_28() {
     this.changeCurrentScreenAndLoadAsset(21);
+
+    this._vpController!.setLooping(false);
+
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this.runScreen_29();
+        }
+      });
+    });
+  }
+
+  /// Countdown for the leek.
+  void runScreen_29() {
+    this.changeCurrentScreenAndLoadAsset(22);
 
     this._vpController!.setLooping(false);
 
@@ -811,6 +856,14 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       //   if (this._vpController!.value.position ==
       //       this._vpController!.value.duration) {}
       // });
+    });
+
+    //
+
+    this._vpAudioController!.initialize().then((nothing) {
+      this._vpAudioController!.play();
+
+      setState(() {});
     });
   }
 
@@ -1362,6 +1415,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
           create: (context) => this._theAdventureData,
           child: Stack(
             children: [
+              // VideoPlayer(this._vpAudioController!),
+
+              //
+
               Align(
                   alignment: Alignment.bottomCenter,
                   child: this.buildCurrentAdventureScreen()),

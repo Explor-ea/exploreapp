@@ -73,6 +73,7 @@ flutter:
     - assets/
     - assets/adventure_1_gulls/
     - assets/adventure_1_gulls/items/
+    - assets/adventure_1_gulls/sounds/
     - assets/icon/
     - assets/adventure-background-pict/
 
