@@ -221,8 +221,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this.changeCurrentScreenAndLoadAsset(0);
 
-    // this.runScreen_1();
-    this.runScreen_33();
+    this.runScreen_1();
   }
 
   bool endTimer() {
