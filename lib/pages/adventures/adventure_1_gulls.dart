@@ -42,6 +42,7 @@ class AdventureData extends ChangeNotifier {
     "assets/adventure_1_gulls/SCREEN27.mp4", // 20
     "assets/adventure_1_gulls/SCREEN28.mp4",
     "assets/adventure_1_gulls/SCREEN29.mp4", // 22
+    "assets/adventure_1_gulls/SCREEN31.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -310,6 +311,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         break;
       case 22:
         this.runScreen_29();
+        break;
+      case 23:
+        this.runScreen_31();
         break;
       default:
         break;
@@ -852,10 +856,12 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       setState(() {});
 
-      // this._vpController!.addListener(() {
-      //   if (this._vpController!.value.position ==
-      //       this._vpController!.value.duration) {}
-      // });
+      this._vpController!.addListener(() {
+        if (this._vpController!.value.position ==
+            this._vpController!.value.duration) {
+          this.runScreen_30();
+        }
+      });
     });
 
     //
@@ -864,6 +870,29 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       this._vpAudioController!.play();
 
       setState(() {});
+    });
+  }
+
+  /// TODO.
+  ///
+  /// The end game.
+  void runScreen_30() {
+    this.runScreen_31();
+  }
+
+  /// Go ! The way is clear !
+  void runScreen_31() {
+    this.changeCurrentScreenAndLoadAsset(23);
+    this._vpController!.initialize().then((nothing) {
+      this._vpController!.play();
+
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+
+      // this._vpController!.addListener(() {
+      //   if (this._vpController!.value.position ==
+      //       this._vpController!.value.duration) {}
+      // });
     });
   }
 
