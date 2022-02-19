@@ -66,7 +66,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
-        onTap: (tapPosition, latlong) {
+        onTap: (latlong) {
           setState(() {
             this.showAdventureCard = false;
           });
