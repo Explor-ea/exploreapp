@@ -13,6 +13,7 @@ import 'package:exploreapp/wigets/explorea_throwable_container.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:video_player/video_player.dart';
@@ -170,6 +171,13 @@ class AdventureData extends ChangeNotifier {
 
 // -----------------------------------------------------------------------------
 
+/// TODO: Add tips.
+/// TODO: Add btn clic sounds and virbation.
+/// TODO: Add vibrations, like screen changes etc...
+/// TODO: Add alternate choices like wrong fish or wrong container.
+/// XXX IMPROVE: Factorise code, like looping or not on asset load.
+/// TODO: Center nextBtn on screen 2.
+/// TODO: set Timer width to prevent from resizing. And allow better align maybe.
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
 
@@ -221,7 +229,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this.changeCurrentScreenAndLoadAsset(0);
 
-    this.runScreen_1();
+    // TODO: change before deploy
+    // this.runScreen_1();
+    this.runScreen_27();
   }
 
   bool endTimer() {
@@ -844,7 +854,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
-  /// Inside the generator.
+  /// Console interraction.
   void runScreen_27() {
     this.changeCurrentScreenAndLoadAsset(20);
 
@@ -1567,6 +1577,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       ),
                                       onTap: () {
                                         // TODO: play tap sound
+                                        HapticFeedback.mediumImpact();
+
                                         if (this
                                             ._theAdventureData
                                             .addToCurrentCode(0))
@@ -1589,6 +1601,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       ),
                                       onTap: () {
                                         // TODO: play tap sound
+                                        HapticFeedback.mediumImpact();
+
                                         if (this
                                             ._theAdventureData
                                             .addToCurrentCode(1))

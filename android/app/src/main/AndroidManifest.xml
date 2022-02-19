@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- For background geolocation updates : -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> 
+    <!-- Well, HapticFeedback class from services seems to work without permission ask. -->
+    <uses-permission android:name="android.permission.VIBRATE" /> 
    <application
         android:label="exploreapp"
         android:icon="@mipmap/launcher_icon">
