@@ -11,6 +11,7 @@ import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_inventory.dart';
 import 'package:exploreapp/wigets/explorea_throwable_container.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
+import 'package:exploreapp/wigets/explorea_tips_frame.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,7 +57,7 @@ class AdventureData extends ChangeNotifier {
 
   /// A bunch of adventure params to move through the adventure.
   ///
-  /// Note: Although a final object cannot be modified, its fields can be changed. In comparison, a const object and its fields cannot be changed: they’re immutable.
+  /// Note: Although a final object cannot be modified, its fields can be changed. In comparison, a const object and its fields cannot be changed: they're immutable.
   final Map<String, dynamic> adventureParams = {
     "screen2_continue": false,
     "nothing": 5,
@@ -71,10 +72,35 @@ class AdventureData extends ChangeNotifier {
     /// Composed of "#" 0 or 1, the correct code is : "".
     "self_destruct_enterred_code": [7, 7, 7, 7],
 
+    /// Decide wich tip is discovered.
+    "tips_unlocked": [false, false, false, false],
+
     ///
     "end_the_adventure": false,
     "display_end_btn": false,
   };
+
+  static const List<String> TIPS_LIST = [
+    """
+L'homme en question ne se trouve pas physiquement autour de vous. 
+
+Avez-vous pensé à tourner sur vous-même ? La dame de fer est parisienne.
+    """, // Screen 8
+    """
+Les couleurs seront votre guide.
+A quoi sert le portail ?
+Associez les bonnes couleurs et pictos.
+    """, // Screen 22
+    """
+Regardez de près !
+Un code vous sera nécessaire ensuite.
+    """, // Screen 26
+    """
+Et si l'indice n'était pas dans la dimension Z ?
+Toutes les formes sont dans la nature.
+Regardez attentivement les arbres autour de vous.
+    """, // Scren 27
+  ];
 
   //
   // Timer
@@ -171,13 +197,15 @@ class AdventureData extends ChangeNotifier {
 
 // -----------------------------------------------------------------------------
 
-/// TODO: Add tips.
 /// TODO: Add btn clic sounds and virbation.
 /// TODO: Add vibrations, like screen changes etc...
 /// TODO: Add alternate choices like wrong fish or wrong container.
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
 /// TODO: Center nextBtn on screen 2.
+/// TODO: add behavior when timer end.
 /// TODO: set Timer width to prevent from resizing. And allow better align maybe.
+/// TODO: Save an achievement at the end, with or without time arrived at term.
+/// TODO: replace onTap with onTapDown because there is no tap animation, so having directly the feedback feels better.
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
 
@@ -204,6 +232,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   );
 
   bool _inventoryIsOpen = false;
+  bool _tipsFrameIsOpen = false;
 
   @override
   void initState() {
@@ -231,7 +260,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     // TODO: change before deploy
     // this.runScreen_1();
-    this.runScreen_27();
+    this.runScreen_7();
   }
 
   bool endTimer() {
@@ -506,6 +535,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
     });
+
+    // Unlock first tip
+    this._theAdventureData.adventureParams["tips_unlocked"][0] = true;
   }
 
   /// With the porthole accross the univers.
@@ -761,6 +793,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
     });
+
+    // Unlock tip.
+    this._theAdventureData.adventureParams["tips_unlocked"][1] = true;
   }
 
   /// Chose the good container.
@@ -852,6 +887,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
     });
+
+    // Unlock tip.
+    this._theAdventureData.adventureParams["tips_unlocked"][2] = true;
   }
 
   /// Console interraction.
@@ -871,6 +909,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       //       this._vpController!.value.duration) {}
       // });
     });
+
+    // Unlock tip.
+    this._theAdventureData.adventureParams["tips_unlocked"][3] = true;
   }
 
   /// Auto destruction in progress.
@@ -1575,7 +1616,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       child: Container(
                                         color: Colors.white.withOpacity(0),
                                       ),
-                                      onTap: () {
+                                      onTapDown: (tapDownDetails) {
                                         // TODO: play tap sound
                                         HapticFeedback.mediumImpact();
 
@@ -1599,7 +1640,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       child: Container(
                                         color: Colors.white.withOpacity(0),
                                       ),
-                                      onTap: () {
+                                      onTapDown: (tapDownDetails) {
                                         // TODO: play tap sound
                                         HapticFeedback.mediumImpact();
 
@@ -1711,6 +1752,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
+              // Inventory
               if (this._inventoryIsOpen)
                 Align(
                   alignment: Alignment.center,
@@ -1731,6 +1773,31 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
+              // Tips frame
+              if (this._tipsFrameIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Consumer<AdventureData>(
+                        builder: (context, theAdvData, child) =>
+                            ExploreaTipsFrame(
+                              tips: AdventureData.TIPS_LIST,
+                              unlockedTips: this
+                                  ._theAdventureData
+                                  .adventureParams["tips_unlocked"],
+                              onClose: () {
+                                setState(() {
+                                  this._tipsFrameIsOpen = false;
+                                });
+                              },
+                            )),
+                  ),
+                ),
+
+              //
+
+              // Topbar
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -1778,6 +1845,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                     ),
                                   ),
                                   onTap: () {
+                                    HapticFeedback.lightImpact();
+
                                     setState(() {
                                       this._inventoryIsOpen =
                                           !this._inventoryIsOpen;
@@ -1787,21 +1856,36 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
                                 //
 
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0)),
-                                      color: Colors.black.withOpacity(0.0)),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0, vertical: 4.0),
-                                      child: Text(
-                                        "Indices",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18.0),
-                                      )),
+                                GestureDetector(
+                                  onTap: () {
+                                    HapticFeedback.lightImpact();
+
+                                    setState(() {
+                                      this._tipsFrameIsOpen =
+                                          !this._tipsFrameIsOpen;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: this._tipsFrameIsOpen
+                                                ? ExploreaColors.yellow
+                                                : Colors.white),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        color: Colors.black.withOpacity(0.0)),
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0, vertical: 4.0),
+                                        child: Text(
+                                          "Indices",
+                                          style: TextStyle(
+                                              color: this._tipsFrameIsOpen
+                                                  ? ExploreaColors.yellow
+                                                  : Colors.white,
+                                              fontSize: 18.0),
+                                        )),
+                                  ),
                                 ),
                               ],
                             )),
@@ -1813,6 +1897,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
+              // Next button
               if (this._nextBtnIsDisplayed)
                 Align(
                   alignment: Alignment.bottomCenter,
