@@ -203,7 +203,6 @@ Regardez attentivement les arbres autour de vous.
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
 /// TODO: Center nextBtn on screen 2.
 /// TODO: add behavior when timer end.
-/// TODO: set Timer width to prevent from resizing. And allow better align maybe.
 /// TODO: Save an achievement at the end, with or without time arrived at term.
 /// TODO: replace onTap with onTapDown because there is no tap animation, so having directly the feedback feels better.
 class Adventure1Gulls extends StatefulWidget {
