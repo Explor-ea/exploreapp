@@ -27,7 +27,7 @@ class Cinematic extends StatelessWidget {
               flex: 1,
               child: Row(
                 children: [
-                  // TODO: replace text by a cinematic.
+                  // TODO: replace text by a cinematic. https://drive.google.com/file/d/1VBDIgEO98Qtz_wuiuJXfrDfC36nguQ8T/view?usp=sharing
                   Text(
                     "Ptite cinématic",
                   ),

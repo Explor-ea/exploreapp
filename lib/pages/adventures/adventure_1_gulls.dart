@@ -205,6 +205,7 @@ Regardez attentivement les arbres autour de vous.
 /// TODO: add behavior when timer end.
 /// TODO: Save an achievement at the end, with or without time arrived at term.
 /// TODO: replace onTap with onTapDown because there is no tap animation, so having directly the feedback feels better.
+/// XXX MAYBE: Add the screen 30 with the final game.
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
 
@@ -963,7 +964,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
-  /// TODO.
+  /// TODO. Well, it is deprioritized for now. The adventure runs fairly without it.
   ///
   /// The end game.
   void runScreen_30() {
@@ -1279,6 +1280,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
+      // TODO: if the fish is the red or the blue one, display a pop-in that says it was the bad fish and why, and lose 30s in the timer
       case 10: // 15
         ret = ChangeNotifierProvider(
           create: (context) => this._theAdventureData,
@@ -1330,6 +1332,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
+      // TODO: if wrong continaer is touched, lose 30s and pop-in about the bad choice.
       case 14: // 19
         ret = Stack(
           children: [
@@ -1819,6 +1822,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       ExploreaTimer(
                                     currentTime: theAdvData.currentTime,
                                     borderColor: Colors.white,
+                                    // TODO: display a pop-in of "Le temps est écoulé, partie terminée ! Voulez vous quand-même continuer ?" Oui --> retour  |  non --> le scénar continu
+                                    // onTimerEnd: () {}
                                   ),
                                 ),
 
