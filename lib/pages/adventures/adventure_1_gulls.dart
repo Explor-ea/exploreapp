@@ -7,8 +7,10 @@ import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/adventure_details.dart';
 import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/src/permissions.dart';
+import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_inventory.dart';
+import 'package:exploreapp/wigets/explorea_notification_frame.dart';
 import 'package:exploreapp/wigets/explorea_throwable_container.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:exploreapp/wigets/explorea_tips_frame.dart';
@@ -233,6 +235,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
   bool _inventoryIsOpen = false;
   bool _tipsFrameIsOpen = false;
+  bool _notificationTimeIsUpIsOpen = false;
 
   @override
   void initState() {
@@ -242,9 +245,15 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this._theAdvTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
       if (this._theAdventureData.currentTime > 0)
-        this._theAdventureData.decrementTimer();
-      else
+        setState(() {
+          this._theAdventureData.decrementTimer();
+        });
+      else {
         advTimer.cancel();
+        setState(() {
+          this._notificationTimeIsUpIsOpen = true;
+        });
+      }
     });
 
     // If somehow the location permission has not been agreed, display an error Widget.
@@ -1144,6 +1153,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
   /// Save things, leave the adventure.
   void theEnd() {
+    // If time is >0 add success .
+
+    // Add this adventure to finished adventures.
+
     goToNextPage(context, AdventureDetails(adventureId: 1));
   }
 
@@ -1770,6 +1783,32 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                   theAdvData.selectItem(selectedItem);
                               },
                             )),
+                  ),
+                ),
+
+              //
+
+              // Notification pop-in
+
+              if (this._notificationTimeIsUpIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: ExploreaNotificationFrame(
+                      message:
+                          "Le temps est écoulé ! Souhaitez vous continuer quand même ?",
+                      repLeft: "NON",
+                      onCloseLeft: () {
+                        this.theEnd();
+                      },
+                      repRight: "OUI !",
+                      onCloseRight: () {
+                        setState(() {
+                          this._notificationTimeIsUpIsOpen = false;
+                        });
+                      },
+                    ),
                   ),
                 ),
 
