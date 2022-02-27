@@ -203,7 +203,6 @@ Regardez attentivement les arbres autour de vous.
 /// TODO: Add vibrations, like screen changes etc...
 /// TODO: Add alternate choices like wrong fish or wrong container.
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
-/// TODO: Center nextBtn on screen 2.
 /// TODO: add behavior when timer end.
 /// TODO: Save an achievement at the end, with or without time arrived at term.
 /// TODO: replace onTap with onTapDown because there is no tap animation, so having directly the feedback feels better.
@@ -1185,7 +1184,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
             ),
             if (this._theAdventureData.adventureParams["screen2_continue"])
               Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                   child: ExploreaBtnNext(
