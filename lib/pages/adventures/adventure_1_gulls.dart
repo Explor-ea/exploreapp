@@ -203,7 +203,6 @@ Regardez attentivement les arbres autour de vous.
 /// TODO: Add vibrations, like screen changes etc...
 /// TODO: Add alternate choices like wrong fish or wrong container.
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
-/// TODO: add behavior when timer end.
 /// TODO: Save an achievement at the end, with or without time arrived at term.
 /// TODO: replace onTap with onTapDown because there is no tap animation, so having directly the feedback feels better.
 /// XXX MAYBE: Add the screen 30 with the final game.
