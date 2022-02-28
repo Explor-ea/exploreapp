@@ -214,7 +214,6 @@ Regardez attentivement les arbres autour de vous.
 /// TODO: Add vibrations, like screen changes etc...
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
 /// TODO: Save an achievement at the end, with or without time arrived at term.
-/// TODO: replace onTap with onTapDown because there is no tap animation, so having directly the feedback feels better.
 /// XXX MAYBE: Add the screen 30 with the final game.
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
@@ -275,9 +274,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this.changeCurrentScreenAndLoadAsset(0);
 
-    // TODO: change before deploy
-    // this.runScreen_1();
-    this.runScreen_22();
+    this.runScreen_1();
   }
 
   bool endTimer() {
@@ -1261,7 +1258,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       child: GestureDetector(
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
-                          onTap: () {
+                          onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_grey");
                               this.runScreen_14();
@@ -1273,7 +1270,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       child: GestureDetector(
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
-                          onTap: () {
+                          onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_red");
                               this.runScreen_14();
@@ -1285,7 +1282,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       child: GestureDetector(
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
-                          onTap: () {
+                          onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_blue");
                               this.runScreen_14();
@@ -1429,7 +1426,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                             top: 210.0,
                             // Generator sign.
                             child: GestureDetector(
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 log("Click on sign.");
                                 this.runScreen_20();
                               },
@@ -1512,7 +1509,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               child: Container(
                                 color: Colors.transparent,
                               ),
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 _theAdventureData.decrementTimerBy(30);
                                 setState(() {
                                   this._notificationWrongContainerIsOpen = true;
@@ -1536,7 +1533,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                     //     : Colors.white.withOpacity(0),
                                     Colors.white.withOpacity(0.0),
                               ),
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 this.runScreen_24();
                               }),
                         ),
@@ -1547,7 +1544,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               child: Container(
                                 color: Colors.transparent,
                               ),
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 _theAdventureData.decrementTimerBy(30);
                                 setState(() {
                                   this._notificationWrongContainerIsOpen = true;
@@ -1561,7 +1558,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               child: Container(
                                 color: Colors.transparent,
                               ),
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 _theAdventureData.decrementTimerBy(30);
                                 setState(() {
                                   this._notificationWrongContainerIsOpen = true;
@@ -1614,7 +1611,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               child: Container(
                                 color: Colors.white.withOpacity(0.0),
                               ),
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 this.runScreen_27();
                               }),
                         ),
@@ -1972,7 +1969,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                               : Colors.white),
                                     ),
                                   ),
-                                  onTap: () {
+                                  onTapDown: (notUsed) {
                                     HapticFeedback.lightImpact();
 
                                     setState(() {
@@ -1985,7 +1982,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                 //
 
                                 GestureDetector(
-                                  onTap: () {
+                                  onTapDown: (notUsed) {
                                     HapticFeedback.lightImpact();
 
                                     setState(() {
