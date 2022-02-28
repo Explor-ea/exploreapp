@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "exploreapp",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "exploreapp (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        }
+    ]
+    /*
+        NB : You can launch the app in debug mode wirelessly using the `Android/Sdk/plateform-tools/adb`,
+        and running these commands : 
+        
+        ```
+        # Connect your device
+        adb devices
+        adb tcpip 5555
+        # Disconect your device
+        adb connect 172.31.11.159:5555
+        ```
+
+        Then, the device will be selectable in VSCode.
+
+        More infos : see https://developer.android.com/studio/command-line/adb#wireless 
+    */
+}
