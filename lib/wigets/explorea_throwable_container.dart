@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 /// @see https://stackoverflow.com/a/60730085/13880103
@@ -23,13 +25,15 @@ class _ExploreaThrowableContainerState extends State<ExploreaThrowableContainer>
   var tween = Tween<Offset>(begin: Offset.zero, end: Offset(0, -10))
       .chain(CurveTween(curve: Curves.easeOut));
 
+  final int ANIMATION_DURATION = 1000; // milliseconds
+
   late AnimationController animationController;
 
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: ANIMATION_DURATION));
   }
 
   @override
@@ -40,9 +44,12 @@ class _ExploreaThrowableContainerState extends State<ExploreaThrowableContainer>
         child: this.widget.child,
         onVerticalDragEnd: (details) {
           if (details.primaryVelocity != null && details.primaryVelocity! < 0)
-            this.animationController.forward().then((value) {
-              this.widget.onThrowed();
-            });
+            this.animationController.forward();
+
+          // Seems like the delayed callback Duration must be shorter than the animation Duration, without it, the state can be refreshed in a curious way in the parent component.
+          Future.delayed(Duration(milliseconds: ANIMATION_DURATION - 500), () {
+            this.widget.onThrowed();
+          });
         },
       ),
     );

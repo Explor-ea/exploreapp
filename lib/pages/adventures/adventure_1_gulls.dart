@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -114,6 +115,11 @@ Regardez attentivement les arbres autour de vous.
     notifyListeners();
   }
 
+  decrementTimerBy(int decrementBy) {
+    this.currentTime -= decrementBy;
+    notifyListeners();
+  }
+
   // Timer
   //
 
@@ -130,10 +136,12 @@ Regardez attentivement les arbres autour de vous.
     notifyListeners();
   }
 
-  removeItem(String itemId) {
+  String removeItem(String itemId) {
     this.inventory.remove(itemId);
 
     notifyListeners();
+
+    return itemId;
   }
 
   selectItem(String itemSelected) {
@@ -201,7 +209,7 @@ Regardez attentivement les arbres autour de vous.
 
 /// TODO: Add btn clic sounds and virbation.
 /// TODO: Add vibrations, like screen changes etc...
-/// TODO: Add alternate choices like wrong fish or wrong container.
+/// TODO: Add alternate choices for wrong container.
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
 /// TODO: Save an achievement at the end, with or without time arrived at term.
 /// TODO: replace onTap with onTapDown because there is no tap animation, so having directly the feedback feels better.
@@ -234,6 +242,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   bool _inventoryIsOpen = false;
   bool _tipsFrameIsOpen = false;
   bool _notificationTimeIsUpIsOpen = false;
+  bool _notificationWrongFishIsOpen = false;
 
   @override
   void initState() {
@@ -243,9 +252,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this._theAdvTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
       if (this._theAdventureData.currentTime > 0)
-        setState(() {
-          this._theAdventureData.decrementTimer();
-        });
+        this._theAdventureData.decrementTimer();
       else {
         advTimer.cancel();
         setState(() {
@@ -267,7 +274,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     // TODO: change before deploy
     // this.runScreen_1();
-    this.runScreen_7();
+    this.runScreen_13();
   }
 
   bool endTimer() {
@@ -1291,7 +1298,6 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
-      // TODO: if the fish is the red or the blue one, display a pop-in that says it was the bad fish and why, and lose 30s in the timer
       case 10: // 15
         ret = ChangeNotifierProvider(
           create: (context) => this._theAdventureData,
@@ -1313,11 +1319,21 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       alignment: Alignment.bottomCenter,
                       child: ExploreaThrowableContainer(
                         onThrowed: () {
-                          this
+                          String thrownItem = this
                               ._theAdventureData
                               .removeItem(theAdvData.selectedItem!);
 
-                          this.runScreen_16();
+                          if (thrownItem == "fish_grey") {
+                            this.runScreen_16();
+                          } else if (thrownItem == "fish_red" ||
+                              thrownItem == "fish_blue") {
+                            setState(() {
+                              theAdvData.decrementTimerBy(30);
+                              this._notificationWrongFishIsOpen = true;
+                              //
+                              this.runScreen_16();
+                            });
+                          }
                         },
                         child: Container(
                           // The Fish.
@@ -1786,7 +1802,28 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
-              // Notification pop-in
+              //
+              // Notifications pop-in
+
+              if (this._notificationWrongFishIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: ExploreaNotificationFrame(
+                      message:
+                          "Oh non ! Vous avez donné un mauvais poisson aux goélands. Ils ne sont pas tout de suite intéressés par ce dernier, vous perdez 30 secondes.",
+                      repLeft: "D'accord",
+                      onCloseLeft: () {
+                        setState(() {
+                          this._notificationWrongFishIsOpen = false;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+
+              //
 
               if (this._notificationTimeIsUpIsOpen)
                 Align(
@@ -1810,6 +1847,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                   ),
                 ),
 
+              //
+
+              // Notifications pop-in
               //
 
               // Tips frame
