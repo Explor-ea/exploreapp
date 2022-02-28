@@ -674,7 +674,7 @@ class _NewcomerState extends State<Newcomer> {
                             });
                           },
                           disabled: this.prefAgreedGeo == false,
-                          icon: Icon(Icons.check),
+                          icon: Icons.check,
                         ),
                         flex: 2,
                       ),
@@ -704,7 +704,7 @@ class _NewcomerState extends State<Newcomer> {
                             });
                           },
                           disabled: this.prefAgreedMicro == false,
-                          icon: Icon(Icons.check),
+                          icon: Icons.check,
                         ),
                         flex: 2,
                       ),
@@ -731,7 +731,7 @@ class _NewcomerState extends State<Newcomer> {
                             });
                           },
                           disabled: this.prefAgreedCamera == false,
-                          icon: Icon(Icons.check),
+                          icon: Icons.check,
                         ),
                         flex: 2,
                       ),

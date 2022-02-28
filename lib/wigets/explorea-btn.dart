@@ -12,7 +12,7 @@ class ExploreaBtn extends StatelessWidget {
   }) : super(key: key);
 
   final bool disabled;
-  final Icon icon; // Icon(Icons.arrow_right_alt, size: 32.0)
+  final IconData icon;
   final Function() onPressed;
   final Size minimumSize;
 
@@ -25,7 +25,10 @@ class ExploreaBtn extends StatelessWidget {
         primary: this.disabled == true ? Colors.grey : ExploreaColors.purple,
         minimumSize: this.minimumSize,
       ),
-      child: icon,
+      child: Icon(
+        icon,
+        color: ExploreaColors.yellow,
+      ),
     );
   }
 }
