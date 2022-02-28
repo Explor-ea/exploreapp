@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../explorea_colors.dart';
 
@@ -41,6 +42,8 @@ class _ExploreaBtnNextState extends State<ExploreaBtnNext> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanDown: (notUsed) {
+        HapticFeedback.lightImpact();
+
         setState(() {
           var tmpColor = this.backgroundColor;
           this.backgroundColor = this.mainColor;

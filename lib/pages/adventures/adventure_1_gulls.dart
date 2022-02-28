@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,12 +8,16 @@ import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/adventure_details.dart';
 import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/src/permissions.dart';
+import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_btn_next.dart';
 import 'package:exploreapp/wigets/explorea_inventory.dart';
+import 'package:exploreapp/wigets/explorea_notification_frame.dart';
 import 'package:exploreapp/wigets/explorea_throwable_container.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
+import 'package:exploreapp/wigets/explorea_tips_frame.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:video_player/video_player.dart';
@@ -55,7 +60,7 @@ class AdventureData extends ChangeNotifier {
 
   /// A bunch of adventure params to move through the adventure.
   ///
-  /// Note: Although a final object cannot be modified, its fields can be changed. In comparison, a const object and its fields cannot be changed: they’re immutable.
+  /// Note: Although a final object cannot be modified, its fields can be changed. In comparison, a const object and its fields cannot be changed: they're immutable.
   final Map<String, dynamic> adventureParams = {
     "screen2_continue": false,
     "nothing": 5,
@@ -70,10 +75,35 @@ class AdventureData extends ChangeNotifier {
     /// Composed of "#" 0 or 1, the correct code is : "".
     "self_destruct_enterred_code": [7, 7, 7, 7],
 
+    /// Decide wich tip is discovered.
+    "tips_unlocked": [false, false, false, false],
+
     ///
     "end_the_adventure": false,
     "display_end_btn": false,
   };
+
+  static const List<String> TIPS_LIST = [
+    """
+L'homme en question ne se trouve pas physiquement autour de vous. 
+
+Avez-vous pensé à tourner sur vous-même ? La dame de fer est parisienne.
+    """, // Screen 8
+    """
+Les couleurs seront votre guide.
+A quoi sert le portail ?
+Associez les bonnes couleurs et pictos.
+    """, // Screen 22
+    """
+Regardez de près !
+Un code vous sera nécessaire ensuite.
+    """, // Screen 26
+    """
+Et si l'indice n'était pas dans la dimension Z ?
+Toutes les formes sont dans la nature.
+Regardez attentivement les arbres autour de vous.
+    """, // Scren 27
+  ];
 
   //
   // Timer
@@ -82,6 +112,14 @@ class AdventureData extends ChangeNotifier {
 
   decrementTimer() {
     currentTime--;
+    notifyListeners();
+  }
+
+  decrementTimerBy(int decrementBy) {
+    if (this.currentTime - decrementBy >= 0)
+      this.currentTime -= decrementBy;
+    else
+      this.currentTime = 0;
     notifyListeners();
   }
 
@@ -101,10 +139,12 @@ class AdventureData extends ChangeNotifier {
     notifyListeners();
   }
 
-  removeItem(String itemId) {
+  String removeItem(String itemId) {
     this.inventory.remove(itemId);
 
     notifyListeners();
+
+    return itemId;
   }
 
   selectItem(String itemSelected) {
@@ -170,6 +210,11 @@ class AdventureData extends ChangeNotifier {
 
 // -----------------------------------------------------------------------------
 
+/// TODO: Add btn clic sounds and virbation.
+/// TODO: Add vibrations, like screen changes etc...
+/// XXX IMPROVE: Factorise code, like looping or not on asset load.
+/// TODO: Save an achievement at the end, with or without time arrived at term.
+/// XXX MAYBE: Add the screen 30 with the final game.
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
 
@@ -196,6 +241,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   );
 
   bool _inventoryIsOpen = false;
+  bool _tipsFrameIsOpen = false;
+  bool _notificationTimeIsUpIsOpen = false;
+  bool _notificationWrongFishIsOpen = false;
+  bool _notificationWrongContainerIsOpen = false;
 
   @override
   void initState() {
@@ -206,8 +255,12 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this._theAdvTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
       if (this._theAdventureData.currentTime > 0)
         this._theAdventureData.decrementTimer();
-      else
+      else {
         advTimer.cancel();
+        setState(() {
+          this._notificationTimeIsUpIsOpen = true;
+        });
+      }
     });
 
     // If somehow the location permission has not been agreed, display an error Widget.
@@ -496,6 +549,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
     });
+
+    // Unlock first tip
+    this._theAdventureData.adventureParams["tips_unlocked"][0] = true;
   }
 
   /// With the porthole accross the univers.
@@ -751,6 +807,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
     });
+
+    // Unlock tip.
+    this._theAdventureData.adventureParams["tips_unlocked"][1] = true;
   }
 
   /// Chose the good container.
@@ -842,9 +901,12 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
     });
+
+    // Unlock tip.
+    this._theAdventureData.adventureParams["tips_unlocked"][2] = true;
   }
 
-  /// Inside the generator.
+  /// Console interraction.
   void runScreen_27() {
     this.changeCurrentScreenAndLoadAsset(20);
 
@@ -861,6 +923,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       //       this._vpController!.value.duration) {}
       // });
     });
+
+    // Unlock tip.
+    this._theAdventureData.adventureParams["tips_unlocked"][3] = true;
   }
 
   /// Auto destruction in progress.
@@ -913,7 +978,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
-  /// TODO.
+  /// TODO. Well, it is deprioritized for now. The adventure runs fairly without it.
   ///
   /// The end game.
   void runScreen_30() {
@@ -1093,6 +1158,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
   /// Save things, leave the adventure.
   void theEnd() {
+    // If time is >0 add success .
+
+    // Add this adventure to finished adventures.
+
     goToNextPage(context, AdventureDetails(adventureId: 1));
   }
 
@@ -1121,7 +1190,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
             ),
             if (this._theAdventureData.adventureParams["screen2_continue"])
               Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                   child: ExploreaBtnNext(
@@ -1189,7 +1258,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       child: GestureDetector(
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
-                          onTap: () {
+                          onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_grey");
                               this.runScreen_14();
@@ -1201,7 +1270,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       child: GestureDetector(
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
-                          onTap: () {
+                          onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_red");
                               this.runScreen_14();
@@ -1213,7 +1282,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       child: GestureDetector(
                           child:
                               Container(color: Colors.black.withOpacity(0.0)),
-                          onTap: () {
+                          onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_blue");
                               this.runScreen_14();
@@ -1250,11 +1319,21 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       alignment: Alignment.bottomCenter,
                       child: ExploreaThrowableContainer(
                         onThrowed: () {
-                          this
+                          String thrownItem = this
                               ._theAdventureData
                               .removeItem(theAdvData.selectedItem!);
 
-                          this.runScreen_16();
+                          if (thrownItem == "fish_grey") {
+                            this.runScreen_16();
+                          } else if (thrownItem == "fish_red" ||
+                              thrownItem == "fish_blue") {
+                            setState(() {
+                              theAdvData.decrementTimerBy(30);
+                              this._notificationWrongFishIsOpen = true;
+                              //
+                              this.runScreen_16();
+                            });
+                          }
                         },
                         child: Container(
                           // The Fish.
@@ -1280,6 +1359,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
+      // TODO: if wrong continaer is touched, lose 30s and pop-in about the bad choice.
       case 14: // 19
         ret = Stack(
           children: [
@@ -1346,7 +1426,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                             top: 210.0,
                             // Generator sign.
                             child: GestureDetector(
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 log("Click on sign.");
                                 this.runScreen_20();
                               },
@@ -1425,8 +1505,16 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                         // Container blue.
                         Expanded(
                           flex: 165,
-                          child:
-                              GestureDetector(child: Container(), onTap: () {}),
+                          child: GestureDetector(
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                              onTapDown: (notUsed) {
+                                _theAdventureData.decrementTimerBy(30);
+                                setState(() {
+                                  this._notificationWrongContainerIsOpen = true;
+                                });
+                              }),
                         ),
                         // No container.
                         Expanded(
@@ -1445,21 +1533,37 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                     //     : Colors.white.withOpacity(0),
                                     Colors.white.withOpacity(0.0),
                               ),
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 this.runScreen_24();
                               }),
                         ),
                         // Container rouge.
                         Expanded(
                           flex: 215,
-                          child:
-                              GestureDetector(child: Container(), onTap: () {}),
+                          child: GestureDetector(
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                              onTapDown: (notUsed) {
+                                _theAdventureData.decrementTimerBy(30);
+                                setState(() {
+                                  this._notificationWrongContainerIsOpen = true;
+                                });
+                              }),
                         ),
                         // Container vert.
                         Expanded(
                           flex: 362,
-                          child:
-                              GestureDetector(child: Container(), onTap: () {}),
+                          child: GestureDetector(
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                              onTapDown: (notUsed) {
+                                _theAdventureData.decrementTimerBy(30);
+                                setState(() {
+                                  this._notificationWrongContainerIsOpen = true;
+                                });
+                              }),
                         ),
                       ],
                     ),
@@ -1507,7 +1611,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               child: Container(
                                 color: Colors.white.withOpacity(0.0),
                               ),
-                              onTap: () {
+                              onTapDown: (notUsed) {
                                 this.runScreen_27();
                               }),
                         ),
@@ -1565,8 +1669,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       child: Container(
                                         color: Colors.white.withOpacity(0),
                                       ),
-                                      onTap: () {
+                                      onTapDown: (tapDownDetails) {
                                         // TODO: play tap sound
+                                        HapticFeedback.mediumImpact();
+
                                         if (this
                                             ._theAdventureData
                                             .addToCurrentCode(0))
@@ -1587,8 +1693,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       child: Container(
                                         color: Colors.white.withOpacity(0),
                                       ),
-                                      onTap: () {
+                                      onTapDown: (tapDownDetails) {
                                         // TODO: play tap sound
+                                        HapticFeedback.mediumImpact();
+
                                         if (this
                                             ._theAdventureData
                                             .addToCurrentCode(1))
@@ -1697,6 +1805,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
+              // Inventory
               if (this._inventoryIsOpen)
                 Align(
                   alignment: Alignment.center,
@@ -1717,6 +1826,101 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
+              //
+              // Notifications pop-in
+
+              if (this._notificationWrongFishIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: ExploreaNotificationFrame(
+                      message:
+                          "Oh non ! Vous avez donné un mauvais poisson aux goélands. Ils ne sont pas tout de suite intéressés par ce dernier, vous perdez 30 secondes.",
+                      repLeft: "D'accord",
+                      onCloseLeft: () {
+                        setState(() {
+                          this._notificationWrongFishIsOpen = false;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+
+              //
+
+              if (this._notificationTimeIsUpIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: ExploreaNotificationFrame(
+                      message:
+                          "Le temps est écoulé ! Souhaitez vous continuer quand même ?",
+                      repLeft: "NON",
+                      onCloseLeft: () {
+                        this.theEnd();
+                      },
+                      repRight: "OUI !",
+                      onCloseRight: () {
+                        setState(() {
+                          this._notificationTimeIsUpIsOpen = false;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+
+              //
+
+              if (this._notificationWrongContainerIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: ExploreaNotificationFrame(
+                      message:
+                          "Mauvais bâtiment ! \r\nCet aller-retour vous coûte 30 secondes !",
+                      repLeft: "Essayer un autre",
+                      onCloseLeft: () {
+                        setState(() {
+                          this._notificationWrongContainerIsOpen = false;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+
+              //
+
+              // Notifications pop-in
+              //
+
+              // Tips frame
+              if (this._tipsFrameIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Consumer<AdventureData>(
+                        builder: (context, theAdvData, child) =>
+                            ExploreaTipsFrame(
+                              tips: AdventureData.TIPS_LIST,
+                              unlockedTips: this
+                                  ._theAdventureData
+                                  .adventureParams["tips_unlocked"],
+                              onClose: () {
+                                setState(() {
+                                  this._tipsFrameIsOpen = false;
+                                });
+                              },
+                            )),
+                  ),
+                ),
+
+              //
+
+              // Topbar
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -1739,6 +1943,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       ExploreaTimer(
                                     currentTime: theAdvData.currentTime,
                                     borderColor: Colors.white,
+                                    // TODO: display a pop-in of "Le temps est écoulé, partie terminée ! Voulez vous quand-même continuer ?" Oui --> retour  |  non --> le scénar continu
+                                    // onTimerEnd: () {}
                                   ),
                                 ),
 
@@ -1763,7 +1969,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                               : Colors.white),
                                     ),
                                   ),
-                                  onTap: () {
+                                  onTapDown: (notUsed) {
+                                    HapticFeedback.lightImpact();
+
                                     setState(() {
                                       this._inventoryIsOpen =
                                           !this._inventoryIsOpen;
@@ -1773,21 +1981,36 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
                                 //
 
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0)),
-                                      color: Colors.black.withOpacity(0.0)),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0, vertical: 4.0),
-                                      child: Text(
-                                        "Indices",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18.0),
-                                      )),
+                                GestureDetector(
+                                  onTapDown: (notUsed) {
+                                    HapticFeedback.lightImpact();
+
+                                    setState(() {
+                                      this._tipsFrameIsOpen =
+                                          !this._tipsFrameIsOpen;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: this._tipsFrameIsOpen
+                                                ? ExploreaColors.yellow
+                                                : Colors.white),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        color: Colors.black.withOpacity(0.0)),
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0, vertical: 4.0),
+                                        child: Text(
+                                          "Indices",
+                                          style: TextStyle(
+                                              color: this._tipsFrameIsOpen
+                                                  ? ExploreaColors.yellow
+                                                  : Colors.white,
+                                              fontSize: 18.0),
+                                        )),
+                                  ),
                                 ),
                               ],
                             )),
@@ -1799,6 +2022,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
+              // Next button
               if (this._nextBtnIsDisplayed)
                 Align(
                   alignment: Alignment.bottomCenter,
