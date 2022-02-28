@@ -116,7 +116,10 @@ Regardez attentivement les arbres autour de vous.
   }
 
   decrementTimerBy(int decrementBy) {
-    this.currentTime -= decrementBy;
+    if (this.currentTime - decrementBy >= 0)
+      this.currentTime -= decrementBy;
+    else
+      this.currentTime = 0;
     notifyListeners();
   }
 
@@ -209,7 +212,6 @@ Regardez attentivement les arbres autour de vous.
 
 /// TODO: Add btn clic sounds and virbation.
 /// TODO: Add vibrations, like screen changes etc...
-/// TODO: Add alternate choices for wrong container.
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
 /// TODO: Save an achievement at the end, with or without time arrived at term.
 /// TODO: replace onTap with onTapDown because there is no tap animation, so having directly the feedback feels better.
@@ -243,6 +245,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   bool _tipsFrameIsOpen = false;
   bool _notificationTimeIsUpIsOpen = false;
   bool _notificationWrongFishIsOpen = false;
+  bool _notificationWrongContainerIsOpen = false;
 
   @override
   void initState() {
@@ -274,7 +277,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     // TODO: change before deploy
     // this.runScreen_1();
-    this.runScreen_13();
+    this.runScreen_22();
   }
 
   bool endTimer() {
@@ -1505,8 +1508,16 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                         // Container blue.
                         Expanded(
                           flex: 165,
-                          child:
-                              GestureDetector(child: Container(), onTap: () {}),
+                          child: GestureDetector(
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                              onTap: () {
+                                _theAdventureData.decrementTimerBy(30);
+                                setState(() {
+                                  this._notificationWrongContainerIsOpen = true;
+                                });
+                              }),
                         ),
                         // No container.
                         Expanded(
@@ -1532,14 +1543,30 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                         // Container rouge.
                         Expanded(
                           flex: 215,
-                          child:
-                              GestureDetector(child: Container(), onTap: () {}),
+                          child: GestureDetector(
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                              onTap: () {
+                                _theAdventureData.decrementTimerBy(30);
+                                setState(() {
+                                  this._notificationWrongContainerIsOpen = true;
+                                });
+                              }),
                         ),
                         // Container vert.
                         Expanded(
                           flex: 362,
-                          child:
-                              GestureDetector(child: Container(), onTap: () {}),
+                          child: GestureDetector(
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                              onTap: () {
+                                _theAdventureData.decrementTimerBy(30);
+                                setState(() {
+                                  this._notificationWrongContainerIsOpen = true;
+                                });
+                              }),
                         ),
                       ],
                     ),
@@ -1841,6 +1868,26 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                       onCloseRight: () {
                         setState(() {
                           this._notificationTimeIsUpIsOpen = false;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+
+              //
+
+              if (this._notificationWrongContainerIsOpen)
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: ExploreaNotificationFrame(
+                      message:
+                          "Mauvais bâtiment ! \r\nCet aller-retour vous coûte 30 secondes !",
+                      repLeft: "Essayer un autre",
+                      onCloseLeft: () {
+                        setState(() {
+                          this._notificationWrongContainerIsOpen = false;
                         });
                       },
                     ),
