@@ -1671,7 +1671,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       ),
                                       onTapDown: (tapDownDetails) {
                                         // TODO: play tap sound
-                                        HapticFeedback.mediumImpact();
+                                        HapticFeedback.heavyImpact();
 
                                         if (this
                                             ._theAdventureData
@@ -1695,7 +1695,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       ),
                                       onTapDown: (tapDownDetails) {
                                         // TODO: play tap sound
-                                        HapticFeedback.mediumImpact();
+                                        HapticFeedback.heavyImpact();
 
                                         if (this
                                             ._theAdventureData
@@ -1970,7 +1970,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                     ),
                                   ),
                                   onTapDown: (notUsed) {
-                                    HapticFeedback.lightImpact();
+                                    HapticFeedback.heavyImpact();
 
                                     setState(() {
                                       this._inventoryIsOpen =
@@ -1983,7 +1983,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
                                 GestureDetector(
                                   onTapDown: (notUsed) {
-                                    HapticFeedback.lightImpact();
+                                    HapticFeedback.heavyImpact();
 
                                     setState(() {
                                       this._tipsFrameIsOpen =

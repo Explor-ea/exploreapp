@@ -58,7 +58,7 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
                   child: GestureDetector(
                     child: Icon(Icons.close, color: Colors.white, size: 24.0),
                     onTapDown: (tapDownDetails) {
-                      HapticFeedback.lightImpact();
+                      HapticFeedback.heavyImpact();
 
                       this.widget.onClose();
                     },
@@ -139,7 +139,7 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
                   padding: const EdgeInsets.fromLTRB(12, 0.0, 0.0, 12),
                   child: GestureDetector(
                     onTapDown: (tapDetails) {
-                      HapticFeedback.lightImpact();
+                      HapticFeedback.heavyImpact();
 
                       if (this.currenTip - 1 >= 0)
                         setState(() {
@@ -159,7 +159,7 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
                   padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12, 12),
                   child: GestureDetector(
                     onTapDown: (tapDetails) {
-                      HapticFeedback.lightImpact();
+                      HapticFeedback.heavyImpact();
 
                       if (this.currenTip + 1 < this.widget.tips.length)
                         setState(() {
