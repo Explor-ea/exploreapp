@@ -1929,7 +1929,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     ClipRect(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 8.0),
+                            const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                         child: BackdropFilter(
                             filter: ImageFilter.blur(
                               sigmaX: 10,
@@ -1940,6 +1940,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               children: [
                                 GestureDetector(
                                   child: Container(
+                                    width: 100.0,
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                             color: this._inventoryIsOpen
@@ -1993,6 +1994,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                     });
                                   },
                                   child: Container(
+                                    alignment: Alignment.center,
+                                    width: 100.0,
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                             color: this._tipsFrameIsOpen
