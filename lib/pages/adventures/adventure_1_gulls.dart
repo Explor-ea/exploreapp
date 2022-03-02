@@ -1935,100 +1935,84 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               sigmaX: 10,
                               sigmaY: 10,
                             ),
-                            child: Column(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    GestureDetector(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: this._inventoryIsOpen
-                                                    ? ExploreaColors.yellow
-                                                    : Colors.white),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0)),
-                                            color:
-                                                Colors.black.withOpacity(0.0)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0, vertical: 4.0),
-                                          child: Text(
-                                            "Inventaire",
-                                            style: TextStyle(
-                                                color: this._inventoryIsOpen
-                                                    ? ExploreaColors.yellow
-                                                    : Colors.white,
-                                                fontSize: 18.0),
-                                          ),
-                                        ),
-                                      ),
-                                      onTapDown: (notUsed) {
-                                        HapticFeedback.heavyImpact();
-
-                                        setState(() {
-                                          this._inventoryIsOpen =
-                                              !this._inventoryIsOpen;
-                                        });
-                                      },
-                                    ),
-
-                                    //
-
-                                    GestureDetector(
-                                      onTapDown: (notUsed) {
-                                        HapticFeedback.heavyImpact();
-
-                                        setState(() {
-                                          this._tipsFrameIsOpen =
-                                              !this._tipsFrameIsOpen;
-                                        });
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: this._tipsFrameIsOpen
-                                                    ? ExploreaColors.yellow
-                                                    : Colors.white),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0)),
-                                            color:
-                                                Colors.black.withOpacity(0.0)),
-                                        child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 4.0),
-                                            child: Text(
-                                              "Indices",
-                                              style: TextStyle(
-                                                  color: this._tipsFrameIsOpen
-                                                      ? ExploreaColors.yellow
-                                                      : Colors.white,
-                                                  fontSize: 18.0),
-                                            )),
+                                GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: this._inventoryIsOpen
+                                                ? ExploreaColors.yellow
+                                                : Colors.white),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        color: Colors.black.withOpacity(0.0)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 4.0),
+                                      child: Text(
+                                        "Inventaire",
+                                        style: TextStyle(
+                                            color: this._inventoryIsOpen
+                                                ? ExploreaColors.yellow
+                                                : Colors.white,
+                                            fontSize: 18.0),
                                       ),
                                     ),
-                                  ],
+                                  ),
+                                  onTapDown: (notUsed) {
+                                    HapticFeedback.heavyImpact();
+
+                                    setState(() {
+                                      this._inventoryIsOpen =
+                                          !this._inventoryIsOpen;
+                                    });
+                                  },
                                 ),
 
                                 //
 
-                                Container(height: 16.0),
+                                Consumer<AdventureData>(
+                                  builder: (context, theAdvData, child) =>
+                                      ExploreaTimer(
+                                    currentTime: theAdvData.currentTime,
+                                    borderColor: Colors.white,
+                                  ),
+                                ),
 
                                 //
 
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Consumer<AdventureData>(
-                                      builder: (context, theAdvData, child) =>
-                                          ExploreaTimer(
-                                        currentTime: theAdvData.currentTime,
-                                        borderColor: Colors.white,
-                                      ),
-                                    ),
-                                  ],
+                                GestureDetector(
+                                  onTapDown: (notUsed) {
+                                    HapticFeedback.heavyImpact();
+
+                                    setState(() {
+                                      this._tipsFrameIsOpen =
+                                          !this._tipsFrameIsOpen;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: this._tipsFrameIsOpen
+                                                ? ExploreaColors.yellow
+                                                : Colors.white),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        color: Colors.black.withOpacity(0.0)),
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0, vertical: 4.0),
+                                        child: Text(
+                                          "Indices",
+                                          style: TextStyle(
+                                              color: this._tipsFrameIsOpen
+                                                  ? ExploreaColors.yellow
+                                                  : Colors.white,
+                                              fontSize: 18.0),
+                                        )),
+                                  ),
                                 ),
                               ],
                             )),
