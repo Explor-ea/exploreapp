@@ -53,6 +53,7 @@ class _ExploreaTimerState extends State<ExploreaTimer> {
   Widget build(BuildContext context) {
     return Container(
       width: this.widget.width,
+      height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
         color: this.widget.bgColor,

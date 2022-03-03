@@ -275,7 +275,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_24();
+    this.runScreen_1();
   }
 
   bool endTimer() {
@@ -304,7 +304,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     if (resetNextBtn) this._nextBtnIsDisplayed = false;
 
     // XXX CAREFUL: when putted after the asset asignation, makes errors. And it's asynchronous so...
-    if (this._vpController != null && this._vpController!.value.isInitialized)
+    if (this._vpController !=
+        null /* && this._vpController!.value.isInitialized */)
       this._vpController!.dispose();
 
     this._theAdventureData.currentScreen = newCurrentScreen;
@@ -544,13 +545,22 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
 
-      this._vpController!.addListener(() {
-        if (this._vpController!.value.position ==
-            this._vpController!.value.duration) {
-          // 20 Second after the eiffel point is found, the next screen appears.
-          Timer(const Duration(seconds: 20 - (26 - 15)), () {
+      StreamSubscription<Position>? positionStream;
+      positionStream =
+          Geolocator.getPositionStream(locationSettings: _locationSettings)
+              .listen((Position? currentPosition) {
+        if (currentPosition != null) {
+          const pointCoordinates = [48.048820720263095, -1.7414750135353614];
+          double distanceFromThePoint = Geolocator.distanceBetween(
+              pointCoordinates[0],
+              pointCoordinates[1],
+              currentPosition.latitude,
+              currentPosition.longitude);
+
+          if (distanceFromThePoint <= 30 /* metters */) {
             this.runScreen_10();
-          });
+            positionStream!.cancel();
+          }
         }
       });
     });
@@ -584,9 +594,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               currentPosition.longitude);
 
           if (distanceFromThePoint <= 10 /* metters */) {
-            positionStream!.cancel();
-
             this.runScreen_12();
+            positionStream!.cancel();
           }
         }
       });
@@ -1836,11 +1845,38 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: this.buildCurrentAdventureScreen()),
+              Stack(
+                children: [
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: this.buildCurrentAdventureScreen()),
 
-              //
+                  //
+
+                  // Timer
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: AspectRatio(
+                        aspectRatio: 9.0 / 16.0,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(.0, 32.0, .0, .0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Consumer<AdventureData>(
+                                builder: (context, theAdvData, child) =>
+                                    ExploreaTimer(
+                                  currentTime: theAdvData.currentTime,
+                                  borderColor: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))
+                ],
+              ),
 
               // Inventory
               if (this._inventoryIsOpen)
@@ -1966,7 +2002,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     ClipRect(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                            const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
                         child: BackdropFilter(
                             filter: ImageFilter.blur(
                                 // sigmaX: 10,
@@ -2054,23 +2090,6 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                 ),
 
                                 //
-
-                                Container(height: 32.0),
-
-                                //
-
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Consumer<AdventureData>(
-                                      builder: (context, theAdvData, child) =>
-                                          ExploreaTimer(
-                                        currentTime: theAdvData.currentTime,
-                                        borderColor: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ],
                             )),
                       ),
