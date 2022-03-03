@@ -33,6 +33,20 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
   int currenTip = 0;
 
   @override
+  void initState() {
+    // Set the currenTip to the last unlocked.
+    if (this.widget.unlockedTips != null) {
+      int indexOfNewestUnlockedTip = this
+          .widget
+          .unlockedTips!
+          .lastIndexWhere((element) => element == true);
+      if (indexOfNewestUnlockedTip >= 0 &&
+          indexOfNewestUnlockedTip < this.widget.tips.length)
+        this.currenTip = indexOfNewestUnlockedTip;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BackdropFilter(
       filter: ImageFilter.blur(
