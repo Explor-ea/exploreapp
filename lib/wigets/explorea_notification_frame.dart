@@ -39,7 +39,7 @@ class _ExploreaNotificationFrameState extends State<ExploreaNotificationFrame> {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [ExploreaColors.purple, ExploreaColors.purpleDark],
+              colors: [ExploreaColors.purple, ExploreaColors.purple],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight),
         ),
