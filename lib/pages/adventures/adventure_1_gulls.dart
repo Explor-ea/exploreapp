@@ -461,6 +461,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// The rat talks in rat.
   void runScreen_3_4_5() {
     this.changeCurrentScreenAndLoadAsset(2);
 
@@ -479,6 +480,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// The rat is warning the player.
   void runScreen_6() {
     this.changeCurrentScreenAndLoadAsset(3);
 
@@ -491,7 +493,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       this._vpController!.addListener(() {
         if (this._vpController!.value.position ==
             this._vpController!.value.duration) {
-          this.runScreen_7();
+          setState(() {
+            this._nextBtnIsDisplayed = true;
+          });
         }
       });
     });
@@ -1965,90 +1969,107 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                             const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                         child: BackdropFilter(
                             filter: ImageFilter.blur(
-                              sigmaX: 10,
-                              sigmaY: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                // sigmaX: 10,
+                                // sigmaY: 10,
+                                ),
+                            child: Column(
                               children: [
-                                GestureDetector(
-                                  child: Container(
-                                    width: 100.0,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: this._inventoryIsOpen
-                                                ? ExploreaColors.yellow
-                                                : Colors.white),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        color: Colors.black.withOpacity(0.0)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0, vertical: 4.0),
-                                      child: Text(
-                                        "Inventaire",
-                                        style: TextStyle(
-                                            color: this._inventoryIsOpen
-                                                ? ExploreaColors.yellow
-                                                : Colors.white,
-                                            fontSize: 18.0),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 100.0,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: this._inventoryIsOpen
+                                                    ? ExploreaColors.yellow
+                                                    : Colors.white),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            color:
+                                                Colors.black.withOpacity(0.0)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0, vertical: 4.0),
+                                          child: Text(
+                                            "Inventaire",
+                                            style: TextStyle(
+                                                color: this._inventoryIsOpen
+                                                    ? ExploreaColors.yellow
+                                                    : Colors.white,
+                                                fontSize: 18.0),
+                                          ),
+                                        ),
+                                      ),
+                                      onTapDown: (notUsed) {
+                                        HapticFeedback.heavyImpact();
+
+                                        setState(() {
+                                          this._inventoryIsOpen =
+                                              !this._inventoryIsOpen;
+                                        });
+                                      },
+                                    ),
+
+                                    //
+
+                                    GestureDetector(
+                                      onTapDown: (notUsed) {
+                                        HapticFeedback.heavyImpact();
+
+                                        setState(() {
+                                          this._tipsFrameIsOpen =
+                                              !this._tipsFrameIsOpen;
+                                        });
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 100.0,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: this._tipsFrameIsOpen
+                                                    ? ExploreaColors.yellow
+                                                    : Colors.white),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            color:
+                                                Colors.black.withOpacity(0.0)),
+                                        child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0, vertical: 4.0),
+                                            child: Text(
+                                              "Indices",
+                                              style: TextStyle(
+                                                  color: this._tipsFrameIsOpen
+                                                      ? ExploreaColors.yellow
+                                                      : Colors.white,
+                                                  fontSize: 18.0),
+                                            )),
                                       ),
                                     ),
-                                  ),
-                                  onTapDown: (notUsed) {
-                                    HapticFeedback.heavyImpact();
-
-                                    setState(() {
-                                      this._inventoryIsOpen =
-                                          !this._inventoryIsOpen;
-                                    });
-                                  },
+                                  ],
                                 ),
 
                                 //
 
-                                Consumer<AdventureData>(
-                                  builder: (context, theAdvData, child) =>
-                                      ExploreaTimer(
-                                    currentTime: theAdvData.currentTime,
-                                    borderColor: Colors.white,
-                                  ),
-                                ),
+                                Container(height: 32.0),
 
                                 //
 
-                                GestureDetector(
-                                  onTapDown: (notUsed) {
-                                    HapticFeedback.heavyImpact();
-
-                                    setState(() {
-                                      this._tipsFrameIsOpen =
-                                          !this._tipsFrameIsOpen;
-                                    });
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: 100.0,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: this._tipsFrameIsOpen
-                                                ? ExploreaColors.yellow
-                                                : Colors.white),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        color: Colors.black.withOpacity(0.0)),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0, vertical: 4.0),
-                                        child: Text(
-                                          "Indices",
-                                          style: TextStyle(
-                                              color: this._tipsFrameIsOpen
-                                                  ? ExploreaColors.yellow
-                                                  : Colors.white,
-                                              fontSize: 18.0),
-                                        )),
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Consumer<AdventureData>(
+                                      builder: (context, theAdvData, child) =>
+                                          ExploreaTimer(
+                                        currentTime: theAdvData.currentTime,
+                                        borderColor: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             )),
