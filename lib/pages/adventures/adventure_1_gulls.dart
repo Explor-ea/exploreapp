@@ -1196,6 +1196,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     // Add this adventure to finished adventures.
 
+    this._vpController!.dispose();
+    this._vpAudioController!.dispose();
+
     goToNextPage(context, AdventureDetails(adventureId: 1));
   }
 
