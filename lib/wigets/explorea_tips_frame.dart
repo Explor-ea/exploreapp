@@ -55,10 +55,7 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [ExploreaColors.purple, ExploreaColors.purpleDark],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight),
+          gradient: ExploreaGradients.purple,
         ),
         height: 400,
         width: 300,
@@ -106,7 +103,7 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
                       child: Text(
                         (this.currentTip + 1).toString(),
                         style: TextStyle(
-                            color: ExploreaColors.purpleDark, fontSize: 24.0),
+                            color: ExploreaColors.purple, fontSize: 24.0),
                       )),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
