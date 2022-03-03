@@ -275,7 +275,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_24();
+    this.runScreen_1();
   }
 
   bool endTimer() {
@@ -1836,11 +1836,38 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: this.buildCurrentAdventureScreen()),
+              Stack(
+                children: [
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: this.buildCurrentAdventureScreen()),
 
-              //
+                  //
+
+                  // Timer
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: AspectRatio(
+                        aspectRatio: 9.0 / 16.0,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(.0, 32.0, .0, .0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Consumer<AdventureData>(
+                                builder: (context, theAdvData, child) =>
+                                    ExploreaTimer(
+                                  currentTime: theAdvData.currentTime,
+                                  borderColor: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))
+                ],
+              ),
 
               // Inventory
               if (this._inventoryIsOpen)
@@ -1966,7 +1993,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     ClipRect(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                            const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
                         child: BackdropFilter(
                             filter: ImageFilter.blur(
                                 // sigmaX: 10,
@@ -2054,23 +2081,6 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                 ),
 
                                 //
-
-                                Container(height: 32.0),
-
-                                //
-
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Consumer<AdventureData>(
-                                      builder: (context, theAdvData, child) =>
-                                          ExploreaTimer(
-                                        currentTime: theAdvData.currentTime,
-                                        borderColor: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ],
                             )),
                       ),
