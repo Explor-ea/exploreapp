@@ -1929,7 +1929,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     ClipRect(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 8.0),
+                            const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                         child: BackdropFilter(
                             filter: ImageFilter.blur(
                               sigmaX: 10,
@@ -1938,20 +1938,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Consumer<AdventureData>(
-                                  builder: (context, theAdvData, child) =>
-                                      ExploreaTimer(
-                                    currentTime: theAdvData.currentTime,
-                                    borderColor: Colors.white,
-                                    // TODO: display a pop-in of "Le temps est écoulé, partie terminée ! Voulez vous quand-même continuer ?" Oui --> retour  |  non --> le scénar continu
-                                    // onTimerEnd: () {}
-                                  ),
-                                ),
-
-                                //
-
                                 GestureDetector(
                                   child: Container(
+                                    width: 100.0,
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                             color: this._inventoryIsOpen
@@ -1963,10 +1952,14 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8.0, vertical: 4.0),
-                                      child: Icon(Icons.backpack_outlined,
-                                          color: this._inventoryIsOpen
-                                              ? ExploreaColors.yellow
-                                              : Colors.white),
+                                      child: Text(
+                                        "Inventaire",
+                                        style: TextStyle(
+                                            color: this._inventoryIsOpen
+                                                ? ExploreaColors.yellow
+                                                : Colors.white,
+                                            fontSize: 18.0),
+                                      ),
                                     ),
                                   ),
                                   onTapDown: (notUsed) {
@@ -1981,6 +1974,16 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
                                 //
 
+                                Consumer<AdventureData>(
+                                  builder: (context, theAdvData, child) =>
+                                      ExploreaTimer(
+                                    currentTime: theAdvData.currentTime,
+                                    borderColor: Colors.white,
+                                  ),
+                                ),
+
+                                //
+
                                 GestureDetector(
                                   onTapDown: (notUsed) {
                                     HapticFeedback.heavyImpact();
@@ -1991,6 +1994,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                     });
                                   },
                                   child: Container(
+                                    alignment: Alignment.center,
+                                    width: 100.0,
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                             color: this._tipsFrameIsOpen
