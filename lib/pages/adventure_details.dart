@@ -132,8 +132,7 @@ class AdventureDetails extends StatelessWidget {
                             Text(
                               theAdventure.difficultyText,
                               style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: ExploreaColors.purpleDark),
+                                  fontSize: 15.0, color: ExploreaColors.purple),
                             ),
                             Row(
                               children: [
@@ -145,7 +144,7 @@ class AdventureDetails extends StatelessWidget {
                                   " ${theAdventure.supposedTime} min",
                                   style: TextStyle(
                                       fontSize: 15.0,
-                                      color: ExploreaColors.purpleDark),
+                                      color: ExploreaColors.purple),
                                 )
                               ],
                             )
@@ -167,7 +166,7 @@ class AdventureDetails extends StatelessWidget {
                                   " +${theAdventure.ageRestriction} ans",
                                   style: TextStyle(
                                       fontSize: 15.0,
-                                      color: ExploreaColors.purpleDark),
+                                      color: ExploreaColors.purple),
                                 ),
                               ],
                             ),
@@ -183,7 +182,7 @@ class AdventureDetails extends StatelessWidget {
                                       : "Non adapté",
                                   style: TextStyle(
                                       fontSize: 15.0,
-                                      color: ExploreaColors.purpleDark),
+                                      color: ExploreaColors.purple),
                                 ),
                               ],
                             )

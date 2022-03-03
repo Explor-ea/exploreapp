@@ -182,7 +182,7 @@ ListView buildAdventuresList(context) {
                           AdventureDetails(adventureId: anAdventure.id));
                     },
                     backgroundColor: Colors.white,
-                    textColor: ExploreaColors.purpleDark,
+                    textColor: ExploreaColors.purple,
                   ),
                 ],
               )

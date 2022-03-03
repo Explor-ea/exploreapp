@@ -67,7 +67,7 @@ class Cgv extends StatelessWidget {
               Id duis exercitation non minim. Voluptate proident tempor labore Lorem ut ex sunt mollit labore. Lorem officia anim exercitation esse. Consectetur tempor eiusmod duis laboris qui duis laborum aliqua.
               Id duis exercitation non minim. Voluptate proident tempor labore Lorem ut ex sunt mollit labore. Lorem officia anim exercitation esse. Consectetur tempor eiusmod duis laboris qui duis laborum aliqua.
               """,
-                style: TextStyle(color: ExploreaColors.purpleDark),
+                style: TextStyle(color: ExploreaColors.purple),
               ),
             )),
           ],

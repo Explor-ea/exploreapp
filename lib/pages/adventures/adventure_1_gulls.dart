@@ -1201,7 +1201,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
   Widget buildCurrentAdventureScreen() {
     Widget ret = Container(
-      color: ExploreaColors.purpleDark,
+      color: ExploreaColors.purple,
     );
 
     switch (this._theAdventureData.currentScreen) {

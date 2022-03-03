@@ -188,7 +188,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                                         ? this.theSelectedAdventure!.name
                                         : '',
                                     style: TextStyle(
-                                        color: ExploreaColors.purpleDark,
+                                        color: ExploreaColors.purple,
                                         fontSize: 24.0)),
                               ),
                               Row(
@@ -203,7 +203,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                                         : '',
                                     style: TextStyle(
                                         fontSize: 15.0,
-                                        color: ExploreaColors.purpleDark),
+                                        color: ExploreaColors.purple),
                                   ),
                                   Row(
                                     children: [
@@ -215,7 +215,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
                                         " ${this.theSelectedAdventure != null ? this.theSelectedAdventure!.supposedTime : ''} min",
                                         style: TextStyle(
                                             fontSize: 15.0,
-                                            color: ExploreaColors.purpleDark),
+                                            color: ExploreaColors.purple),
                                       )
                                     ],
                                   )

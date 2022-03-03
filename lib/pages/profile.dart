@@ -85,11 +85,11 @@ class Profil extends StatelessWidget {
                   child: Column(
                     children: [
                       TabBar(
-                        labelColor: ExploreaColors.purpleDark,
+                        labelColor: ExploreaColors.purple,
                         unselectedLabelColor: ExploreaColors.darkGrey,
                         //
                         labelStyle: TextStyle(
-                            color: ExploreaColors.purpleDark, fontSize: 20.0),
+                            color: ExploreaColors.purple, fontSize: 20.0),
                         unselectedLabelStyle:
                             TextStyle(color: ExploreaColors.darkGrey),
                         //
@@ -183,7 +183,7 @@ class Profil extends StatelessWidget {
         ),
         Text(
           "F.A.Q",
-          style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
+          style: TextStyle(color: ExploreaColors.purple, fontSize: 24.0),
         ),
         ExploreaGotoIcon()
       ],
@@ -194,7 +194,7 @@ class Profil extends StatelessWidget {
         ),
         Text(
           "C.G.U",
-          style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
+          style: TextStyle(color: ExploreaColors.purple, fontSize: 24.0),
         ),
         ExploreaGotoIcon(
           nextPage: Cgu(),
@@ -207,7 +207,7 @@ class Profil extends StatelessWidget {
         ),
         Text(
           "C.G.V",
-          style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
+          style: TextStyle(color: ExploreaColors.purple, fontSize: 24.0),
         ),
         ExploreaGotoIcon(
           nextPage: Cgv(),
@@ -220,7 +220,7 @@ class Profil extends StatelessWidget {
         ),
         Text(
           "Infos",
-          style: TextStyle(color: ExploreaColors.purpleDark, fontSize: 24.0),
+          style: TextStyle(color: ExploreaColors.purple, fontSize: 24.0),
         ),
         ExploreaGotoIcon(
           nextPage: PersonalInfos(),
@@ -250,7 +250,7 @@ class Profil extends StatelessWidget {
       if (i < items.length - 1)
         itemList.add(Divider(
           height: 26.0,
-          color: ExploreaColors.purpleDark,
+          color: ExploreaColors.purple,
         ));
     }
 
