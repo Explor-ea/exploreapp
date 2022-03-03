@@ -558,7 +558,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
             this._theAdventureData.adventureParams["near_eiffel"] == false) {
           this._vpController!.pause();
           this.setState(() {
-            // TODO: this should be set when the user is geologically near the point.
+            // XXX MAYBE: this should be set when the user is geologically near the point.
             this._theAdventureData.adventureParams["near_eiffel"] = true;
           });
         }
