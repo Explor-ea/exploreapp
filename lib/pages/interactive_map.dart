@@ -141,16 +141,16 @@ class _InteractiveMapState extends State<InteractiveMap> {
                   padding: const EdgeInsets.all(8.0),
                   icon: const Icon(Icons.person_outline_sharp),
                 ),
-                ExploreaFab(
-                  onPressed: () {},
-                  padding: const EdgeInsets.all(8.0),
-                  icon: const Icon(Icons.filter_alt_outlined),
-                ),
-                ExploreaFab(
-                  onPressed: () {},
-                  padding: const EdgeInsets.all(8.0),
-                  icon: const Icon(Icons.search),
-                ),
+                // ExploreaFab(
+                //   onPressed: () {},
+                //   padding: const EdgeInsets.all(8.0),
+                //   icon: const Icon(Icons.filter_alt_outlined),
+                // ),
+                // ExploreaFab(
+                //   onPressed: () {},
+                //   padding: const EdgeInsets.all(8.0),
+                //   icon: const Icon(Icons.search),
+                // ),
               ],
             ),
           ),
