@@ -276,8 +276,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this.changeCurrentScreenAndLoadAsset(0);
 
-    // this.runScreen_1();
-    this.runScreen_13();
+    this.runScreen_1();
   }
 
   showExploreaToast(String msg, {double fontSize = 18.0}) {
