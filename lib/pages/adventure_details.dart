@@ -1,5 +1,6 @@
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
+import 'package:exploreapp/pages/near_adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
@@ -48,7 +49,7 @@ class AdventureDetails extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTapDown: (unusedDetails) {
-                            goBack(context);
+                            goToNextPage(context, NearAdventures());
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
