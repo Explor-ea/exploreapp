@@ -15,18 +15,18 @@ const List<Adventure> allAdventures = [
     Proin morbi scelerisque potenti cras orci, et, amet. Arcu lorem id tempus elit felis duis sem. Tellus molestie id in nunc. Et neque quam nullam sed ultrices hendrerit duis elementum. Dictum sem id nunc dui posuere sed. Mattis lectus arcu velit.
     """,
   ),
-  const Adventure(
-    2,
-    "Lorem culpa mollit",
-    AdventureDifficulty.AVERAGE,
-    25,
-    [48.055569, -1.866993],
-    null,
-    77,
-    true,
-    description: """
-    Reprehenderit culpa adipisicing irure voluptate do voluptate ut consequat in ut.
-    Dolore aliqua mollit officia ea velit.
-    """,
-  ),
+  // const Adventure(
+  //   2,
+  //   "Lorem culpa mollit",
+  //   AdventureDifficulty.AVERAGE,
+  //   25,
+  //   [48.055569, -1.866993],
+  //   null,
+  //   77,
+  //   true,
+  //   description: """
+  //   Reprehenderit culpa adipisicing irure voluptate do voluptate ut consequat in ut.
+  //   Dolore aliqua mollit officia ea velit.
+  //   """,
+  // ),
 ];
