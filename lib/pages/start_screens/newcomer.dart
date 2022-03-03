@@ -784,6 +784,7 @@ class _NewcomerState extends State<Newcomer> {
     }
   }
 
+  /// TODO: add 3D images.
   Widget buildImage() {
     switch (this.step) {
       case 5:
