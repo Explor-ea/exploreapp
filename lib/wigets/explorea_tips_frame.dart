@@ -30,7 +30,21 @@ class ExploreaTipsFrame extends StatefulWidget {
 
 class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
   /// The current displayed tip.
-  int currenTip = 0;
+  int currentTip = 0;
+
+  @override
+  void initState() {
+    // Set the currentTip to the last unlocked.
+    if (this.widget.unlockedTips != null) {
+      int indexOfNewestUnlockedTip = this
+          .widget
+          .unlockedTips!
+          .lastIndexWhere((element) => element == true);
+      if (indexOfNewestUnlockedTip >= 0 &&
+          indexOfNewestUnlockedTip < this.widget.tips.length)
+        this.currentTip = indexOfNewestUnlockedTip;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +104,7 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
                   child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        (this.currenTip + 1).toString(),
+                        (this.currentTip + 1).toString(),
                         style: TextStyle(
                             color: ExploreaColors.purpleDark, fontSize: 24.0),
                       )),
@@ -112,10 +126,10 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
                     children: [
                       Flexible(
                         child: Text(
-                          this.widget.tips[this.currenTip],
+                          this.widget.tips[this.currentTip],
                           style: TextStyle(
                               color: this.widget.unlockedTips != null
-                                  ? this.widget.unlockedTips![this.currenTip]
+                                  ? this.widget.unlockedTips![this.currentTip]
                                       ? Colors.white
                                       : Colors.transparent
                                   : Colors.white,
@@ -141,12 +155,12 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
                     onTapDown: (tapDetails) {
                       HapticFeedback.heavyImpact();
 
-                      if (this.currenTip - 1 >= 0)
+                      if (this.currentTip - 1 >= 0)
                         setState(() {
-                          this.currenTip--;
+                          this.currentTip--;
                         });
                     },
-                    child: this.currenTip > 0
+                    child: this.currentTip > 0
                         ? Text(
                             "Indice précédent",
                             style: TextStyle(
@@ -161,12 +175,12 @@ class _ExploreaTipsFrameState extends State<ExploreaTipsFrame> {
                     onTapDown: (tapDetails) {
                       HapticFeedback.heavyImpact();
 
-                      if (this.currenTip + 1 < this.widget.tips.length)
+                      if (this.currentTip + 1 < this.widget.tips.length)
                         setState(() {
-                          this.currenTip++;
+                          this.currentTip++;
                         });
                     },
-                    child: this.currenTip < this.widget.tips.length - 1
+                    child: this.currentTip < this.widget.tips.length - 1
                         ? Text(
                             "Indice suivant",
                             style: TextStyle(
