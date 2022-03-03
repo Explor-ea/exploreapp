@@ -1929,20 +1929,22 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     ClipRect(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 8.0),
+                            const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                         child: BackdropFilter(
                             filter: ImageFilter.blur(
-                              sigmaX: 10,
-                              sigmaY: 10,
-                            ),
+                                // sigmaX: 10,
+                                // sigmaY: 10,
+                                ),
                             child: Column(
                               children: [
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
                                       child: Container(
+                                        alignment: Alignment.center,
+                                        width: 100.0,
                                         decoration: BoxDecoration(
                                             border: Border.all(
                                                 color: this._inventoryIsOpen
@@ -1987,6 +1989,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                         });
                                       },
                                       child: Container(
+                                        alignment: Alignment.center,
+                                        width: 100.0,
                                         decoration: BoxDecoration(
                                             border: Border.all(
                                                 color: this._tipsFrameIsOpen
@@ -2014,7 +2018,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
                                 //
 
-                                Container(height: 16.0),
+                                Container(height: 32.0),
 
                                 //
 
