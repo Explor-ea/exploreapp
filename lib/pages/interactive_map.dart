@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'dart:math' as math;
@@ -141,16 +142,16 @@ class _InteractiveMapState extends State<InteractiveMap> {
                   padding: const EdgeInsets.all(8.0),
                   icon: const Icon(Icons.person_outline_sharp),
                 ),
-                ExploreaFab(
-                  onPressed: () {},
-                  padding: const EdgeInsets.all(8.0),
-                  icon: const Icon(Icons.filter_alt_outlined),
-                ),
-                ExploreaFab(
-                  onPressed: () {},
-                  padding: const EdgeInsets.all(8.0),
-                  icon: const Icon(Icons.search),
-                ),
+                // ExploreaFab(
+                //   onPressed: () {},
+                //   padding: const EdgeInsets.all(8.0),
+                //   icon: const Icon(Icons.filter_alt_outlined),
+                // ),
+                // ExploreaFab(
+                //   onPressed: () {},
+                //   padding: const EdgeInsets.all(8.0),
+                //   icon: const Icon(Icons.search),
+                // ),
               ],
             ),
           ),
@@ -251,15 +252,20 @@ class _InteractiveMapState extends State<InteractiveMap> {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 24.0, 24.0),
           child: Align(
-              alignment: Alignment.bottomRight,
-              child: ExploreaFab(
-                onPressed: () {},
-                padding: EdgeInsets.all(0),
-                icon: Transform.rotate(
-                  angle: 30 * (pi / 180),
-                  child: new Icon(Icons.navigation_outlined),
-                ),
-              )),
+            alignment: Alignment.bottomRight,
+            child: ExploreaFab(
+              onPressed: () {
+                Geolocator.getCurrentPosition().then((currentPosition) => {
+                      this.mapController.move(
+                          LatLng(currentPosition.latitude,
+                              currentPosition.longitude),
+                          16)
+                    });
+              },
+              padding: EdgeInsets.all(0),
+              icon: Icon(Icons.gps_not_fixed_outlined),
+            ),
+          ),
         ),
       ],
     ));

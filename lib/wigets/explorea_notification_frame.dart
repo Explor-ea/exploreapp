@@ -99,7 +99,7 @@ class _ExploreaNotificationFrameState extends State<ExploreaNotificationFrame> {
               children: [
                 GestureDetector(
                   onTapDown: (tapDetails) {
-                    HapticFeedback.lightImpact();
+                    HapticFeedback.heavyImpact();
                     this.widget.onCloseLeft();
                   },
                   child: Text(
@@ -111,7 +111,7 @@ class _ExploreaNotificationFrameState extends State<ExploreaNotificationFrame> {
                 if (this.widget.repRight != null)
                   GestureDetector(
                     onTapDown: (tapDetails) {
-                      HapticFeedback.lightImpact();
+                      HapticFeedback.heavyImpact();
                       if (this.widget.onCloseRight != null)
                         this.widget.onCloseRight!();
                     },

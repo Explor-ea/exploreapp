@@ -42,7 +42,7 @@ class _ExploreaBtnNextState extends State<ExploreaBtnNext> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanDown: (notUsed) {
-        HapticFeedback.lightImpact();
+        HapticFeedback.heavyImpact();
 
         setState(() {
           var tmpColor = this.backgroundColor;

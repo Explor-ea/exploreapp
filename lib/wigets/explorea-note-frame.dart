@@ -67,3 +67,23 @@ class NoteShape extends CustomClipper<Path> {
   @override
   bool shouldReclip(NoteShape oldClipper) => false;
 }
+
+class NoteShapeBottomCut extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final edgeCut = size.width * 0.077;
+
+    final path = Path();
+    path.lineTo(0, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height - edgeCut);
+    path.lineTo(size.width - edgeCut, size.height);
+    path.lineTo(0, size.height);
+
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(NoteShape oldClipper) => false;
+}

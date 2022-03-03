@@ -18,6 +18,8 @@ import 'package:exploreapp/wigets/explorea_tips_frame.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import 'package:video_player/video_player.dart';
@@ -277,6 +279,24 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.runScreen_1();
   }
 
+  showExploreaToast(String msg, {double fontSize = 18.0}) {
+    final showConfiguredToast = () {
+      return Fluttertoast.showToast(
+          gravity: ToastGravity.CENTER,
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 3,
+          backgroundColor: ExploreaColors.yellow,
+          textColor: ExploreaColors.purple,
+          fontSize: fontSize,
+          msg: msg);
+    };
+
+    HapticFeedback.heavyImpact();
+    showConfiguredToast()
+        .then((value) => showConfiguredToast())
+        .then((value) => showConfiguredToast());
+  }
+
   bool endTimer() {
     if (this._theAdvTimer != null) {
       this._theAdvTimer!.cancel();
@@ -303,7 +323,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     if (resetNextBtn) this._nextBtnIsDisplayed = false;
 
     // XXX CAREFUL: when putted after the asset asignation, makes errors. And it's asynchronous so...
-    if (this._vpController != null && this._vpController!.value.isInitialized)
+    if (this._vpController !=
+        null /* && this._vpController!.value.isInitialized */)
       this._vpController!.dispose();
 
     this._theAdventureData.currentScreen = newCurrentScreen;
@@ -460,6 +481,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// The rat talks in rat.
   void runScreen_3_4_5() {
     this.changeCurrentScreenAndLoadAsset(2);
 
@@ -478,6 +500,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// The rat is warning the player.
   void runScreen_6() {
     this.changeCurrentScreenAndLoadAsset(3);
 
@@ -490,7 +513,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       this._vpController!.addListener(() {
         if (this._vpController!.value.position ==
             this._vpController!.value.duration) {
-          this.runScreen_7();
+          setState(() {
+            this._nextBtnIsDisplayed = true;
+          });
         }
       });
     });
@@ -539,13 +564,22 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         }
       });
 
-      this._vpController!.addListener(() {
-        if (this._vpController!.value.position ==
-            this._vpController!.value.duration) {
-          // 20 Second after the eiffel point is found, the next screen appears.
-          Timer(const Duration(seconds: 20 - (26 - 15)), () {
+      StreamSubscription<Position>? positionStream;
+      positionStream =
+          Geolocator.getPositionStream(locationSettings: _locationSettings)
+              .listen((Position? currentPosition) {
+        if (currentPosition != null) {
+          const pointCoordinates = [48.048820720263095, -1.7414750135353614];
+          double distanceFromThePoint = Geolocator.distanceBetween(
+              pointCoordinates[0],
+              pointCoordinates[1],
+              currentPosition.latitude,
+              currentPosition.longitude);
+
+          if (distanceFromThePoint <= 30 /* metters */) {
             this.runScreen_10();
-          });
+            positionStream!.cancel();
+          }
         }
       });
     });
@@ -579,9 +613,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               currentPosition.longitude);
 
           if (distanceFromThePoint <= 10 /* metters */) {
-            positionStream!.cancel();
-
             this.runScreen_12();
+            positionStream!.cancel();
           }
         }
       });
@@ -861,14 +894,15 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               Geolocator.getPositionStream(locationSettings: _locationSettings)
                   .listen((Position? currentPosition) {
             if (currentPosition != null) {
-              const pointCoordinates = [48.048442, -1.742608];
+              // The coordinates are a little far from the desired point, this allows with a large distance from the point to make the user go to the south but to let him find the point more easely.
+              const pointCoordinates = [48.048222, -1.742571];
               double distanceFromThePoint = Geolocator.distanceBetween(
                   pointCoordinates[0],
                   pointCoordinates[1],
                   currentPosition.latitude,
                   currentPosition.longitude);
 
-              if (distanceFromThePoint <= 7 /* metters */) {
+              if (distanceFromThePoint <= 25 /* metters */) {
                 positionStream!.cancel();
 
                 this.runScreen_26();
@@ -1261,6 +1295,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_grey");
+
+                              showExploreaToast(
+                                  "Les goélands vont ils se régaler...");
                               this.runScreen_14();
                             });
                             log("clic poisson gris");
@@ -1273,6 +1310,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_red");
+
+                              showExploreaToast(
+                                  "Les goélands vont ils se régaler...");
                               this.runScreen_14();
                             });
                             log("clic poisson rouge");
@@ -1285,6 +1325,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_blue");
+
+                              showExploreaToast(
+                                  "Les goélands vont ils se régaler...");
                               this.runScreen_14();
                             });
                             log("clic poisson bleu");
@@ -1359,7 +1402,6 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
-      // TODO: if wrong continaer is touched, lose 30s and pop-in about the bad choice.
       case 14: // 19
         ret = Stack(
           children: [
@@ -1442,6 +1484,38 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     ),
                   ),
                 )),
+
+            // Scroll indicators
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 48,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24.0, .0, .0, .0),
+                      child: Text(
+                        "<",
+                        style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 48.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(.0, .0, 24.0, .0),
+                      child: Text(
+                        ">",
+                        style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 48.0),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
             // // Frame
             // Align(
@@ -1671,7 +1745,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       ),
                                       onTapDown: (tapDownDetails) {
                                         // TODO: play tap sound
-                                        HapticFeedback.mediumImpact();
+                                        HapticFeedback.heavyImpact();
 
                                         if (this
                                             ._theAdventureData
@@ -1695,7 +1769,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                                       ),
                                       onTapDown: (tapDownDetails) {
                                         // TODO: play tap sound
-                                        HapticFeedback.mediumImpact();
+                                        HapticFeedback.heavyImpact();
 
                                         if (this
                                             ._theAdventureData
@@ -1799,11 +1873,38 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
               //
 
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: this.buildCurrentAdventureScreen()),
+              Stack(
+                children: [
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: this.buildCurrentAdventureScreen()),
 
-              //
+                  //
+
+                  // Timer
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: AspectRatio(
+                        aspectRatio: 9.0 / 16.0,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(.0, 32.0, .0, .0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Consumer<AdventureData>(
+                                builder: (context, theAdvData, child) =>
+                                    ExploreaTimer(
+                                  currentTime: theAdvData.currentTime,
+                                  borderColor: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))
+                ],
+              ),
 
               // Inventory
               if (this._inventoryIsOpen)
@@ -1929,89 +2030,94 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     ClipRect(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 8.0),
+                            const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
                         child: BackdropFilter(
                             filter: ImageFilter.blur(
-                              sigmaX: 10,
-                              sigmaY: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                // sigmaX: 10,
+                                // sigmaY: 10,
+                                ),
+                            child: Column(
                               children: [
-                                Consumer<AdventureData>(
-                                  builder: (context, theAdvData, child) =>
-                                      ExploreaTimer(
-                                    currentTime: theAdvData.currentTime,
-                                    borderColor: Colors.white,
-                                    // TODO: display a pop-in of "Le temps est écoulé, partie terminée ! Voulez vous quand-même continuer ?" Oui --> retour  |  non --> le scénar continu
-                                    // onTimerEnd: () {}
-                                  ),
-                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 100.0,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: this._inventoryIsOpen
+                                                    ? ExploreaColors.yellow
+                                                    : Colors.white),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            color:
+                                                Colors.black.withOpacity(0.0)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0, vertical: 4.0),
+                                          child: Text(
+                                            "Inventaire",
+                                            style: TextStyle(
+                                                color: this._inventoryIsOpen
+                                                    ? ExploreaColors.yellow
+                                                    : Colors.white,
+                                                fontSize: 18.0),
+                                          ),
+                                        ),
+                                      ),
+                                      onTapDown: (notUsed) {
+                                        HapticFeedback.heavyImpact();
 
-                                //
-
-                                GestureDetector(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: this._inventoryIsOpen
-                                                ? ExploreaColors.yellow
-                                                : Colors.white),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        color: Colors.black.withOpacity(0.0)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0, vertical: 4.0),
-                                      child: Icon(Icons.backpack_outlined,
-                                          color: this._inventoryIsOpen
-                                              ? ExploreaColors.yellow
-                                              : Colors.white),
+                                        setState(() {
+                                          this._inventoryIsOpen =
+                                              !this._inventoryIsOpen;
+                                        });
+                                      },
                                     ),
-                                  ),
-                                  onTapDown: (notUsed) {
-                                    HapticFeedback.lightImpact();
 
-                                    setState(() {
-                                      this._inventoryIsOpen =
-                                          !this._inventoryIsOpen;
-                                    });
-                                  },
+                                    //
+
+                                    GestureDetector(
+                                      onTapDown: (notUsed) {
+                                        HapticFeedback.heavyImpact();
+
+                                        setState(() {
+                                          this._tipsFrameIsOpen =
+                                              !this._tipsFrameIsOpen;
+                                        });
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 100.0,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: this._tipsFrameIsOpen
+                                                    ? ExploreaColors.yellow
+                                                    : Colors.white),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            color:
+                                                Colors.black.withOpacity(0.0)),
+                                        child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0, vertical: 4.0),
+                                            child: Text(
+                                              "Indices",
+                                              style: TextStyle(
+                                                  color: this._tipsFrameIsOpen
+                                                      ? ExploreaColors.yellow
+                                                      : Colors.white,
+                                                  fontSize: 18.0),
+                                            )),
+                                      ),
+                                    ),
+                                  ],
                                 ),
 
                                 //
-
-                                GestureDetector(
-                                  onTapDown: (notUsed) {
-                                    HapticFeedback.lightImpact();
-
-                                    setState(() {
-                                      this._tipsFrameIsOpen =
-                                          !this._tipsFrameIsOpen;
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: this._tipsFrameIsOpen
-                                                ? ExploreaColors.yellow
-                                                : Colors.white),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        color: Colors.black.withOpacity(0.0)),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0, vertical: 4.0),
-                                        child: Text(
-                                          "Indices",
-                                          style: TextStyle(
-                                              color: this._tipsFrameIsOpen
-                                                  ? ExploreaColors.yellow
-                                                  : Colors.white,
-                                              fontSize: 18.0),
-                                        )),
-                                  ),
-                                ),
                               ],
                             )),
                       ),
