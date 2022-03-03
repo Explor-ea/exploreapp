@@ -461,6 +461,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// The rat talks in rat.
   void runScreen_3_4_5() {
     this.changeCurrentScreenAndLoadAsset(2);
 
@@ -479,6 +480,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
+  /// The rat is warning the player.
   void runScreen_6() {
     this.changeCurrentScreenAndLoadAsset(3);
 
@@ -491,7 +493,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       this._vpController!.addListener(() {
         if (this._vpController!.value.position ==
             this._vpController!.value.duration) {
-          this.runScreen_7();
+          setState(() {
+            this._nextBtnIsDisplayed = true;
+          });
         }
       });
     });
