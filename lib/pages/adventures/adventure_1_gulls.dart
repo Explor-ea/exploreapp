@@ -280,14 +280,22 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.runScreen_13();
   }
 
-  showExploreaToast(String msg) {
-    Fluttertoast.showToast(
-        gravity: ToastGravity.CENTER,
-        toastLength: Toast.LENGTH_LONG,
-        timeInSecForIosWeb: 5,
-        backgroundColor: ExploreaColors.yellow,
-        textColor: ExploreaColors.purple,
-        msg: msg);
+  showExploreaToast(String msg, {double fontSize = 18.0}) {
+    final showConfiguredToast = () {
+      return Fluttertoast.showToast(
+          gravity: ToastGravity.CENTER,
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 3,
+          backgroundColor: ExploreaColors.yellow,
+          textColor: ExploreaColors.purple,
+          fontSize: fontSize,
+          msg: msg);
+    };
+
+    HapticFeedback.heavyImpact();
+    showConfiguredToast()
+        .then((value) => showConfiguredToast())
+        .then((value) => showConfiguredToast());
   }
 
   bool endTimer() {
