@@ -18,6 +18,8 @@ import 'package:exploreapp/wigets/explorea_tips_frame.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import 'package:video_player/video_player.dart';
@@ -275,7 +277,17 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_1();
+    this.runScreen_13();
+  }
+
+  showExploreaToast(String msg) {
+    Fluttertoast.showToast(
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_LONG,
+        timeInSecForIosWeb: 5,
+        backgroundColor: ExploreaColors.yellow,
+        textColor: ExploreaColors.purple,
+        msg: msg);
   }
 
   bool endTimer() {
@@ -1276,6 +1288,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_grey");
+
+                              showExploreaToast(
+                                  "Les goélands vont ils se régaler...");
                               this.runScreen_14();
                             });
                             log("clic poisson gris");
@@ -1288,6 +1303,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_red");
+
+                              showExploreaToast(
+                                  "Les goélands vont ils se régaler...");
                               this.runScreen_14();
                             });
                             log("clic poisson rouge");
@@ -1300,6 +1318,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           onTapDown: (notUsed) {
                             setState(() {
                               this._theAdventureData.inventory.add("fish_blue");
+
+                              showExploreaToast(
+                                  "Les goélands vont ils se régaler...");
                               this.runScreen_14();
                             });
                             log("clic poisson bleu");
