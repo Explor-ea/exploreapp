@@ -274,7 +274,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this.changeCurrentScreenAndLoadAsset(0);
 
-    this.runScreen_1();
+    // this.runScreen_1();
+    this.runScreen_19();
   }
 
   bool endTimer() {
@@ -1359,7 +1360,6 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
         );
         break;
 
-      // TODO: if wrong continaer is touched, lose 30s and pop-in about the bad choice.
       case 14: // 19
         ret = Stack(
           children: [
@@ -1442,6 +1442,38 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                     ),
                   ),
                 )),
+
+            // Scroll indicators
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 48,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24.0, .0, .0, .0),
+                      child: Text(
+                        "<",
+                        style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 48.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(.0, .0, 24.0, .0),
+                      child: Text(
+                        ">",
+                        style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 48.0),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
             // // Frame
             // Align(
