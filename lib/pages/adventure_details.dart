@@ -1,11 +1,13 @@
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
+import 'package:exploreapp/pages/near_adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
 import 'package:exploreapp/src/launch_adventure.dart';
 import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
+import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea-title.dart';
 import 'package:exploreapp/wigets/explorea_btn_square.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
@@ -23,7 +25,7 @@ class AdventureDetails extends StatelessWidget {
     Adventure theAdventure =
         allAdventures.firstWhere((element) => element.id == this.adventureId);
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: ExploreaColors.grey,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -47,7 +49,7 @@ class AdventureDetails extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTapDown: (unusedDetails) {
-                            goBack(context);
+                            goToNextPage(context, NearAdventures());
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -114,79 +116,81 @@ class AdventureDetails extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width - 40,
-                  height: 180,
-                  //
-                  color: Colors.white,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            theAdventure.difficultyText,
-                            style: TextStyle(
-                                fontSize: 15.0,
-                                color: ExploreaColors.purpleDark),
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.access_time_outlined,
-                                color: ExploreaColors.yellow,
-                              ),
-                              Text(
-                                " ${theAdventure.supposedTime} min",
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: ExploreaColors.purpleDark),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Container(
-                        height: 40,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.person_outline,
-                                color: ExploreaColors.yellow,
-                              ),
-                              Text(
-                                " +${theAdventure.ageRestriction} ans",
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: ExploreaColors.purpleDark),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.accessible_forward,
-                                color: ExploreaColors.yellow,
-                              ),
-                              Text(
-                                theAdventure.suitableForDisabledPeople
-                                    ? "Adapté"
-                                    : "Non adapté",
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: ExploreaColors.purpleDark),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
+                ClipPath(
+                  clipper: NoteShapeBottomCut(),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 40,
+                    height: 180,
+                    //
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              theAdventure.difficultyText,
+                              style: TextStyle(
+                                  fontSize: 15.0, color: ExploreaColors.purple),
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.access_time_outlined,
+                                  color: ExploreaColors.yellow,
+                                ),
+                                Text(
+                                  " ${theAdventure.supposedTime} min",
+                                  style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: ExploreaColors.purple),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        Container(
+                          height: 40,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.person_outline,
+                                  color: ExploreaColors.yellow,
+                                ),
+                                Text(
+                                  " +${theAdventure.ageRestriction} ans",
+                                  style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: ExploreaColors.purple),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.accessible_forward,
+                                  color: ExploreaColors.yellow,
+                                ),
+                                Text(
+                                  theAdventure.suitableForDisabledPeople
+                                      ? "Adapté"
+                                      : "Non adapté",
+                                  style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: ExploreaColors.purple),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

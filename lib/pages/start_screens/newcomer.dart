@@ -113,46 +113,51 @@ class _NewcomerState extends State<Newcomer> {
       this.years.add(i);
     }
 
-    return Scaffold(
-      backgroundColor: ExploreaColors.yellow,
-      body: Column(
-        children: [
-          this.step < 5 ? Expanded(flex: 5, child: buildImage()) : Container(),
-          Expanded(
-              flex: this.step < 5 ? 12 : (12 + 5),
+    return Container(
+      decoration: const BoxDecoration(gradient: ExploreaGradients.yellow),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Column(
+          children: [
+            this.step < 5
+                ? Expanded(flex: 5, child: buildImage())
+                : Container(),
+            Expanded(
+                flex: this.step < 5 ? 12 : (12 + 5),
+                child: Column(
+                  children: [
+                    Container(),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: buildStep(),
+                      ),
+                    ),
+                  ],
+                )),
+            Expanded(
+              flex: 1,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: buildStep(),
+                  SizedBox(
+                    height: 10.0,
+                    child: LinearProgressIndicator(
+                      minHeight: 10.0,
+
+                      value: 0.20 * this.step,
+                      backgroundColor: Colors.transparent,
+                      valueColor:
+                          new AlwaysStoppedAnimation(ExploreaColors.purple),
+                      // backgroundColor: ExploreaColors.purple,
+                      semanticsLabel: 'Linear progress indicator',
                     ),
                   ),
                 ],
-              )),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height: 10.0,
-                  child: LinearProgressIndicator(
-                    minHeight: 10.0,
-
-                    value: 0.20 * this.step,
-                    backgroundColor: ExploreaColors.yellow,
-                    valueColor:
-                        new AlwaysStoppedAnimation(ExploreaColors.purple),
-                    // backgroundColor: ExploreaColors.purple,
-                    semanticsLabel: 'Linear progress indicator',
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -779,6 +784,7 @@ class _NewcomerState extends State<Newcomer> {
     }
   }
 
+  /// TODO: add 3D images.
   Widget buildImage() {
     switch (this.step) {
       case 5:

@@ -54,13 +54,16 @@ class SplashScreen extends StatelessWidget {
       // }
     });
 
-    return Scaffold(
-      backgroundColor: ExploreaColors.yellow,
-      body: Center(
-        child: Image.asset(
-          "assets/icon/explorea-logo.png",
-          height: 223,
-          width: 223,
+    return Container(
+      decoration: const BoxDecoration(gradient: ExploreaGradients.yellow),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Image.asset(
+            "assets/icon/explorea-logo.png",
+            height: 223,
+            width: 223,
+          ),
         ),
       ),
     );

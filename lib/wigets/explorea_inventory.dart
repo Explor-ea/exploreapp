@@ -35,10 +35,7 @@ class _ExploreaInventoryState extends State<ExploreaInventory> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [ExploreaColors.purple, ExploreaColors.purpleDark],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight),
+          gradient: ExploreaGradients.purple,
         ),
         height: 300,
         width: 300,
