@@ -275,7 +275,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this.changeCurrentScreenAndLoadAsset(0);
 
     // this.runScreen_1();
-    this.runScreen_19();
+    this.runScreen_24();
   }
 
   bool endTimer() {
@@ -862,14 +862,15 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
               Geolocator.getPositionStream(locationSettings: _locationSettings)
                   .listen((Position? currentPosition) {
             if (currentPosition != null) {
-              const pointCoordinates = [48.048442, -1.742608];
+              // The coordinates are a little far from the desired point, this allows with a large distance from the point to make the user go to the south but to let him find the point more easely.
+              const pointCoordinates = [48.048222, -1.742571];
               double distanceFromThePoint = Geolocator.distanceBetween(
                   pointCoordinates[0],
                   pointCoordinates[1],
                   currentPosition.latitude,
                   currentPosition.longitude);
 
-              if (distanceFromThePoint <= 7 /* metters */) {
+              if (distanceFromThePoint <= 25 /* metters */) {
                 positionStream!.cancel();
 
                 this.runScreen_26();
