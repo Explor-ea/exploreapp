@@ -7,6 +7,7 @@ import 'package:exploreapp/pages/near_adventures.dart';
 import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/adventure_model.dart';
 import 'package:exploreapp/src/adventures.dart';
+import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_fab.dart';
 import 'package:exploreapp/wigets/explorea_goto_icon.dart';
@@ -136,8 +137,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
               children: [
                 ExploreaFab(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profil()));
+                    goToNextPage(context, Profil());
                   },
                   padding: const EdgeInsets.all(8.0),
                   icon: const Icon(Icons.person_outline_sharp),
