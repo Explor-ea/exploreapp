@@ -4,6 +4,11 @@
 
 - [x] Créer un profil utilisateur dans Firestore
 
+### TODOs before beta 
+- [ ] Intégrer les images 3D
+- [ ] Vérifier que tout est ok
+- [ ] Et... Déployer !
+
 ## Schéma de données
 
 ```json
