@@ -1,6 +1,7 @@
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
 import 'package:exploreapp/pages/adventures/adventure_1_gulls.dart';
+import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
@@ -152,6 +153,7 @@ class Authentification extends StatelessWidget {
                     onPressed: () {
                       if (this.nextPage != null && this.email != null) {
                         pushReplaceToNextPage(context, nextPage!);
+                        // pushReplaceToNextPage(context, Profil());
                       }
                     },
                     disabled: this.email == null,
