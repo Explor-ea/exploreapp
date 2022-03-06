@@ -175,7 +175,7 @@ class _ProfilState extends State<Profil> {
                                 Row(
                                   children: [Text("Mes récompenses")],
                                 ),
-                                buildScenarioList(),
+                                buildSuccessList(),
                               ],
                             ),
                           ),
@@ -252,6 +252,37 @@ class _ProfilState extends State<Profil> {
               ),
             ),
           )));
+    }
+
+    return Container(
+      height: 150.0,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: scenarioList,
+      ),
+    );
+  }
+
+  Widget buildSuccessList() {
+    List<Widget> scenarioList = [];
+
+    for (var i = 0; i < Random().nextInt(6) + 2; i++) {
+      scenarioList.add(Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Container(
+            width: 220.0,
+            child: Row(
+              children: [
+                Container(
+                  color: Colors.black,
+                  height: 80,
+                  width: 80,
+                ),
+                Text("Nom du succès")
+              ],
+            ),
+            color: Colors.grey),
+      ));
     }
 
     return Container(
