@@ -123,7 +123,7 @@ class _ProfilState extends State<Profil> {
                 ExploreaLine(
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
                 ),
-                // // TODO: mettre le nom
+                // // XXX MAYBE: mettre le nom
                 // Text("METTRE LE NOM")
               ],
             ),

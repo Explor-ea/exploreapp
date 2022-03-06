@@ -534,8 +534,6 @@ class _NewcomerState extends State<Newcomer> {
                                   prefs?.setBool(
                                       'dataAgreed', this.agreedData!);
                               });
-                              // TODO: remove :
-                              log("agreedDate : $newValue");
                             },
                             label: "J'accepte...",
                           ),
@@ -607,8 +605,6 @@ class _NewcomerState extends State<Newcomer> {
                           if (this.agreedAd != null)
                             prefs?.setBool('adAgreed', this.agreedAd!);
                         });
-                        // TODO: remove :
-                        log("agreedDate : $newValue");
                       },
                       label: "J'accepte...",
                     ),

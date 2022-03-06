@@ -80,12 +80,5 @@ class _SignInSignUpState extends State<SignInSignUp> {
             ],
           ),
         ));
-
-    /*
-  TODO: Rediriger un moment vers : 
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) => Cinematic()));
-
-  */
   }
 }

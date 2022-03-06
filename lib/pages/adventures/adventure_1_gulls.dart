@@ -213,10 +213,8 @@ Regardez attentivement les arbres autour de vous.
 
 // -----------------------------------------------------------------------------
 
-/// TODO: Add btn clic sounds and virbation.
-/// TODO: Add vibrations, like screen changes etc...
+/// TODO: Add btn clic sounds and vibrations, like screen changes etc .
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
-/// TODO: Save an achievement at the end, with or without time arrived at term.
 /// XXX MAYBE: Add the screen 30 with the final game.
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
@@ -1014,8 +1012,6 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
-  /// TODO. Well, it is deprioritized for now. The adventure runs fairly without it.
-  ///
   /// The end game.
   void runScreen_30() {
     this.runScreen_31();
