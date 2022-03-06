@@ -1,4 +1,4 @@
-const List<String> months = [
+const List<String> monthsStrIds = [
   "JAN",
   "FEV",
   "MAR",
@@ -13,11 +13,31 @@ const List<String> months = [
   "DEC"
 ];
 
+const List<String> monthsStrings = [
+  "janvier",
+  "février",
+  "mars",
+  "avril",
+  "mai",
+  "juin",
+  "juillet",
+  "août",
+  "septembre",
+  "octobre",
+  "novembre",
+  "décembre"
+];
+
 int getIntFromMonth(String month) {
-  return months.indexOf(month) + 1;
+  return monthsStrIds.indexOf(month) + 1;
 }
 
 /// [month] must be an integer from 1 to 12.
 String getMonthStringIdFromInt(int month) {
-  return months.elementAt(month - 1);
+  return monthsStrIds.elementAt(month - 1);
+}
+
+/// [month] must be an integer from 1 to 12.
+String getMonthStringFromInt(int month) {
+  return monthsStrings.elementAt(month - 1);
 }

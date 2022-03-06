@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exploreapp/pages/settings/cgu.dart';
 import 'package:exploreapp/pages/settings/cgv.dart';
 import 'package:exploreapp/pages/settings/personal_infos.dart';
+import 'package:exploreapp/src/adventures.dart';
+import 'package:exploreapp/src/dateConverter.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_goto_icon.dart';
@@ -27,15 +29,47 @@ class Profil extends StatefulWidget {
 
 class _ProfilState extends State<Profil> {
   String sinceTxt = "";
+  List playedScenarios = [];
+  List playedScenarios__display = [];
 
   @override
   void initState() {
+    super.initState();
+
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       this.sinceTxt =
           (DateTime.now().difference(currentUser.metadata.creationTime!).inDays)
                   .toString() +
               " jours";
+
+      var currentUserDoc =
+          FirebaseFirestore.instance.collection("users").doc(currentUser.uid);
+      currentUserDoc.get().then((docSnapshot) {
+        print(docSnapshot);
+
+        setState(() {
+          this.playedScenarios = docSnapshot.get("playedScenario");
+          this.playedScenarios__display = this.playedScenarios.map((aScenar) {
+            // Get corresponding scenario
+            var correspondingScenario = allAdventures.firstWhere(
+                (anAdventure) => anAdventure.id == aScenar["idScenario"]);
+
+            DateTime endDate = aScenar["endDate"].toDate();
+            String formatedEndDate =
+                "${endDate.day} ${getMonthStringFromInt(endDate.month)} ${endDate.year}";
+
+            return {
+              "name": correspondingScenario.name,
+              "endDate": formatedEndDate,
+              "endTime": (aScenar["endTime"] ~/ 60).toString() +
+                  "m" +
+                  (aScenar["endTime"] % 60).toString() +
+                  "s",
+            };
+          }).toList();
+        });
+      });
     }
   }
 
@@ -169,23 +203,55 @@ class _ProfilState extends State<Profil> {
   Widget buildScenarioList() {
     List<Widget> scenarioList = [];
 
-    for (var i = 0; i < Random().nextInt(6) + 2; i++) {
+    for (var i = 0; i < this.playedScenarios__display.length; i++) {
       scenarioList.add(Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Container(
-            width: 220.0,
-            child: Row(
-              children: [
-                Container(
-                  color: Colors.black,
-                  height: 80,
-                  width: 80,
-                ),
-                Text("Nom du parcours")
-              ],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: ClipPath(
+            clipper: new NoteShape(),
+            child: Container(
+              width: 220.0,
+              decoration:
+                  const BoxDecoration(gradient: ExploreaGradients.purple),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Container(
+                  //   color: Colors.black,
+                  //   height: 80,
+                  //   width: 80,
+                  // ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        this.playedScenarios__display[i]["name"],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Temps restant : ${this.playedScenarios__display[i]['endTime']}",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Terminé le : ${this.playedScenarios__display[i]["endDate"]}",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            color: Colors.grey),
-      ));
+          )));
     }
 
     return Container(
