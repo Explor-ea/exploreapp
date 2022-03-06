@@ -5,6 +5,7 @@ import 'package:exploreapp/pages/adventures/adventure_1_gulls.dart';
 import 'package:exploreapp/pages/start_screens/newcomer.dart';
 import 'package:exploreapp/pages/start_screens/sign_in_sign_up.dart';
 import 'package:exploreapp/src/SharedPref.dart';
+import 'package:exploreapp/src/dateConverter.dart';
 import 'package:exploreapp/src/navigation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -184,12 +185,14 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void registerAccount(String email, String password,
+  Future<bool> registerAccount(String email, String password,
       void Function(FirebaseAuthException e) errorCallback) async {
+    bool ret = false;
+
     try {
       var year = SharedPref.theSharedPreferences!.getInt("userBirthdate_year")!;
-      var month =
-          SharedPref.theSharedPreferences!.getInt("userBirthdate_month")!;
+      var month = getIntFromMonth(
+          SharedPref.theSharedPreferences!.getString("userBirthdate_month")!);
       var day = SharedPref.theSharedPreferences!.getInt("userBirthdate_day")!;
 
       var userCredentials = await FirebaseAuth.instance
@@ -209,6 +212,8 @@ class ApplicationState extends ChangeNotifier {
           "allowedScenario": [1],
           "success": []
         });
+
+      ret = true;
     } on FirebaseAuthException catch (err) {
       errorCallback(err);
     } catch (err) {
@@ -216,6 +221,8 @@ class ApplicationState extends ChangeNotifier {
         title: const Text("Erreur"),
       ));
     }
+
+    return ret;
   }
 
   void signOut() {

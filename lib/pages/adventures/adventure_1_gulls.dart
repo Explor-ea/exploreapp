@@ -15,6 +15,7 @@ import 'package:exploreapp/wigets/explorea_notification_frame.dart';
 import 'package:exploreapp/wigets/explorea_throwable_container.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:exploreapp/wigets/explorea_tips_frame.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -276,7 +277,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
     this.changeCurrentScreenAndLoadAsset(0);
 
-    this.runScreen_1();
+    // this.runScreen_1();
+    this.runScreen_37();
   }
 
   showExploreaToast(String msg, {double fontSize = 18.0}) {
@@ -292,7 +294,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     };
 
     HapticFeedback.heavyImpact();
-    showConfiguredToast()
+    return showConfiguredToast()
         .then((value) => showConfiguredToast())
         .then((value) => showConfiguredToast());
   }
@@ -1191,13 +1193,43 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   }
 
   /// Save things, leave the adventure.
-  void theEnd() {
-    // If time is >0 add success .
-
-    // Add this adventure to finished adventures.
-
+  void theEnd() async {
     this._vpController!.dispose();
     this._vpAudioController!.dispose();
+
+    // If time is >0 add success .
+
+    var user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var currentUserDoc =
+          FirebaseFirestore.instance.collection("users").doc(user.uid);
+
+      await currentUserDoc.update({
+        "playedScenario": FieldValue.arrayUnion([
+          {
+            "idScenario": 1,
+            "playerName": "",
+
+            // /* Pour la sauvegarde :  */
+            // "currentTime": this._theAdventureData.currentTime,
+            // // "lastPlayedDate": null,
+            // "lastStep": null,
+
+            /* Pour les stats : */
+            "endDate": DateTime.now(),
+            "endTime": this._theAdventureData.currentTime, /* seconds */
+          }
+        ])
+      }).onError((error, stackTrace) {
+        showExploreaToast(
+            "Une erreur inconnue est survenue pendant la sauvegarde.");
+      });
+    } else {
+      // Should not happen
+      await showExploreaToast("Erreur lors de la sauvegarde de fin.");
+    }
+
+    // Add this adventure to finished adventures.
 
     goToNextPage(context, AdventureDetails(adventureId: 1));
   }

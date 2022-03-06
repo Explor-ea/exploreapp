@@ -21,11 +21,12 @@
 
             /* Pour la sauvegarde :  */
             "currentTime": null,
+            // "lastPlayedDate": null, // to find last played adventure with that id.
             "lastStep": null,
 
             /* Pour les stats : */
-            "startDate": null,
             "endDate": null,
+            "endTime": null, /* seconds */
           }
         ],
 
