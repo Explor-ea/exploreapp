@@ -3,11 +3,8 @@
 ## Todo list 
 
 - [x] Créer un profil utilisateur dans Firestore
-- [ ] Ajouter success.idScenario ? 
 
 ## Schéma de données
-
-- [ ] Décider si on met un timestamp de date de création de compte. 
 
 ```json
 {
@@ -21,11 +18,12 @@
 
             /* Pour la sauvegarde :  */
             "currentTime": null,
+            // "lastPlayedDate": null, // to find last played adventure with that id.
             "lastStep": null,
 
             /* Pour les stats : */
-            "startDate": null,
             "endDate": null,
+            "endTime": null, /* seconds */
           }
         ],
 
@@ -35,6 +33,7 @@
         "success": [
           {
             "id" : null, 
+            "idScenario" : null,
             "name": "",
             "description": "Une description courte et marrante."
           }  

@@ -15,6 +15,7 @@ import 'package:exploreapp/wigets/explorea_notification_frame.dart';
 import 'package:exploreapp/wigets/explorea_throwable_container.dart';
 import 'package:exploreapp/wigets/explorea_timer.dart';
 import 'package:exploreapp/wigets/explorea_tips_frame.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -212,10 +213,8 @@ Regardez attentivement les arbres autour de vous.
 
 // -----------------------------------------------------------------------------
 
-/// TODO: Add btn clic sounds and virbation.
-/// TODO: Add vibrations, like screen changes etc...
+/// TODO: Add btn clic sounds and vibrations, like screen changes etc .
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
-/// TODO: Save an achievement at the end, with or without time arrived at term.
 /// XXX MAYBE: Add the screen 30 with the final game.
 class Adventure1Gulls extends StatefulWidget {
   const Adventure1Gulls({Key? key}) : super(key: key);
@@ -292,7 +291,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     };
 
     HapticFeedback.heavyImpact();
-    showConfiguredToast()
+    return showConfiguredToast()
         .then((value) => showConfiguredToast())
         .then((value) => showConfiguredToast());
   }
@@ -1012,8 +1011,6 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     });
   }
 
-  /// TODO. Well, it is deprioritized for now. The adventure runs fairly without it.
-  ///
   /// The end game.
   void runScreen_30() {
     this.runScreen_31();
@@ -1191,13 +1188,43 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   }
 
   /// Save things, leave the adventure.
-  void theEnd() {
-    // If time is >0 add success .
-
-    // Add this adventure to finished adventures.
-
+  void theEnd() async {
     this._vpController!.dispose();
     this._vpAudioController!.dispose();
+
+    // If time is >0 add success .
+
+    var user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var currentUserDoc =
+          FirebaseFirestore.instance.collection("users").doc(user.uid);
+
+      await currentUserDoc.update({
+        "playedScenario": FieldValue.arrayUnion([
+          {
+            "idScenario": 1,
+            "playerName": "",
+
+            // /* Pour la sauvegarde :  */
+            // "currentTime": this._theAdventureData.currentTime,
+            // // "lastPlayedDate": null,
+            // "lastStep": null,
+
+            /* Pour les stats : */
+            "endDate": DateTime.now(),
+            "endTime": this._theAdventureData.currentTime, /* seconds */
+          }
+        ])
+      }).onError((error, stackTrace) {
+        showExploreaToast(
+            "Une erreur inconnue est survenue pendant la sauvegarde.");
+      });
+    } else {
+      // Should not happen
+      await showExploreaToast("Erreur lors de la sauvegarde de fin.");
+    }
+
+    // Add this adventure to finished adventures.
 
     goToNextPage(context, AdventureDetails(adventureId: 1));
   }

@@ -1,5 +1,7 @@
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/main.dart';
+import 'package:exploreapp/pages/adventures/adventure_1_gulls.dart';
+import 'package:exploreapp/pages/profile.dart';
 import 'package:exploreapp/src/navigation.dart';
 import 'package:exploreapp/wigets/explorea-btn.dart';
 import 'package:exploreapp/wigets/explorea-text.dart';
@@ -48,7 +50,7 @@ class Authentification extends StatelessWidget {
   //
   final void Function() cancelRegistration;
   //
-  final void Function(
+  final Future<bool> Function(
     String email,
     // String displayName, // There will be no personal pseudo in Explor'ea
     String password,
@@ -110,15 +112,15 @@ class Authentification extends StatelessWidget {
             ExploreaTitle(text: "Inscription"),
             RegisterForm(
               email: this.email!,
-              registerAccount: (email, password) {
-                registerAccount(
+              registerAccount: (email, password) async {
+                var itWorked = await registerAccount(
                     email,
                     password,
                     (exc) => _showErrorDialog(
                         context, "Erreur lors de la création de compte", exc));
 
-                if (this.nextPage != null) {
-                  pushReplaceToNextPage(context, nextPage!);
+                if (itWorked && this.nextPage != null) {
+                  // pushReplaceToNextPage(context, nextPage!);
                 }
               },
               cancel: () {
@@ -151,6 +153,7 @@ class Authentification extends StatelessWidget {
                     onPressed: () {
                       if (this.nextPage != null && this.email != null) {
                         pushReplaceToNextPage(context, nextPage!);
+                        // pushReplaceToNextPage(context, Profil());
                       }
                     },
                     disabled: this.email == null,
