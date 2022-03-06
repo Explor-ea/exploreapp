@@ -1,22 +1,43 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exploreapp/pages/settings/cgu.dart';
 import 'package:exploreapp/pages/settings/cgv.dart';
 import 'package:exploreapp/pages/settings/personal_infos.dart';
 import 'package:exploreapp/wigets/explorea-line.dart';
 import 'package:exploreapp/wigets/explorea-note-frame.dart';
 import 'package:exploreapp/wigets/explorea_goto_icon.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:exploreapp/wigets/explorea_fab.dart';
+import 'package:provider/single_child_widget.dart';
 import '../explorea_colors.dart';
 
 import 'package:exploreapp/main.dart';
 import 'package:exploreapp/src/authentification.dart';
 import "package:provider/provider.dart";
 
-class Profil extends StatelessWidget {
+class Profil extends StatefulWidget {
   const Profil({Key? key}) : super(key: key);
+
+  @override
+  State<Profil> createState() => _ProfilState();
+}
+
+class _ProfilState extends State<Profil> {
+  String sinceTxt = "";
+
+  @override
+  void initState() {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      this.sinceTxt =
+          (DateTime.now().difference(currentUser.metadata.creationTime!).inDays)
+                  .toString() +
+              " jours";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,24 +80,26 @@ class Profil extends StatelessWidget {
             //   ],
             // ),
 
-            Container(
-              height: 50,
-            ),
+            Container(height: 30),
 
-            Text("Welcome"),
+            Text("Welcome",
+                style: TextStyle(fontSize: 38, color: ExploreaColors.purple)),
             Row(
               children: [
                 ExploreaLine(
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
                 ),
-                // TODO: mettre le nom
-                Text("METTRE LE NOM")
+                // // TODO: mettre le nom
+                // Text("METTRE LE NOM")
               ],
             ),
 
-            Container(
-              height: 50,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [Text("Membre depuis " + sinceTxt)],
             ),
+
+            Container(height: 30),
 
             Expanded(
               child: DefaultTabController(
