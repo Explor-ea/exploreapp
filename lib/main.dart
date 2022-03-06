@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
 
   final Widget firstWidget;
 
-  const MyApp({this.firstWidget = const Newcomer()});
+  const MyApp({this.firstWidget = const SplashScreen()});
 
   @override
   Widget build(BuildContext context) {
