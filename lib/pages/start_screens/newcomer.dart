@@ -786,49 +786,29 @@ class _NewcomerState extends State<Newcomer> {
         return Container(
             // height: 275.0,
             decoration: BoxDecoration(
-                // gradient: LinearGradient(
-                //     colors: [Colors.pink, Colors.cyan]),
                 image: DecorationImage(
-                    image: AssetImage("assets/home-scenes/home-scene-1.png")))
-
-            // padding: EdgeInsets.all(16.0),
-            );
+                    image: AssetImage("assets/home-scenes/home-scene-1.png"))));
 
       case 2:
         return Container(
             // height: 275.0,
             decoration: BoxDecoration(
-                // gradient: LinearGradient(
-                //     colors: [Colors.pink, Colors.cyan]),
                 image: DecorationImage(
-                    image: AssetImage("assets/home-scenes/home-scene-2.png")))
-
-            // padding: EdgeInsets.all(16.0),
-            );
+                    image: AssetImage("assets/home-scenes/home-scene-2.png"))));
 
       case 3:
         return Container(
             // height: 275.0,
             decoration: BoxDecoration(
-                // gradient: LinearGradient(
-                //     colors: [Colors.pink, Colors.cyan]),
                 image: DecorationImage(
-                    image: AssetImage("assets/home-scenes/home-scene-3.png")))
-
-            // padding: EdgeInsets.all(16.0),
-            );
+                    image: AssetImage("assets/home-scenes/home-scene-3.png"))));
 
       case 4:
         return Container(
             // height: 275.0,
             decoration: BoxDecoration(
-                // gradient: LinearGradient(
-                //     colors: [Colors.pink, Colors.cyan]),
                 image: DecorationImage(
-                    image: AssetImage("assets/home-scenes/home-scene-3.png")))
-
-            // padding: EdgeInsets.all(16.0),
-            );
+                    image: AssetImage("assets/home-scenes/home-scene-3.png"))));
 
       default:
         return Container();
