@@ -5,7 +5,8 @@
 - [x] Créer un profil utilisateur dans Firestore
 
 ### TODOs before beta 
-- [ ] Vérifier que tout est ok
+- [ ] Faire qq chose pour le code : ajouter une phrase (double Z ---> double 2  depuis le japonnais)
+- [ ] Modifier les lorem ipsum en vrais textes 
 - [ ] Et... Déployer !
 
 ## Schéma de données
