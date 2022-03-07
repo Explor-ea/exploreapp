@@ -780,31 +780,58 @@ class _NewcomerState extends State<Newcomer> {
     }
   }
 
-  /// TODO: add 3D images.
   Widget buildImage() {
     switch (this.step) {
-      case 5:
+      case 1:
         return Container(
-          color: Colors.red,
-        );
-
-        break;
-
-      default:
-        return ConstrainedBox(
-          constraints: new BoxConstraints(
-            maxHeight: 275.0,
-            // maxWidth: 342.0,
-            maxWidth: 275.0 / 9 * 16,
-          ),
-          child: Container(
-            color: Colors.grey,
             // height: 275.0,
-            width: 342,
+            decoration: BoxDecoration(
+                // gradient: LinearGradient(
+                //     colors: [Colors.pink, Colors.cyan]),
+                image: DecorationImage(
+                    image: AssetImage("assets/home-scenes/home-scene-1.png")))
 
             // padding: EdgeInsets.all(16.0),
-          ),
-        );
+            );
+
+      case 2:
+        return Container(
+            // height: 275.0,
+            decoration: BoxDecoration(
+                // gradient: LinearGradient(
+                //     colors: [Colors.pink, Colors.cyan]),
+                image: DecorationImage(
+                    image: AssetImage("assets/home-scenes/home-scene-2.png")))
+
+            // padding: EdgeInsets.all(16.0),
+            );
+
+      case 3:
+        return Container(
+            // height: 275.0,
+            decoration: BoxDecoration(
+                // gradient: LinearGradient(
+                //     colors: [Colors.pink, Colors.cyan]),
+                image: DecorationImage(
+                    image: AssetImage("assets/home-scenes/home-scene-3.png")))
+
+            // padding: EdgeInsets.all(16.0),
+            );
+
+      case 4:
+        return Container(
+            // height: 275.0,
+            decoration: BoxDecoration(
+                // gradient: LinearGradient(
+                //     colors: [Colors.pink, Colors.cyan]),
+                image: DecorationImage(
+                    image: AssetImage("assets/home-scenes/home-scene-3.png")))
+
+            // padding: EdgeInsets.all(16.0),
+            );
+
+      default:
+        return Container();
     }
   }
 }
