@@ -167,6 +167,8 @@ Regardez attentivement les arbres autour de vous.
         return "assets/adventure_1_gulls/items/fish_grey.png";
       case "fish_red":
         return "assets/adventure_1_gulls/items/fish_red.png";
+      case "fish_green":
+        return "assets/adventure_1_gulls/items/fish_green.png";
 
       default:
         return null;
@@ -1324,7 +1326,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               Container(color: Colors.black.withOpacity(0.0)),
                           onTapDown: (notUsed) {
                             setState(() {
-                              this._theAdventureData.inventory.add("fish_grey");
+                              this
+                                  ._theAdventureData
+                                  .inventory
+                                  .add("fish_green");
 
                               showExploreaToast(
                                   "Les goélands vont ils se régaler...");
@@ -1396,10 +1401,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                               ._theAdventureData
                               .removeItem(theAdvData.selectedItem!);
 
-                          if (thrownItem == "fish_grey") {
+                          if (thrownItem == "fish_red") {
                             this.runScreen_16();
-                          } else if (thrownItem == "fish_red" ||
-                              thrownItem == "fish_blue") {
+                          } else {
                             setState(() {
                               theAdvData.decrementTimerBy(30);
                               this._notificationWrongFishIsOpen = true;
