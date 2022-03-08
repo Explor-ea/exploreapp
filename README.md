@@ -1,11 +1,6 @@
 # exploreapp
 
-## Todo list 
-
-- [x] Créer un profil utilisateur dans Firestore
-
-### TODOs before beta 
-- [ ] Faire qq chose pour le code : ajouter une phrase (double Z ---> double 2  depuis le japonnais)
+## TODOs before beta 
 - [ ] Modifier les lorem ipsum en vrais textes 
 - [ ] Et... Déployer !
 
