@@ -78,6 +78,7 @@ flutter:
     - assets/adventure_1_gulls/sounds/
     - assets/icon/
     - assets/adventure-background-pict/
+    - assets/home-scenes/
 
   fonts:
     - family: ABCProphet
