@@ -99,9 +99,98 @@ class _NewcomerState extends State<Newcomer> {
     super.dispose();
   }
 
-  // TODO: Add true start text.
-  String text =
+  // TODO: Add true adds text.
+  String textLorem =
       "Tempor non non ullamco labore voluptate consectetur. Consectetur aliquip aliqua id sit incididunt proident deserunt eu. Magna veniam mollit quis ullamco ut cillum pariatur. Duis nulla consequat laboris proident laborum. Anim consectetur duis eu consectetur voluptate eiusmod. Esse aliquip veniam nisi anim consequat velit nulla. Est aute adipisicing eu veniam laboris enim aute irure. Aliqua sunt culpa esse fugiat sint qui qui officia et sunt laboris cillum nulla. Cupidatat est enim nostrud consequat dolor sunt qui magna pariatur. Elit cupidatat duis aute eiusmod velit pariatur aute nostrud minim elit in. Velit cupidatat minim quis incididunt in est deserunt consectetur cillum nisi ullamco velit anim. Minim dolor commodo labore dolor. Sit aliquip qui amet id occaecat irure commodo minim nisi ad sunt. Velit enim sint sint laborum dolore nisi cillum consectetur. Ad occaecat excepteur minim duis laborum ullamco et qui elit deserunt Lorem velit nisi. Ea anim laboris adipisicing minim nisi deserunt enim consequat. Quis est duis quis ea. Adipisicing enim amet ad sint consequat adipisicing magna. Deserunt dolor commodo non voluptate adipisicing magna amet magna ad minim consequat nostrud. Sunt commodo do sit occaecat. Laboris laboris dolore dolor labore velit duis pariatur laborum ullamco. Aute excepteur ut proident nisi commodo voluptate ad qui qui culpa. Id dolor officia excepteur sit dolore. ";
+
+  // TODO: Add true start text.
+  String textStart =
+      "Explor'ea, l'exploration game phygital. Un escape game urbain, scénarisé et immersif.";
+
+  String textDataManage = """
+  Objet
+Chez Explor'ea, le respect de votre privée et de votre confidentialité est et sera toujours notre priorité absolue.
+Nous concevons et développons nos produits de façon à ce que vous puissiez leur faire pleinement confiance et que votre seule et unique préoccupation reste de découvrir des lieux en jouant avec nos exploration games. 
+Cette politique de confidentialité (ci-après PDC ») a vocation à vous informer de l'utilisation de vos données à caractère personnel par Explor'ea.
+
+   Généralités
+L'édition de la l'Application Explor'ea est assurée par la Société Explor'ea SAS au capital de xxx euros immatriculée au Registre de la Greffe du Tribunal de commerce de Rennes sous le numéro RC nº 000000000/ nº identifiant fiscal FR00000000000 dont le siège social est situé au Rue Pierre de Maupertuis 35170 Bruz (ci-après la Société »). 
+Cette Société est représentée par sa présidente, Gloria CHESNEL.
+Pour rappel, les personnes autorisées à utiliser les Services Explor'ea sont définies dans les Conditions Générales d'Utilisation et de Vente.
+
+  Informations recueillies
+Les informations que nous recueillons sont soit le fait de vos transmissions à notre égard, soit récupérées automatiquement lors de votre usage de nos services. 
+Il y a deux types de données que vous nous transmettez: 
+les données publiques, à savoir vos résultats et classement, visibles par les autres utilisateurs en fin de jeu. 
+les données privées, à savoir identifiants de connexion et nom d'équipe,  qui ne sont visibles que par Explor'ea
+Ces données peuvent être soit obligatoires pour utiliser nos Services, soit facultatives et en ce sens, il s'agit de votre choix personnel de les communiquer ou non.
+ 
+    Données relatives à l'inscription 
+Lors de l'inscription, il est demandé un identifiant mail et un mot de passe pour se connecter à l'Application Explor'ea.  
+Données relatives aux transmissions avec Match Activity :  
+Lors de vos interactions avec Explor'ea, à travers la fonction de jeu, en envoyant un email à notre support à l'adresse contact.explorea@gmail.com, vous serez amenés à nous communiquer des données qui seront collectées par Explor'ea. 
+Ces données sont notamment la date et l'heure de la prise de contact et toutes les informations nécessaires à identifier les personnes (témoignages satisfaction. suggestions.).
+En acceptant d'utiliser l'Application Explor'ea, le Membre accepte de fait et sans réserve la collecte de ces données et le traitement réalisé par Explor'ea dans la présente PDC. 
+3.2 : Données automatiquement recueillies 
+Certaines données sont automatiquement recueillies lors de votre utilisation de l'Application Explor'ea.
+Ces données sont de manière non exhaustive votre date d'inscription à l'Application, votre position géographique avec votre consentement initial (privée), vos achats de Scénarios (privée) ou encore vos interactions dans le Jeu (privée).
+Explor'ea ne consulte pas ces données mais a la possibilité technique de le faire si jamais cela s'avérait nécessaire. Ces échanges ne sont jamais communiqués à une tierce personne qui n'y a pas pris part, sauf sur requête judiciaire et/ou conformément aux dispositions législatives ou réglementaires applicables.  
+La collecte de ces informations est obligatoire et essentielle à Explor'ea pour vous permettre d'utiliser nos Services.
+En acceptant d'utiliser l'Application Explor'ea. l'Utilisateur accepte de fait et sans réserve la collecte de ces données et le traitement réalisé par Explor'ea dans la présente PDC. 
+ 
+Nota bene:
+ 
+Explor'ea ne collecte et ne traite aucune donnée bancaire.
+ 
+Pour Android, le paiement est traité et géré par la société Stripe, leader mondial du paiement en ligne, qui gère de manière cryptée la communication avec les banques. Pour iOS, le paiement est traité et géré par la société Apple Inc directement via le compte iTunes du Membre.
+
+Match Activity n'a aucun contrôle sur le paiement, sur le transfert de fonds ou encore sur le changement de devises et les frais inhérents à ces opérations. Explor'ea n'a aucun accès et ne collecte aucune donnée de paiement.
+L'intégralité des opérations de paiements sont gérées par la société Stripe ou par Apple qui sont par conséquent seuls responsables de l'intégralité des opérations de paiements. 
+Pour plus d'informations sur la gestion par la société Stripe des opérations de paiements, les Utilisateurs de Explor'ea peuvent se rendre sur le lien suivant: https://stripe.com/fr/ privacy
+A défaut d'éléments contraires apportés par le Membre abonné, les registres informatisés. conservés dans les systèmes informatiques de Explor'ea dans des conditions raisonnables de sécurité, seront considérés comme les preuves des communications, des commandes, des validations et des paiements intervenus entre l'Utilisateur et Explor'ea. Ces informations feront foi sauf à en apporter la preuve écrite et contraire par l'Utilisateur. L'archivage de ces éléments est effectué sur un support fiable et durable de manière à correspondre à une copie fidèle et durable conformément à l'article 1348 du code civil. 
+ 
+  Qu'est ce que nous faisons de vos données ?
+Vos données sont collectées et utilisées car elles sont nécessaires au bon fonctionnement de votre compte de Membre au sein de l'Application conformément à cette PDC et aux Conditions Générales d'Utilisation, ce qui permet l'exécution du contrat entre vous et Explor'ea. Elles sont utilisées notamment : 
+pour créer et gérer votre compte de Membre.
+pour vous apporter le soutien technique au travers de notre support.
+pour vous faire parvenir des notifications
+Vos données nous permettent de vous géolocaliser avec votre consentement, ce qui nous permet de personnaliser votre expérience utilisateur en vous proposant les Scénarios de Jeu qui se trouvent aux alentours de vous, et vous permet de vivre une expérience de jeu immersive. 
+Nota bene: Votre géolocalisation est privée et n'est accessible à aucune tierce personne et vous pouvez désactiver à tout moment cette option sur votre device.  
+Vos données sont utilisées pour vous protéger en détectant des comportements frauduleux qui pourraient nuire à la sécurité de l'Application. Explor'ea a une obligation de moyen de tout mettre en oeuvre pour sécuriser au maximum ses Services donc si vous souhaitez appliquer votre droit de vous opposer à l'usage de certaines de ces données tel que vous l'autorise la législation, il se peut que nous soyons contraints de rompre le contrat qui nous lie et de devoir stopper notre collaboration pour des motifs légitimes et impératifs.
+
+ 
+  Comment gérer vos droits sur vos données ? 
+Conformément à la loi n° 78-17 du 6 janvier 1978, dite loi Informatique et Libertés et au RGPD. chaque Membre dispose d'un droit d'accès, de rectification et, le cas échéant d'un droit à la portabilité et à l'effacement sur ses données personnelles, ainsi que d'opposition au traitement ou à sa limitation et du droit de définir des directives relatives au sort de ses données personnelles après son décès.
+Explor'ea s'engage à respecter la protection des données personnelles et à traiter ces demandes dans les meilleurs délais pour satisfaire au maximum les demandes de nos Membres. 
+Pour exercer vos droits, vous pouvez, sous réserve de prouver votre identité, nous envoyer un email à contact.explorea@gmail.com en précisant votre demande. 
+Nota bene: En cas de désaccord avec notre Société, vous pouvez émettre une réclamation auprès de l'autorité de contrôle nationale compétente en matière de protection des données.
+Explication de vos droits susvisés:
+Le droit d'accès autorise le Membre à interroger Explor'ea en vue d'obtenir la communication des données le concernant sous une forme accessible sur le fondement de l'article 39 de la loi Informatique et Libertés et de l'article 15 du RGPD. Votre droit d'accès ne doit pas porter atteinte à la vie privée des tiers, c'est pourquoi vous n'aurez accès qu'à vos données personnelles et non pas à celles de tiers (par exemple, vous ne pourrez avoir communication que des messages que vous avez envoyés et non pas de ceux que vous avez reçus).
+Le droit de rectification confère au Membre le droit d'exiger d'Explor'ea que soient rectifiées, complétées, mises à jour ou effacées les données à caractère personnel le concernant, qui sont inexactes, incomplètes, équivoques, périmées ou dont l'utilisation, la communication ou la conservation est interdite sur le fondement de l'article 40 de la loi Informatique et Libertés et de l'article 16 du RGPD. Vous pouvez modifier ou rectifier certaines données directement depuis l'application, dans la section “Mon Profil” 
+Le droit à la portabilité confère au Membre le droit de recevoir les données à caractère personnel qu'il a fournies à Explor'ea, dans un format structuré, couramment utilisé et lisible par machine et de les transmettre à un autre responsable de traitement, sur le fondement de l'article 20 du RGPD.
+Le droit d'opposition confère au Membre le droit de s'opposer sans frais et de manière discrétionnaire, à ce que ses données soient utilisées par Explor'ea à des fins de prospection, notamment commerciale et aux traitements fondés sur l'intérêt légitime de Explor'ea, sur le fondement de l'article 38 de la loi Informatique et Libertés et de l'article 21 du RGPD. Pour les traitements fondés sur l'intérêt légitime. Explor'ea conserve la possibilité de justifier de motifs légitimes et impérieux pour continuer le traitement.
+
+Le droit à l'effacement confère au Membre le droit d'exiger l'effacement sans frais de manière discrétionnaire des données communiquées à Explor'ea, dans la limite des droits fondés sur l'article 17 du RGPD. Vous pouvez supprimer votre Compte en utilisant la fonctionnalité correspondante directement sur l'Application. Nous vous informons que l'ensemble de vos données seront supprimées de l'application Explor'ea. Cependant, Explor'ea, en tant qu'hébergeur. a l'obligation légale de conserver vos données personnelles pendant un an au titre de l'article 6-11) de la loi n'2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique. Vos données seront conservées dans une base d'archives séparée de nos bases de production et seulement aux fins de répondre à une réquisition judiciaire. Elles seront définitivement supprimées à l'expiration du délai d'un an. 
+Le droit à la limitation confère au Membre le droit de demander la limitation du traitement de ses données par Explor'ea dans les conditions de l'article 18 du RGPD. 
+Le droit pour le Membre de définir ses directives relatives à la conservation, à l'effacement et à la communication de ses données à caractère personnel après son décès conformément à l'article 40-1 de la loi Informatique et Libertés
+ 
+  Durée de conservation de vos données
+Vos données sont stockées par Explor'ea durant toute la période où le Contrat représenté par les CGU vous lie à la Société.
+Vos données seront définitivement supprimées un an après la fin du Contrat susvisé, que cela intervienne suite à une suppression définitive du Compte par le Membre ou alors suite à une suppression du Compte du Membre par la Société. 
+Lors de la suppression du Compte d'un Membre :  
+Le profil du Membre sera rendu invisible aux autres Membres. 
+Les données du Membre seront conservées pendant le délai de 1 an à compter de cette date au regard notamment des obligations légales qui pèsent sur Explor'ea puis supprimées définitivement à l'issue de ce délai.
+ Les avantages disponibles sur le Compte du Membre au jour de la suppression de son compte seront définitivement perdus, sans possibilité de remboursement.
+Le Membre ne pourra pas réactiver son ancien Compte et son adresse email utilisée pour ce dernier ne sera plus utilisable sur l'Application durant l'année de conservation de ses données. 
+Rappel, conformément à son statut d'hébergeur. Explor'ea est tenu d'une obligation légale de conserver certaines données à caractère personnel des Membres pendant une durée d'un an sur le fondement de l'article 6. Il de la loi pour la confiance dans l'économie numérique du 21 juin 2004.
+ 
+  Nous contacter
+Pour tout contact, il faudra nous justifier votre identité et nous fournir votre adresse email qui a servi à la création du Compte Explor'ea. 
+Nos coordonnées sont les suivantes:  contact.explorea@gmail.com 
+Explor'ea fait tout ce qui est en son pouvoir pour vous garantir une protection des données optimale mais n'hésitez pas à nous contacter pour nous proposer des améliorations ou des suggestions.
+Explor'ea a toujours été et sera toujours à l'écoute de ses Utilisateurs car c'est grâce à vous que nous vivons une aventure extraordinaire.
+Merci pour votre lecture.
+""";
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +276,8 @@ class _NewcomerState extends State<Newcomer> {
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: SingleChildScrollView(
-                          child: ExploreaText(text: this.text)),
+                          child: ExploreaText(
+                              text: /* this.textStart */ this.textLorem)),
                     ),
                   ),
                 ],
@@ -519,7 +609,7 @@ class _NewcomerState extends State<Newcomer> {
                       child: Scrollbar(
                         isAlwaysShown: true,
                         child: SingleChildScrollView(
-                            child: ExploreaText(text: this.text)),
+                            child: ExploreaText(text: this.textDataManage)),
                       ),
                     ),
                     Padding(
@@ -587,7 +677,7 @@ class _NewcomerState extends State<Newcomer> {
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: SingleChildScrollView(
-                          child: ExploreaText(text: this.text)),
+                          child: ExploreaText(text: this.textLorem)),
                     ),
                   ),
                 ],
