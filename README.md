@@ -1,7 +1,6 @@
 # exploreapp
 
 ## TODOs before beta 
-- [ ] Modifier les lorem ipsum en vrais textes 
 - [ ] Et... Déployer !
 
 ## Schéma de données
