@@ -1,8 +1,5 @@
 # exploreapp
 
-## TODOs before beta 
-- [ ] Et... Déployer !
-
 ## Schéma de données
 
 ```json
