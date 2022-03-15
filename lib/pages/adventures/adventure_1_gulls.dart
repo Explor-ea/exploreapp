@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:archive/archive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exploreapp/explorea_colors.dart';
 import 'package:exploreapp/pages/adventure_details.dart';
@@ -20,6 +21,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -28,37 +31,37 @@ import 'package:geolocator/geolocator.dart';
 
 class AdventureData extends ChangeNotifier {
   static const List<String> ADVENTURE_SCREENS = [
-    "assets/adventure_1_gulls/SCREEN01.mp4", // 00
-    "assets/adventure_1_gulls/SCREEN02.mp4",
-    "assets/adventure_1_gulls/SCREEN03_04_05.mp4", // 02
-    "assets/adventure_1_gulls/SCREEN06.mp4",
-    "assets/adventure_1_gulls/SCREEN07.mp4", // 04
-    "assets/adventure_1_gulls/SCREEN08_09.mp4",
-    "assets/adventure_1_gulls/SCREEN10.mp4", // 06
-    "assets/adventure_1_gulls/SCREEN12.mp4",
-    "assets/adventure_1_gulls/SCREEN13.mp4", // 08
-    "assets/adventure_1_gulls/SCREEN14.mp4",
-    "assets/adventure_1_gulls/SCREEN15.mp4", // 10
-    "assets/adventure_1_gulls/SCREEN16.mp4",
-    "assets/adventure_1_gulls/SCREEN17.mp4", // 12
-    "assets/adventure_1_gulls/SCREEN18.mp4",
-    // "assets/adventure_1_gulls/SCREEN19.png", // 14
-    "assets/adventure_1_gulls/SCREEN19.mp4", // 14
-    "assets/adventure_1_gulls/SCREEN20.mp4",
-    "assets/adventure_1_gulls/SCREEN22.mp4", // 16
-    "assets/adventure_1_gulls/SCREEN23.mp4",
-    "assets/adventure_1_gulls/SCREEN24.mp4", // 18
-    "assets/adventure_1_gulls/SCREEN26.mp4",
-    "assets/adventure_1_gulls/SCREEN27.mp4", // 20
-    "assets/adventure_1_gulls/SCREEN28.mp4",
-    "assets/adventure_1_gulls/SCREEN29.mp4", // 22
-    "assets/adventure_1_gulls/SCREEN31.mp4",
-    "assets/adventure_1_gulls/SCREEN32.mp4", // 24
-    "assets/adventure_1_gulls/SCREEN33.mp4",
-    "assets/adventure_1_gulls/SCREEN34.mp4", // 26
-    "assets/adventure_1_gulls/SCREEN35.mp4",
-    "assets/adventure_1_gulls/SCREEN36.mp4", // 28
-    "assets/adventure_1_gulls/SCREEN37.mp4",
+    "SCREEN01.mp4", // 00
+    "SCREEN02.mp4",
+    "SCREEN03_04_05.mp4", // 02
+    "SCREEN06.mp4",
+    "SCREEN07.mp4", // 04
+    "SCREEN08_09.mp4",
+    "SCREEN10.mp4", // 06
+    "SCREEN12.mp4",
+    "SCREEN13.mp4", // 08
+    "SCREEN14.mp4",
+    "SCREEN15.mp4", // 10
+    "SCREEN16.mp4",
+    "SCREEN17.mp4", // 12
+    "SCREEN18.mp4",
+    // "SCREEN19.png", // 14
+    "SCREEN19.mp4", // 14
+    "SCREEN20.mp4",
+    "SCREEN22.mp4", // 16
+    "SCREEN23.mp4",
+    "SCREEN24.mp4", // 18
+    "SCREEN26.mp4",
+    "SCREEN27.mp4", // 20
+    "SCREEN28.mp4",
+    "SCREEN29.mp4", // 22
+    "SCREEN31.mp4",
+    "SCREEN32.mp4", // 24
+    "SCREEN33.mp4",
+    "SCREEN34.mp4", // 26
+    "SCREEN35.mp4",
+    "SCREEN36.mp4", // 28
+    "SCREEN37.mp4",
   ];
 
   /// A bunch of adventure params to move through the adventure.
@@ -238,6 +241,11 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   AdventureData _theAdventureData = new AdventureData();
   Timer? _theAdvTimer;
 
+  var _assetsDir; // /data/user/0/fr.explorea.exploreapp/app_flutter
+  static const FIREBASESTORAGE_URL =
+      "https://firebasestorage.googleapis.com/v0/b/exploreapp-233637313319425.appspot.com/o";
+  static const ASSET_NAME = "adventure_1_gulls";
+
   final LocationSettings _locationSettings = new LocationSettings(
     accuracy: LocationAccuracy.best,
     distanceFilter: 2,
@@ -275,9 +283,94 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       }
     });
 
-    this.changeCurrentScreenAndLoadAsset(0);
+    this._downloadAssets().then((nothing) {
+      this.runScreen_1();
+    });
+  }
 
-    this.runScreen_1();
+  // Future<void> _downloadAssets() async {
+  //   if (this._assetsDir == null)
+  //     this._assetsDir = (await getApplicationDocumentsDirectory()).path;
+
+  //   if (!(await File(this._assetsDir + '/' + ASSET_NAME + '.zip').exists())) {
+  //     var cloudFileRequest = (await Client().get(Uri.parse(
+  //         '$FIREBASESTORAGE_URL/$ASSET_NAME.zip?alt=media&token=784e056b-5b58-4835-811f-f8a167c82342')));
+
+  //     var file = File('$_assetsDir/$ASSET_NAME');
+  //     var zippedFile = await file.writeAsBytes(cloudFileRequest.bodyBytes);
+
+  //     var archive = ZipDecoder().decodeBytes(zippedFile.readAsBytesSync());
+
+  //     for (var aFile in archive) {
+  //       if (aFile.isFile) {
+  //         var outFile = File('$_assetsDir/${aFile.name}');
+  //         outFile = await outFile.create(recursive: true);
+  //         await outFile.writeAsBytes(aFile.content);
+  //       }
+  //     }
+  //   }
+  // }
+
+  // Widget _getImage(String name, String dir) {
+  //   if (_theme != AppTheme.candy) {
+  //     var file = _getLocalImageFile(name, dir);
+  //     return Image.file(file);
+  //   }
+  //   return Image.asset('assets/images/$name');
+  // }
+
+  // File _getLocalImageFile(String name, String dir) => File('$dir/$name');
+
+  String getFullAssetPath(String assetPath) =>
+      (this._assetsDir + '/' + assetPath);
+
+  Future<void> _downloadAssets({String name = ASSET_NAME}) async {
+    if (_assetsDir == null) {
+      _assetsDir = (await getApplicationDocumentsDirectory()).path;
+    }
+
+    var thedir = new Directory(_assetsDir + '/');
+    var filelist = thedir.listSync(recursive: true);
+    print(filelist);
+
+    if (_hasToDownloadAssets(name, _assetsDir) == false) {
+      // var allFiles =
+      //     io.Directory(_assetsDir + '/' + name).listSync(recursive: true);
+      // log(allFiles.toString());
+
+      return;
+    }
+    var zippedFile = await _downloadFile(
+        '$FIREBASESTORAGE_URL/$name.zip?alt=media&token=df8ba105-3536-47dd-b2e0-47b3401bc077',
+        '$name.zip',
+        _assetsDir);
+
+    var bytes = zippedFile.readAsBytesSync();
+    var archive = ZipDecoder().decodeBytes(bytes);
+
+    for (var file in archive) {
+      var filename = '$_assetsDir/${file.name}';
+      if (file.isFile) {
+        var outFile = File(filename);
+        outFile = await outFile.create(recursive: true);
+        await outFile.writeAsBytes(file.content);
+      }
+    }
+  }
+
+  bool _hasToDownloadAssets(String name, String dir) {
+    var file = File('$dir/$name.zip');
+    var itExists = file.existsSync();
+
+    log(itExists.toString());
+
+    return !itExists;
+  }
+
+  Future<File> _downloadFile(String url, String filename, String dir) async {
+    var req = await Client().get(Uri.parse(url));
+    var file = File('$dir/$filename');
+    return file.writeAsBytes(req.bodyBytes);
   }
 
   showExploreaToast(String msg, {double fontSize = 18.0}) {
@@ -329,8 +422,10 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       this._vpController!.dispose();
 
     this._theAdventureData.currentScreen = newCurrentScreen;
-    this._vpController = VideoPlayerController.asset(
+    var fullAssetPath = this.getFullAssetPath(
         AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
+    this._vpController = VideoPlayerController.asset(fullAssetPath);
+    print(this._vpController);
   }
 
   void runNextScreen() {
@@ -1886,10 +1981,12 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       case 9: // 14
 
       default:
-        ret = AspectRatio(
-          aspectRatio: 9.0 / 16.0,
-          child: VideoPlayer(this._vpController!),
-        );
+        ret = this._vpController != null
+            ? AspectRatio(
+                aspectRatio: 9.0 / 16.0,
+                child: VideoPlayer(this._vpController!),
+              )
+            : Container();
         break;
     }
     return ret;
