@@ -29,6 +29,10 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:geolocator/geolocator.dart';
 
+// TODO: all paths like "assets/*" must be replaced with dynamic assets path
+// TODO: Show a message when downloading assets
+// TODO: run chrono after files download
+
 class AdventureData extends ChangeNotifier {
   static const List<String> ADVENTURE_SCREENS = [
     "SCREEN01.mp4", // 00
@@ -424,7 +428,7 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
     this._theAdventureData.currentScreen = newCurrentScreen;
     var fullAssetPath = this.getFullAssetPath(
         AdventureData.ADVENTURE_SCREENS[this._theAdventureData.currentScreen]);
-    this._vpController = VideoPlayerController.asset(fullAssetPath);
+    this._vpController = VideoPlayerController.file(File(fullAssetPath));
     print(this._vpController);
   }
 
@@ -1548,8 +1552,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
                           // gradient: LinearGradient(
                           //     colors: [Colors.pink, Colors.cyan]),
                           image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/adventure_1_gulls/Panorama.png"))),
+                              image: FileImage(
+                                  File(getFullAssetPath("Panorama.png"))))),
                       child: Stack(
                         children: [
                           Positioned(

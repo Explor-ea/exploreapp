@@ -85,6 +85,9 @@ flutter:
     - assets/icon/
     - assets/adventure-background-pict/
     - assets/home-scenes/
+    # TODO: surely remove them.
+    - data/user/0/fr.explorea.exploreapp/app_flutter/
+    - /data/user/0/fr.explorea.exploreapp/app_flutter/
 
   fonts:
     - family: ABCProphet
