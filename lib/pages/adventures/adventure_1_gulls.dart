@@ -349,6 +349,9 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
       return;
     }
+
+    this.showExploreaToast("Téléchargement du scénario . . .");
+
     var zippedFile = await _downloadFile(
         '$FIREBASESTORAGE_URL/$name.zip?alt=media&token=df8ba105-3536-47dd-b2e0-47b3401bc077',
         '$name.zip',
