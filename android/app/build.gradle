@@ -81,9 +81,9 @@ dependencies {
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 
-    // TODO : might delete that
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.12.1'
-    implementation 'com.google.android.exoplayer:exoplayer-hls:2.12.1'
-    implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.1'
+    // // TODO : might delete that
+    // implementation 'com.google.android.exoplayer:exoplayer-core:2.12.1'
+    // implementation 'com.google.android.exoplayer:exoplayer-hls:2.12.1'
+    // implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.1'
 
 }

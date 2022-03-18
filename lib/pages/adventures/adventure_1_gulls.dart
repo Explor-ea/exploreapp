@@ -243,10 +243,8 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
   AdventureData _theAdventureData = new AdventureData();
   Timer? _theAdvTimer;
 
-  var _assetsDir; // /data/user/0/fr.explorea.exploreapp/app_flutter
-  static const FIREBASESTORAGE_URL =
-      "https://firebasestorage.googleapis.com/v0/b/exploreapp-233637313319425.appspot.com/o";
-  static const ASSET_NAME = "adventure_1_gulls";
+  /// getApplicationDocumentsDirectory().path
+  late String _assetsDir;
 
   final LocationSettings _locationSettings = new LocationSettings(
     accuracy: LocationAccuracy.best,
@@ -274,116 +272,28 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       }
     });
 
-    // Make sure the assets are downloaded then start the adventure !
-    this._downloadAssets().then((nothing) {
-      //
+    // Start the chrono !
+    this._theAdvTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
+      if (this._theAdventureData.currentTime > 0)
+        this._theAdventureData.decrementTimer();
+      else {
+        advTimer.cancel();
+        setState(() {
+          this._notificationTimeIsUpIsOpen = true;
+        });
+      }
+    });
 
-      // Start the chrono !
-      this._theAdvTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
-        if (this._theAdventureData.currentTime > 0)
-          this._theAdventureData.decrementTimer();
-        else {
-          advTimer.cancel();
-          setState(() {
-            this._notificationTimeIsUpIsOpen = true;
-          });
-        }
-      });
-
-      //
+    getApplicationDocumentsDirectory().then((appDocDir) {
+      this._assetsDir = appDocDir.path;
 
       // Start the game !
       this.runScreen_1();
     });
   }
 
-  // Future<void> _downloadAssets() async {
-  //   if (this._assetsDir == null)
-  //     this._assetsDir = (await getApplicationDocumentsDirectory()).path;
-
-  //   if (!(await File(this._assetsDir + '/' + ASSET_NAME + '.zip').exists())) {
-  //     var cloudFileRequest = (await Client().get(Uri.parse(
-  //         '$FIREBASESTORAGE_URL/$ASSET_NAME.zip?alt=media&token=784e056b-5b58-4835-811f-f8a167c82342')));
-
-  //     var file = File('$_assetsDir/$ASSET_NAME');
-  //     var zippedFile = await file.writeAsBytes(cloudFileRequest.bodyBytes);
-
-  //     var archive = ZipDecoder().decodeBytes(zippedFile.readAsBytesSync());
-
-  //     for (var aFile in archive) {
-  //       if (aFile.isFile) {
-  //         var outFile = File('$_assetsDir/${aFile.name}');
-  //         outFile = await outFile.create(recursive: true);
-  //         await outFile.writeAsBytes(aFile.content);
-  //       }
-  //     }
-  //   }
-  // }
-
-  // Widget _getImage(String name, String dir) {
-  //   if (_theme != AppTheme.candy) {
-  //     var file = _getLocalImageFile(name, dir);
-  //     return Image.file(file);
-  //   }
-  //   return Image.asset('assets/images/$name');
-  // }
-
-  // File _getLocalImageFile(String name, String dir) => File('$dir/$name');
-
   String getFullAssetPath(String assetPath) =>
       (this._assetsDir + '/' + assetPath);
-
-  Future<void> _downloadAssets({String name = ASSET_NAME}) async {
-    if (_assetsDir == null) {
-      _assetsDir = (await getApplicationDocumentsDirectory()).path;
-    }
-
-    var thedir = new Directory(_assetsDir + '/');
-    var filelist = thedir.listSync(recursive: true);
-    print(filelist);
-
-    if (_hasToDownloadAssets(name, _assetsDir) == false) {
-      // var allFiles =
-      //     io.Directory(_assetsDir + '/' + name).listSync(recursive: true);
-      // log(allFiles.toString());
-
-      return;
-    }
-
-    this.showExploreaToast("Téléchargement du scénario . . .");
-
-    var zippedFile = await _downloadFile(
-        '$FIREBASESTORAGE_URL/$name.zip?alt=media&token=df8ba105-3536-47dd-b2e0-47b3401bc077',
-        '$name.zip',
-        _assetsDir);
-
-    var bytes = zippedFile.readAsBytesSync();
-    var archive = ZipDecoder().decodeBytes(bytes);
-
-    for (var file in archive) {
-      var filename = '$_assetsDir/${file.name}';
-      if (file.isFile) {
-        var outFile = File(filename);
-        outFile = await outFile.create(recursive: true);
-        await outFile.writeAsBytes(file.content);
-      }
-    }
-  }
-
-  bool _hasToDownloadAssets(String name, String dir) {
-    var file = File('$dir/$name.zip');
-    var itExists = file.existsSync();
-
-    log(itExists.toString());
-
-    return !itExists;
-  }
-
-  Future<File> _downloadFile(String url, String filename, String dir) async {
-    var req = await Client().get(Uri.parse(url));
-    var file = File('$dir/$filename');
-    return file.writeAsBytes(req.bodyBytes);
-  }
 
   showExploreaToast(String msg, {double fontSize = 18.0}) {
     final showConfiguredToast = () {
