@@ -29,6 +29,10 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:geolocator/geolocator.dart';
 
+// TODO: all paths like "assets/*" must be replaced with dynamic assets path
+// TODO: Show a message when downloading assets
+// TODO: run chrono after files download
+
 class AdventureData extends ChangeNotifier {
   static const List<String> ADVENTURE_SCREENS = [
     "SCREEN01.mp4", // 00
@@ -218,8 +222,6 @@ Regardez attentivement les arbres autour de vous.
 
 // -----------------------------------------------------------------------------
 
-/// TODO: all paths like "assets/*" must be replaced with dynamic assets path
-/// TODO: Show a message when downloading assets
 /// TODO: Add btn clic sounds and vibrations, like screen changes etc .
 /// XXX IMPROVE: Factorise code, like looping or not on asset load.
 /// XXX MAYBE: Add the screen 30 with the final game.
@@ -274,25 +276,18 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
       }
     });
 
-    // Make sure the assets are downloaded then start the adventure !
+    this._theAdvTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
+      if (this._theAdventureData.currentTime > 0)
+        this._theAdventureData.decrementTimer();
+      else {
+        advTimer.cancel();
+        setState(() {
+          this._notificationTimeIsUpIsOpen = true;
+        });
+      }
+    });
+
     this._downloadAssets().then((nothing) {
-      //
-
-      // Start the chrono !
-      this._theAdvTimer = Timer.periodic(Duration(seconds: 1), (advTimer) {
-        if (this._theAdventureData.currentTime > 0)
-          this._theAdventureData.decrementTimer();
-        else {
-          advTimer.cancel();
-          setState(() {
-            this._notificationTimeIsUpIsOpen = true;
-          });
-        }
-      });
-
-      //
-
-      // Start the game !
       this.runScreen_1();
     });
   }
@@ -349,9 +344,6 @@ class _Adventure1GullsState extends State<Adventure1Gulls> {
 
       return;
     }
-
-    this.showExploreaToast("Téléchargement du scénario . . .");
-
     var zippedFile = await _downloadFile(
         '$FIREBASESTORAGE_URL/$name.zip?alt=media&token=df8ba105-3536-47dd-b2e0-47b3401bc077',
         '$name.zip',
